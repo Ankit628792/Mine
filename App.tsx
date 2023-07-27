@@ -7,10 +7,18 @@
 import React from 'react';
 import AppComponent from './src/screens';
 import {QueryClient, QueryClientProvider} from 'react-query';
-import {Platform, SafeAreaView, StatusBar, StyleSheet} from 'react-native';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  StyleSheet,
+  TouchableWithoutFeedback,
+} from 'react-native';
 import {NativeBaseProvider} from 'native-base';
 import {Provider} from 'react-redux';
 import {store} from './src/redux/store';
+import {Keyboard} from 'react-native';
 
 const App = () => {
   const queryClient = new QueryClient();
@@ -20,7 +28,16 @@ const App = () => {
       <Provider store={store}>
         <SafeAreaView style={[styles.safeArea]}>
           <NativeBaseProvider>
-            <AppComponent />
+            <TouchableWithoutFeedback
+              style={{flex: 1}}
+              onPress={() => Keyboard.dismiss()}>
+              <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? -64 : 0}
+                style={{flex: 1}}>
+                <AppComponent />
+              </KeyboardAvoidingView>
+            </TouchableWithoutFeedback>
           </NativeBaseProvider>
         </SafeAreaView>
       </Provider>
