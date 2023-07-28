@@ -3,5 +3,5 @@ export const screenOptions = {
 };
 
 export type TOTPScreenNavigationProp = {
-  navigate(arg0: string, arg1: {phoneNumber: any}): unknown;
+  navigate(arg0: string, arg1: {phoneNumber: string}): unknown;
 };
