@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "mine.app"
-               BlueprintName = "mine"
-               ReferencedContainer = "container:mine.xcodeproj">
+               BuildableName = "Mine.app"
+               BlueprintName = "Mine"
+               ReferencedContainer = "container:Mine.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "mineTests.xctest"
-               BlueprintName = "mineTests"
-               ReferencedContainer = "container:mine.xcodeproj">
+               BuildableName = "MineTests.xctest"
+               BlueprintName = "MineTests"
+               ReferencedContainer = "container:Mine.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "mine.app"
-            BlueprintName = "mine"
-            ReferencedContainer = "container:mine.xcodeproj">
+            BuildableName = "Mine.app"
+            BlueprintName = "Mine"
+            ReferencedContainer = "container:Mine.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "mine.app"
-            BlueprintName = "mine"
-            ReferencedContainer = "container:mine.xcodeproj">
+            BuildableName = "Mine.app"
+            BlueprintName = "Mine"
+            ReferencedContainer = "container:Mine.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
