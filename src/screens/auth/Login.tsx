@@ -6,6 +6,7 @@ import { Formik } from 'formik';
 import { useDispatch } from 'react-redux';
 import { setAuth } from '../../redux/user/user-slice';
 import PressableButton from '../../components/PressableButton';
+import tw from 'twrnc'
 
 const LoginScreen = ({ navigation }: any) => {
   const dispatch = useDispatch();

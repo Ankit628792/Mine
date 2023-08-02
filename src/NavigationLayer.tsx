@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Intro from './screens/onboarding/Intro';
 import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
+import About from './screens/onboarding/About';
 
 const Stack = createNativeStackNavigator();
 
@@ -16,6 +17,7 @@ function AuthGroup({ routeName }) {
             <Stack.Screen name="Intro" component={Intro} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+            <Stack.Screen name="About" component={About} />
             {/* Other screen for user info  */}
         </Stack.Navigator>
     )
@@ -27,7 +29,7 @@ const NavigationLayer = ({ user }) => {
 
     return (
         <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>
-            <AuthGroup routeName={'Intro'} />
+            <AuthGroup routeName={'About'} />
         </NavigationContainer>
     )
 }
