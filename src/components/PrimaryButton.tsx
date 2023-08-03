@@ -6,7 +6,7 @@ import { gradient } from '../utils/colors'
 
 function PrimaryButton({ text, disabled, isLoading, onPress, extra = "", textClass = "" }) {
     return (
-        <LinearGradient colors={disabled ? gradient.gray : gradient.primary} style={tw`w-full rounded-lg`}>
+        <LinearGradient colors={disabled ? gradient.gray : gradient.blue} style={tw`w-full rounded-lg`}>
             <TouchableOpacity disabled={disabled} onPress={() => typeof onPress == 'function' ? onPress() : {}} style={tw`py-2 px-6 rounded-lg ${extra} items-center justify-center`}>
                 {
                     isLoading ?

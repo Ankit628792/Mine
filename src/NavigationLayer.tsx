@@ -6,6 +6,17 @@ import Intro from './screens/onboarding/Intro';
 import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
 import About from './screens/onboarding/About';
+import Name from './screens/onboarding/Name';
+import DOB from './screens/onboarding/DOB';
+import Gender from './screens/onboarding/Gender';
+import GenderInterested from './screens/onboarding/GenderInterested';
+import Bio from './screens/onboarding/Bio';
+import Religion from './screens/onboarding/Religion';
+import Profession from './screens/onboarding/Profession';
+import UserInterest from './screens/onboarding/UserInterest';
+import UserNotInterest from './screens/onboarding/UserNotInterest';
+import UploadImage from './screens/onboarding/UploadImage';
+import Location from './screens/onboarding/Location';
 
 const Stack = createNativeStackNavigator();
 
@@ -17,7 +28,17 @@ function AuthGroup({ routeName }) {
             <Stack.Screen name="Intro" component={Intro} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-            <Stack.Screen name="About" component={About} />
+            <Stack.Screen name="Name" component={Name} />
+            <Stack.Screen name="DOB" component={DOB} />
+            <Stack.Screen name="Gender" component={Gender} />
+            <Stack.Screen name="GenderInterested" component={GenderInterested} />
+            <Stack.Screen name="Bio" component={Bio} />
+            <Stack.Screen name="Religion" component={Religion} />
+            <Stack.Screen name="Profession" component={Profession} />
+            <Stack.Screen name="UserInterest" component={UserInterest} />
+            <Stack.Screen name="UserNotInterest" component={UserNotInterest} />
+            <Stack.Screen name="UploadImage" component={UploadImage} />
+            <Stack.Screen name="Location" component={Location} />
             {/* Other screen for user info  */}
         </Stack.Navigator>
     )
@@ -29,7 +50,7 @@ const NavigationLayer = ({ user }) => {
 
     return (
         <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>
-            <AuthGroup routeName={'About'} />
+            <AuthGroup routeName={'Location'} />
         </NavigationContainer>
     )
 }
