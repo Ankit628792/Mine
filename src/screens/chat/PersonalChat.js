@@ -43,12 +43,29 @@ const PersonalChat = ({ route }) => {
 
     const flatListRef = useRef(null);
     const user = {
-        _id: 8789789,
+        _id: '789',
         name: 'Ankit',
         image: 'https://cdn-icons-png.flaticon.com/512/1005/1005142.png'
     }
     const [text, setText] = useState('')
-    const [messages, setMessages] = useState([])
+    const [messages, setMessages] = useState([
+        {
+            _id: Math.random()?.toString(),
+            sender: '123456',
+            receiver: '789',
+            image: 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png',
+            message: 'Hi',
+            createdAt: new Date().toISOString(),
+        },
+        {
+            _id: Math.random()?.toString(),
+            sender: '123456',
+            receiver: '789',
+            image: 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png',
+            message: 'How are you doing?',
+            createdAt: new Date().toISOString(),
+        }
+    ])
 
 
     useEffect(() => {
