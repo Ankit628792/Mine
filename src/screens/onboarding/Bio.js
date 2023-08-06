@@ -5,26 +5,20 @@ import PrimaryButton from '../../components/PrimaryButton'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import BackButton from '../../components/BackButton'
+import Bar from '../../components/Bar'
 
-const Religion = () => {
+const Bio = () => {
 
     return (
         <>
-            <View style={[tw`h-1.5 relative`, { backgroundColor: colors.white }]}>
-                <View style={[tw`h-1.5`, { backgroundColor: colors.blue, width: `${(100 * 6) / 12}%` }]}></View>
-            </View>
+            <Bar value={5} />
             <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
                 <BackButton />
                 <View style={tw`flex-grow py-10`}>
-                    <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Your Religion</Text>
-
+                    <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Tell us about yourself</Text>
                     <View style={tw`p-5`}>
-                        {/* On press add a modal to choose religion  */}
-                        <Pressable style={[tw`border border-gray-50 p-2 rounded-lg mt-1`, { backgroundColor: colors.white }]}>
-                            <Text style={[tw`text-lg`, { color: colors.black }]}>Hindu</Text>
-                        </Pressable>
+                        <TextInput multiline={true} textAlignVertical='top' numberOfLines={5} style={[tw`border border-gray-50 p-2 rounded-lg mt-1`, { backgroundColor: colors.white, color: colors.black }]} />
                     </View>
-
                 </View>
                 <PrimaryButton text={'Continue'} disabled={false} isLoading={false} onPress={() => { }} />
             </LinearGradient>
@@ -32,4 +26,4 @@ const Religion = () => {
     )
 }
 
-export default Religion
+export default Bio

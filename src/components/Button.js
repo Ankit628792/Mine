@@ -1,6 +1,5 @@
 import React from 'react';
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
-import { IButtonProps } from './button.interface';
 
 const Button = ({ ...props }) => {
   return (

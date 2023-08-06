@@ -1,5 +1,3 @@
-
-
 import { View, Text, TextInput, Pressable, Image, ScrollView, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import tw from 'twrnc'
@@ -7,19 +5,18 @@ import PrimaryButton from '../../components/PrimaryButton'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import BackButton from '../../components/BackButton'
+import Bar from '../../components/Bar'
 
-const UserNotInterest = () => {
+const UserInterest = () => {
     const [data, setData] = useState([])
 
     return (
         <>
-            <View style={[tw`h-1.5 relative`, { backgroundColor: colors.white }]}>
-                <View style={[tw`h-1.5`, { backgroundColor: colors.blue, width: `${(100 * 10) / 12}%` }]}></View>
-            </View>
+            <Bar value={10} />
             <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5 flex-col justify-between`}>
                 <BackButton />
 
-                <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Select Your Non Interest</Text>
+                <Text style={[tw`text-3xl font-medium text-center pt-5`, { color: colors.black }]}>Select Your Interest</Text>
                 <ScrollView style={tw`flex-grow mb-4 mt-6`}>
                     <View style={tw`flex-row items-center flex-wrap`}>
                         {
@@ -35,4 +32,4 @@ const UserNotInterest = () => {
     )
 }
 
-export default UserNotInterest
+export default UserInterest

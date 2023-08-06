@@ -12,7 +12,7 @@ function PrimaryButton({ text, disabled, isLoading, onPress, extra = "", textCla
                     isLoading ?
                         <ActivityIndicator size={32} color={'#FFF'} />
                         :
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={tw`text-2xl ${disabled ? 'text-gray-700' : 'text-white'} text-center ${textClass}`}>{text}</Text>
+                        <Text style={tw`text-2xl ${disabled ? 'text-gray-700' : 'text-white'} text-center ${textClass}`}>{text}</Text>
                 }
             </TouchableOpacity>
         </LinearGradient>

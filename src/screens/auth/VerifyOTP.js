@@ -61,8 +61,8 @@ const VerifyOTP = ({ route }) => {
                 <View style={[tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-3xl`, { backgroundColor: colors.white }]}>
 
                     <View style={tw`flex-col items-center justify-center mb-10`}>
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[tw`text-3xl font-medium my-1 text-center`, { color: colors.black }]}>Verification Code</Text>
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[tw`text-base text-center px-5`, { color: colors.darkGray }]}>We have sent the verification code to {route.params?.mobile}</Text>
+                        <Text style={[tw`text-3xl font-medium my-1 text-center`, { color: colors.black }]}>Verification Code</Text>
+                        <Text style={[tw`text-base text-center px-5`, { color: colors.darkGray }]}>We have sent the verification code to {route.params?.mobile}</Text>
 
                         <View style={tw`relative w-4/5 z-10 mt-6`}>
                             <OTPInputView
@@ -75,8 +75,8 @@ const VerifyOTP = ({ route }) => {
                             />
                         </View>
                         <View style={tw`flex-row items-center ${isVisible ? '' : 'opacity-0'}`}>
-                            <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[tw`text-sm mr-1`, { color: colors.darkGray }]}>Didn't received the code?</Text>
-                            <TouchableOpacity disabled={!isVisible} onPress={() => sendOtp({ mobile: route.params?.mobile })}><Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={tw`font-medium text-orange-300`}>Send Again</Text></TouchableOpacity>
+                            <Text style={[tw`text-sm mr-1`, { color: colors.darkGray }]}>Didn't received the code?</Text>
+                            <TouchableOpacity disabled={!isVisible} onPress={() => sendOtp({ mobile: route.params?.mobile })}><Text style={tw`font-medium text-orange-300`}>Send Again</Text></TouchableOpacity>
                         </View>
                     </View>
                     <View style={tw`px-5`}>

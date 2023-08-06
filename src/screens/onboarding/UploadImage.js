@@ -9,6 +9,7 @@ import { Path, Svg } from 'react-native-svg'
 import ImageSelector from '../../components/ImageSelector'
 import { useNavigation } from '@react-navigation/native'
 import DragSortableView from '../../components/DragSortableView'
+import Bar from '../../components/Bar'
 
 const { width, height } = Dimensions.get('window')
 const parentWidth = width - 20
@@ -35,7 +36,7 @@ const UploadImage = () => {
   const [deleteStatus, setDeleteStatus] = useState(0)
 
   const handleImage = async (i = 0) => {
-    let Test = await ImageSelector(i, [...imageUrl]) as any
+    let Test = await ImageSelector(i, [...imageUrl])
     console.log('handleImage -> Test', Test)
     if (Test.success) {
       let newArr = [...imageUrl]
@@ -65,7 +66,7 @@ const UploadImage = () => {
     }
   }
 
-  const handleImageSending = async (imageData: any) => {
+  const handleImageSending = async (imageData) => {
     const serveImages = []
     imageData.map(async (img) => {
       // console.log('handleImageSending -> img', img.image)
@@ -74,7 +75,7 @@ const UploadImage = () => {
       let type = nameImg.split('.')[nameImg.split('.').length - 1] === 'png' ? 'image/png' : 'image/jpeg'
       // console.log('handleImageSending -> type', type)
 
-      let formdata = new FormData() as any
+      let formdata = new FormData()
       formdata.append('image', {
         type: type,
         uri: img.image,
@@ -114,7 +115,7 @@ const UploadImage = () => {
   const RenderDeleteView = () => {
     if (deleteStatus === 1 || deleteStatus === 2) {
       return (
-        <View style={[tw`w-full absolute top-0 flex-row justify-center pt-[4%]`, { zIndex: 100, height: Platform.OS === "ios" ? 200 : 140 }]}>
+        <View style={[tw`w-full absolute bottom-0 flex-row justify-center pb-[4%]`, { zIndex: 100, height: Platform.OS === "ios" ? 200 : 140 }]}>
           <View style={tw`${deleteStatus === 2 ? 'w-10 h-10 p-2 border border-red-500' : 'w-8 h-8 p-1'} bg-white rounded-full`}>
             <Svg style={tw`text-red-500`} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1}>
               <Path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
@@ -141,66 +142,65 @@ const UploadImage = () => {
   return (
     <>
       <RenderDeleteView />
-      <View style={[tw`h-1.5 relative`, { backgroundColor: colors.white }]}>
-        <View style={[tw`h-1.5`, { backgroundColor: colors.blue, width: `${(100 * 10) / 12}%` }]}></View>
-      </View>
+      <Bar value={10} />
+
       <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5 flex-col justify-between`}>
         <BackButton />
         <View style={tw`flex-grow py-5`}>
-        <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Upload Your Images</Text>
+          <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Upload Your Images</Text>
           {loading ?
             <ActivityIndicator size="large" color={colors.blue} style={{ marginTop: 40 }} />
             :
             <View style={tw`flex-1 items-center`}>
-                <DragSortableView
-                  dataSource={imageUrl}
-                  parentWidth={parentWidth}
+              <DragSortableView
+                dataSource={imageUrl}
+                parentWidth={parentWidth}
 
-                  childrenWidth={childrenWidth}
-                  childrenHeight={childrenHeight}
+                childrenWidth={childrenWidth}
+                childrenHeight={childrenHeight}
 
-                  marginChildrenTop={marginChildrenTop}
-                  marginChildrenBottom={marginChildrenBottom}
-                  marginChildrenLeft={marginChildrenLeft}
-                  marginChildrenRight={marginChildrenRight}
-                  isDragFreely={true}
+                marginChildrenTop={marginChildrenTop}
+                marginChildrenBottom={marginChildrenBottom}
+                marginChildrenLeft={marginChildrenLeft}
+                marginChildrenRight={marginChildrenRight}
+                isDragFreely={true}
 
-                  onDataChange={function (data) {
-                    if (this.deleteIndex != null) {
-                      const deleteIndex = this.deleteIndex;
-                      this.deleteIndex = null;
-                      const newData = [...data]
-                      newData.splice(deleteIndex, 1)
-                      newData.push({ image: "" })
-                      newData.sort((a, b) => Number(Boolean(b.image)) - Number(Boolean(a.image)))
-                      setImageUrl(newData)
-                    } else {
-                      data.sort((a: any, b: any) => Number(Boolean(b.image)) - Number(Boolean(a.image)))
-                      setImageUrl(data)
-                    }
-                  }}
+                onDataChange={function (data) {
+                  if (this.deleteIndex != null) {
+                    const deleteIndex = this.deleteIndex;
+                    this.deleteIndex = null;
+                    const newData = [...data]
+                    newData.splice(deleteIndex, 1)
+                    newData.push({ image: "" })
+                    newData.sort((a, b) => Number(Boolean(b.image)) - Number(Boolean(a.image)))
+                    setImageUrl(newData)
+                  } else {
+                    data.sort((a, b) => Number(Boolean(b.image)) - Number(Boolean(a.image)))
+                    setImageUrl(data)
+                  }
+                }}
 
-                  onDragEnd={(startIndex: any, endIndex: any) => {
-                    if (deleteStatus === 2) {
-                      const newData = [...imageUrl]
-                      newData.splice(startIndex, 1)
-                      newData.push({ image: "" })
-                      setImageUrl(newData)
-                      setDeleteStatus(0)
-                    } else {
-                      setDeleteStatus(0)
-                    }
+                onDragEnd={(startIndex, endIndex) => {
+                  if (deleteStatus === 2) {
+                    const newData = [...imageUrl]
+                    newData.splice(startIndex, 1)
+                    newData.push({ image: "" })
+                    setImageUrl(newData)
+                    setDeleteStatus(0)
+                  } else {
+                    setDeleteStatus(0)
+                  }
 
-                  }}
+                }}
 
-                  onDragging={handleOnDragging}
+                onDragging={handleOnDragging}
 
-                  keyExtractor={(item, index) => index}
-                  renderItem={(item, index) => {
-                    return <RenderImage item={item} index={index} key={index} />
-                  }}
-                  delayLongPress={10}
-                />
+                keyExtractor={(item, index) => index}
+                renderItem={(item, index) => {
+                  return <RenderImage item={item} index={index} key={index} />
+                }}
+                delayLongPress={10}
+              />
             </View>
           }
 

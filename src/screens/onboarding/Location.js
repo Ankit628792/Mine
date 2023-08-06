@@ -7,6 +7,7 @@ import { colors, gradient } from '../../utils/colors'
 import BackButton from '../../components/BackButton'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
 import RNLocation from 'react-native-location'
+import Bar from '../../components/Bar'
 
 const WIDTH = Dimensions.get('screen').width;
 
@@ -73,9 +74,8 @@ const Location = () => {
 
     return (
         <>
-            <View style={[tw`h-1.5 relative`, { backgroundColor: colors.white }]}>
-                <View style={[tw`h-1.5`, { backgroundColor: colors.blue, width: `${(100 * 12) / 12}%` }]}></View>
-            </View>
+            <Bar value={12} />
+
             <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5 flex-col justify-between`}>
                 <BackButton />
                 <View style={tw`flex-grow py-5`}>

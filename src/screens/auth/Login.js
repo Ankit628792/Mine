@@ -76,24 +76,24 @@ const Login = ({ route }) => {
                 <View style={[tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-3xl`, { backgroundColor: colors.white }]}>
 
                     <View style={tw`w-full p-5`}>
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[tw`font-bold text-3xl text-center`, { color: colors.black }]}>Enter your mobile number</Text>
+                        <Text style={[tw`font-bold text-3xl text-center`, { color: colors.black }]}>Enter your mobile number</Text>
                         <View style={tw`flex-row items-center w-full my-4`}>
                             <TouchableOpacity style={tw`w-20 py-2 rounded-lg mr-4 border-b border-gray-400 `} onPress={() => { Keyboard.dismiss(); setIsOpen(true) }}>
-                                <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[tw`text-2xl text-center`, { color: colors.black }]}>+{country.code}</Text>
+                                <Text style={[tw`text-2xl text-center`, { color: colors.black }]}>+{country.code}</Text>
                             </TouchableOpacity>
                             <TextInput keyboardType='number-pad' maxLength={15} value={mobile} onChangeText={(txt) => { setMobile(txt); setError('') }} placeholder='9818451195' placeholderTextColor={'rgba(0, 0, 0, 0.4)'} style={[tw`flex-grow text-2xl py-2 px-4 tracking-wide font-medium border-b border-gray-400 rounded-lg`, { color: colors.black }]} />
                         </View>
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={tw`h-6 text-base text-right px-2 text-rose-500`}>{error}</Text>
+                        <Text style={tw`h-6 text-base text-right px-2 text-rose-500`}>{error}</Text>
                     </View>
 
 
 
                     <View style={tw`px-5`}>
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[tw`text-center leading-5`, { color: colors.darkGray }]}>By tapping Next, you've accepted</Text>
+                        <Text style={[tw`text-center leading-5`, { color: colors.darkGray }]}>By tapping Next, you've accepted</Text>
                         <View style={tw`flex-row items-center justify-center mb-6`}>
-                            <TouchableOpacity onPress={() => navigator.navigate("TermsAndConditions")}><Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[{ color: colors.orange }]}>Terms & Conditions</Text></TouchableOpacity>
-                            <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[{ color: colors.darkGray }]}> and </Text>
-                            <TouchableOpacity onPress={() => navigator.navigate("PrivacyPolicy")}><Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={[{ color: colors.orange }]}>Privacy Policy</Text></TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigator.navigate("TermsAndConditions")}><Text style={[{ color: colors.orange }]}>Terms & Conditions</Text></TouchableOpacity>
+                            <Text style={[{ color: colors.darkGray }]}> and </Text>
+                            <TouchableOpacity onPress={() => navigator.navigate("PrivacyPolicy")}><Text style={[{ color: colors.orange }]}>Privacy Policy</Text></TouchableOpacity>
                         </View>
                         <PrimaryButton text={'Next'} disabled={isLoading || mobile?.length < 8} isLoading={isLoading} onPress={handleNext} />
                     </View>
@@ -114,7 +114,7 @@ const Login = ({ route }) => {
                             data={countryCodes}
                             keyExtractor={(item) => item.country}
                             renderItem={({ item }) => <TouchableOpacity onPress={() => handleOptionSelect(item)} style={tw`p-2 w-full`}>
-                                <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={tw`text-gray-800 text-xl text-center`}>({item.code}) {item.country}</Text>
+                                <Text style={tw`text-gray-800 text-xl text-center`}>({item.code}) {item.country}</Text>
                             </TouchableOpacity>}
                         />
                     </View>

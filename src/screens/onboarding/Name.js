@@ -6,41 +6,39 @@ import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import { useNavigation } from '@react-navigation/native'
 const Name = () => {
-const navigator = useNavigation()
-    const [name, setName] = useState('')
+  const navigator = useNavigation()
+  const [name, setName] = useState('')
 
-    const validateName = () => {
-        if (name.trim() === '') {
-          Alert.alert('Validation Error', 'Please enter a valid name.');
-        } else if (!/^[a-zA-Z]+$/.test(name)) {
-          Alert.alert('Validation Error', 'Name should contain only alphabetic characters.');
-        } else {
-         // console.log('Valid name:', name); // Print the name to the console
-            navigator.navigate('DOB')
-          //POST API call
-        }
-      };
+  const validateName = () => {
+    if (name.trim() === '') {
+      Alert.alert('Validation Error', 'Please enter a valid name.');
+    } else if (!/^[a-zA-Z]+$/.test(name)) {
+      Alert.alert('Validation Error', 'Name should contain only alphabetic characters.');
+    } else {
+      // console.log('Valid name:', name); // Print the name to the console
+      navigator.navigate('DOB')
+      //POST API call
+    }
+  };
 
-    return (
-        <>
-            <View style={[tw`h-1.5 relative`, { backgroundColor: colors.white }]}>
-                <View style={[tw`h-1.5`, { backgroundColor: colors.blue, width: `${(100 * 1) / 12}%` }]}></View>
-            </View>
-            <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
-                <View style={tw`flex-grow py-10`}>
-                    <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Enter Your Name</Text>
-                    <View style={tw`p-5`}>
-                        <TextInput style={[tw`border border-gray-50 p-2 rounded-lg mt-1`, { backgroundColor: colors.white }]} 
-                        value={name}
-                        onChangeText={setName}
-                        />
-                    </View>
-                </View>
-                <PrimaryButton text={'Continue'} disabled={false} isLoading={false} onPress={validateName} />
+  return (
+    <>
+      <Bar value={1} />
+      <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
+        <View style={tw`flex-grow py-10`}>
+          <Text style={[tw`text-3xl font-medium text-center`, { color: colors.black }]}>Enter Your Name</Text>
+          <View style={tw`p-5`}>
+            <TextInput style={[tw`border border-gray-50 p-2 rounded-lg mt-1`, { backgroundColor: colors.white }]}
+              value={name}
+              onChangeText={setName}
+            />
+          </View>
+        </View>
+        <PrimaryButton text={'Continue'} disabled={false} isLoading={false} onPress={validateName} />
 
-            </LinearGradient>
-        </>
-    )
+      </LinearGradient>
+    </>
+  )
 }
 
 export default Name

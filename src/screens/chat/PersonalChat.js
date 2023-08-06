@@ -24,9 +24,9 @@ const ChatItem = React.memo(({ item, mine, last, next }) => {
                     </View>
                     <View style={[tw`relative`, { transform: [{ translateX: 0 }, { translateY: 10 }] }]}>
                         <View style={tw`p-2 ${mine ? 'bg-gray-100 bg-opacity-15' : 'bg-gray-800 bg-opacity-75'} rounded-xl max-w-[240px] mb-1 ${mine ? 'rounded-tr-0' : 'rounded-tl-0'}`}>
-                            <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} numberOfLines={1000} style={tw`text-white`}>{message}</Text>
+                            <Text numberOfLines={1000} style={tw`text-white`}>{message}</Text>
                         </View>
-                        <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={tw`text-gray-200 absolute -bottom-4 z-20 w-[200px] text-xs ${mine ? 'text-right right-0' : 'text-left left-0'} ${next ? '' : 'hidden'}`}>{moment(createdAt).fromNow()}</Text>
+                        <Text style={tw`text-gray-200 absolute -bottom-4 z-20 w-[200px] text-xs ${mine ? 'text-right right-0' : 'text-left left-0'} ${next ? '' : 'hidden'}`}>{moment(createdAt).fromNow()}</Text>
                     </View>
                 </>
             </TouchableHighlight>
@@ -154,7 +154,7 @@ const PersonalChat = ({ route }) => {
                             </>
                             :
                             <View style={tw`flex-1 items-center justify-center`}>
-                                <Text maxFontSizeMultiplier={1.1} minimumFontScale={1} style={tw`text-xl text-gray-50 text-center px-10`}>Initiate a Conversation</Text>
+                                <Text style={tw`text-xl text-gray-50 text-center px-10`}>Initiate a Conversation</Text>
                             </View>
                 }
 

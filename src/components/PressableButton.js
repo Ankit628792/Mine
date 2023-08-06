@@ -1,7 +1,6 @@
 import React from 'react';
 import { Pressable, StyleProp, Text, ViewStyle } from 'react-native';
 import { globalStyles } from '../shared/global.styles';
-import { IPressableButtonProps } from './button.interface';
 
 const getButtonStyle = (isValid) => ({
   backgroundColor: isValid ? 'black' : 'gray',
