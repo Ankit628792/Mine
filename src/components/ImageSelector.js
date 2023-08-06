@@ -5,7 +5,7 @@ index : index of the image container,
 imageUrl : array with image info,
 Location : Which screen is using the Image picker
 */
-const ImageSelector = (index: any, imageUrl: any) => {
+const ImageSelector = (index, imageUrl) => {
 
     let TestPromise = new Promise((resolve, reject) => {
         ImagePicker.openPicker({
