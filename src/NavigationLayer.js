@@ -1,7 +1,11 @@
-import React from 'react'
-import { useColorScheme } from 'react-native'
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import React from 'react';
+import {useColorScheme} from 'react-native';
+import {
+  DarkTheme,
+  DefaultTheme,
+  NavigationContainer,
+} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Intro from './screens/onboarding/Intro';
 import Name from './screens/onboarding/Name';
 import DOB from './screens/onboarding/DOB';
@@ -20,41 +24,41 @@ import VerifyOTP from './screens/auth/VerifyOTP';
 
 const Stack = createNativeStackNavigator();
 
-function AuthGroup({ routeName }) {
-    return (
-        <Stack.Navigator initialRouteName={routeName} screenOptions={{
-            headerShown: false
-        }}>
-            <Stack.Screen name="Intro" component={Intro} />
-            <Stack.Screen name="Login" component={Login} />
-            <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-            <Stack.Screen name="Name" component={Name} />
-            <Stack.Screen name="DOB" component={DOB} />
-            <Stack.Screen name="Gender" component={Gender} />
-            <Stack.Screen name="GenderInterested" component={GenderInterested} />
-            <Stack.Screen name="Bio" component={Bio} />
-            <Stack.Screen name="Religion" component={Religion} />
-            <Stack.Screen name="Profession" component={Profession} />
-            <Stack.Screen name="UserInterest" component={UserInterest} />
-            <Stack.Screen name="UserNotInterest" component={UserNotInterest} />
-            <Stack.Screen name="UploadImage" component={UploadImage} />
-            <Stack.Screen name="Location" component={Location} />
-            <Stack.Screen name="PersonalChat" component={PersonalChat} />
-            {/* Other screen for user info  */}
-        </Stack.Navigator>
-    )
+function AuthGroup({routeName}) {
+  return (
+    <Stack.Navigator
+      initialRouteName={routeName}
+      screenOptions={{
+        headerShown: false,
+      }}>
+      <Stack.Screen name="Intro" component={Intro} />
+      <Stack.Screen name="Login" component={Login} />
+      <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+      <Stack.Screen name="Name" component={Name} />
+      <Stack.Screen name="DOB" component={DOB} />
+      <Stack.Screen name="Gender" component={Gender} />
+      <Stack.Screen name="GenderInterested" component={GenderInterested} />
+      <Stack.Screen name="Bio" component={Bio} />
+      <Stack.Screen name="Religion" component={Religion} />
+      <Stack.Screen name="Profession" component={Profession} />
+      <Stack.Screen name="UserInterest" component={UserInterest} />
+      <Stack.Screen name="UserNotInterest" component={UserNotInterest} />
+      <Stack.Screen name="UploadImage" component={UploadImage} />
+      <Stack.Screen name="Location" component={Location} />
+      <Stack.Screen name="PersonalChat" component={PersonalChat} />
+      {/* Other screen for user info  */}
+    </Stack.Navigator>
+  );
 }
 
+const NavigationLayer = ({user}) => {
+  const theme = useColorScheme();
 
-const NavigationLayer = ({ user }) => {
-    const theme = useColorScheme();
+  return (
+    <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
+      <AuthGroup routeName={'UploadImage'} />
+    </NavigationContainer>
+  );
+};
 
-    return (
-        <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>
-            <AuthGroup routeName={'UserNotInterest'} />
-        </NavigationContainer>
-    )
-}
-
-export default NavigationLayer
-
+export default NavigationLayer;

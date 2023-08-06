@@ -1,8 +1,8 @@
 import React from 'react';
-import { Pressable, StyleProp, Text, ViewStyle } from 'react-native';
-import { globalStyles } from '../shared/global.styles';
+import {Pressable, StyleProp, Text, ViewStyle} from 'react-native';
+import {globalStyles} from '../shared/global.styles';
 
-const getButtonStyle = (isValid) => ({
+const getButtonStyle = isValid => ({
   backgroundColor: isValid ? 'black' : 'gray',
   alignItems: 'center',
   justifyContent: 'center',
@@ -10,7 +10,7 @@ const getButtonStyle = (isValid) => ({
   borderRadius: 4,
 });
 
-const PressableButton = ({ ...props }) => {
+const PressableButton = ({...props}) => {
   return (
     <Pressable
       style={getButtonStyle(props.isValid)}
