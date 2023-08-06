@@ -5,6 +5,7 @@ import PrimaryButton from '../../components/PrimaryButton'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import { useNavigation } from '@react-navigation/native'
+
 const Name = () => {
   const navigator = useNavigation()
   const [name, setName] = useState('')
@@ -14,6 +15,8 @@ const Name = () => {
       Alert.alert('Validation Error', 'Please enter a valid name.');
     } else if (!/^[a-zA-Z]+$/.test(name)) {
       Alert.alert('Validation Error', 'Name should contain only alphabetic characters.');
+    } else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(name)) {
+      Alert.alert('Validation Error', 'Name should not start or end with a space.');
     } else {
       // console.log('Valid name:', name); // Print the name to the console
       navigator.navigate('DOB')
@@ -35,7 +38,6 @@ const Name = () => {
           </View>
         </View>
         <PrimaryButton text={'Continue'} disabled={false} isLoading={false} onPress={validateName} />
-
       </LinearGradient>
     </>
   )
