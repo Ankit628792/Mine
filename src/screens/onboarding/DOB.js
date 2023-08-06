@@ -13,7 +13,7 @@ const DOB = () => {
     const [showPicker, setShowPicker] = useState(false);
 
 
-    const handleDateChange = (event: any, selectedDate: any) => {
+    const handleDateChange = (event, selectedDate) => {
         const currentDate = selectedDate || date;
         setShowPicker(false);
         setDate(currentDate);
