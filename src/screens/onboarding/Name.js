@@ -14,7 +14,9 @@ const navigator = useNavigation()
           Alert.alert('Validation Error', 'Please enter a valid name.');
         } else if (!/^[a-zA-Z]+$/.test(name)) {
           Alert.alert('Validation Error', 'Name should contain only alphabetic characters.');
-        } else {
+        }else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(name)) {
+          Alert.alert('Validation Error', 'Name should not start or end with a space.');
+         } else {
          // console.log('Valid name:', name); // Print the name to the console
             navigator.navigate('DOB')
           //POST API call
