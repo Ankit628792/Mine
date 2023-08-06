@@ -9,7 +9,7 @@ export const AuthService = {
             method: 'GET'
         })
     },
-    sendOtp: ({ mobile, hash }) => {
+    sendOtp: (data) => {
 
         return fetch_({
             url: endpoints.sendOtp,
@@ -17,10 +17,7 @@ export const AuthService = {
             headers: {
                 [PUBLIC_REQUEST_KEY]: true
             },
-            data: {
-                mobile,
-                hash
-            }
+            data
         })
     },
     verifyOtp: (data) => {

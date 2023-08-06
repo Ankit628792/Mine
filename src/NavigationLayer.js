@@ -3,8 +3,8 @@ import { useColorScheme } from 'react-native'
 import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Intro from './screens/onboarding/Intro';
-import Login from './screens/auth/Login';
-import VerifyOTP from './screens/auth/VerifyOTP';
+// import Login from './screens/auth/Login';
+// import VerifyOTP from './screens/auth/VerifyOTP';
 import About from './screens/onboarding/About';
 import Name from './screens/onboarding/Name';
 import DOB from './screens/onboarding/DOB';
@@ -18,6 +18,8 @@ import UserNotInterest from './screens/onboarding/UserNotInterest';
 import UploadImage from './screens/onboarding/UploadImage';
 import Location from './screens/onboarding/Location';
 import PersonalChat from './screens/chat/PersonalChat';
+import Login from './screens/auth/LoginNew';
+import VerifyOTP from './screens/auth/VerifyOTPNew';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +54,7 @@ const NavigationLayer = ({ user }) => {
 
     return (
         <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>
-            <AuthGroup routeName={'Name'} />
+            <AuthGroup routeName={'VerifyOTP'} />
         </NavigationContainer>
     )
 }

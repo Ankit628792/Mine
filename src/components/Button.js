@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
-import {IButtonProps} from './button.interface';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { IButtonProps } from './button.interface';
 
-const Button = ({...props}: IButtonProps) => {
+const Button = ({ ...props }) => {
   return (
     <TouchableOpacity
       style={styles.customButton}
