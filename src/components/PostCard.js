@@ -1,16 +1,13 @@
 import React from 'react';
-import {View, Image, Dimensions} from 'react-native';
-import tw from 'twrnc';
+import {View, Image, StyleSheet, Dimensions} from 'react-native';
 
-const PostCard = ({item, onDelete}) => {
+const PostCard = ({item}) => {
   const {imageUrl} = item;
-  const width = Dimensions.get('window').width;
-  const height = Dimensions.get('window').height;
   return (
-    <View style={tw`w-${width} h-${height} m-2 bg-gray-300 rounded-md`}>
+    <View style={styles.gridItem}>
       <Image
+        style={styles.image}
         source={{uri: imageUrl}}
-        style={tw`flex-1 w-full h-full`}
         resizeMode="contain"
       />
     </View>
@@ -18,3 +15,17 @@ const PostCard = ({item, onDelete}) => {
 };
 
 export default PostCard;
+
+const styles = StyleSheet.create({
+  gridItem: {
+    margin: 2,
+    width: Dimensions.get('window').width / 3,
+    height: 160,
+  },
+  image: {
+    flex: 1,
+    width: '100%',
+    height: '100%',
+    backgroundColor: '#eee',
+  },
+});

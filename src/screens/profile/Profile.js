@@ -44,9 +44,6 @@ const Profile = () => {
   const logout = () => {};
   const handleDelete = () => {};
 
-  const numColumns = 3;
-  const itemWidth = Dimensions.get('window').width / numColumns - 10;
-
   return (
     <SafeAreaView style={tw`flex-1 bg-white`}>
       <ScrollView
@@ -84,7 +81,7 @@ const Profile = () => {
             <Text style={tw`text-sm`}>Following</Text>
           </View>
         </View>
-        <View style={tw`flex-row flex-wrap justify-between px-5`}>
+        <View style={tw`flex-row`}>
           {posts.map(item => (
             <PostCard key={item.id} item={item} onDelete={handleDelete} />
           ))}

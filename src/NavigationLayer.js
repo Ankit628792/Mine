@@ -22,8 +22,50 @@ import PersonalChat from './screens/chat/PersonalChat';
 import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
 import Profile from './screens/profile/Profile';
+import HomeScreen from './screens/home/HomeScreen';
+import {createDrawerNavigator} from '@react-navigation/drawer';
+import CustomDrawer from './components/CustomDrawer';
+import Ionicons from 'react-native-vector-icons/Ionicons';
 
+const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
+
+function AuthStack() {
+  return (
+    <Drawer.Navigator
+      drawerContent={props => <CustomDrawer {...props} />}
+      screenOptions={{
+        headerShown: false,
+        drawerActiveBackgroundColor: '#aa18ea',
+        drawerActiveTintColor: '#fff',
+        drawerInactiveTintColor: '#333',
+        drawerLabelStyle: {
+          marginLeft: -25,
+          fontFamily: 'Roboto-Medium',
+          fontSize: 15,
+        },
+      }}>
+      <Drawer.Screen
+        name="Home"
+        component={HomeScreen}
+        options={{
+          drawerIcon: ({color}) => (
+            <Ionicons name="home-outline" size={22} color={color} />
+          ),
+        }}
+      />
+      <Drawer.Screen
+        name="Profile"
+        component={Profile}
+        options={{
+          drawerIcon: ({color}) => (
+            <Ionicons name="person-outline" size={22} color={color} />
+          ),
+        }}
+      />
+    </Drawer.Navigator>
+  );
+}
 
 function AuthGroup({routeName}) {
   return (
@@ -47,8 +89,9 @@ function AuthGroup({routeName}) {
       <Stack.Screen name="UploadImage" component={UploadImage} />
       <Stack.Screen name="Location" component={Location} />
       <Stack.Screen name="PersonalChat" component={PersonalChat} />
-      <Stack.Screen name="Profile" component={Profile} />
       {/* Other screen for user info  */}
+      {/* <Stack.Screen name="Profile" component={Profile} />
+      <Stack.Screen name="Home" component={HomeScreen} /> */}
     </Stack.Navigator>
   );
 }
@@ -58,7 +101,8 @@ const NavigationLayer = ({user}) => {
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AuthGroup routeName={'Profile'} />
+      {/* <AuthGroup routeName={'Profile'} /> */}
+      <AuthStack />
     </NavigationContainer>
   );
 };
