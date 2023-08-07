@@ -43,7 +43,7 @@ const configure = () => {
       data.description = data.message || statusText;
       data.message = data.error || statusText;
       data.statusCode = data.statusCode || status;
-      return Promise.reject(data);
+      return error;
     },
   );
 };
