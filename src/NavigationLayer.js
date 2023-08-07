@@ -21,6 +21,7 @@ import Location from './screens/onboarding/Location';
 import PersonalChat from './screens/chat/PersonalChat';
 import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
+import Profile from './screens/profile/Profile';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,6 +47,7 @@ function AuthGroup({routeName}) {
       <Stack.Screen name="UploadImage" component={UploadImage} />
       <Stack.Screen name="Location" component={Location} />
       <Stack.Screen name="PersonalChat" component={PersonalChat} />
+      <Stack.Screen name="Profile" component={Profile} />
       {/* Other screen for user info  */}
     </Stack.Navigator>
   );
@@ -56,7 +58,7 @@ const NavigationLayer = ({user}) => {
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AuthGroup routeName={'UploadImage'} />
+      <AuthGroup routeName={'Profile'} />
     </NavigationContainer>
   );
 };
