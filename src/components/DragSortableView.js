@@ -506,14 +506,11 @@ DragSortableView.propTypes = {
   parentWidth: PropTypes.number,
   childrenHeight: PropTypes.number.isRequired,
   childrenWidth: PropTypes.number.isRequired,
-
   marginChildrenTop: PropTypes.number,
   marginChildrenBottom: PropTypes.number,
   marginChildrenLeft: PropTypes.number,
   marginChildrenRight: PropTypes.number,
-
   sortable: PropTypes.bool,
-
   onClickItem: PropTypes.func,
   onDragStart: PropTypes.func,
   onDragEnd: PropTypes.func,

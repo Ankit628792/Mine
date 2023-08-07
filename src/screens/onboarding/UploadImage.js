@@ -32,29 +32,25 @@ const marginChildrenRight = 10;
 
 const UploadImage = () => {
   const navigator = useNavigation();
-  const [imageUrl, setImageUrl] = useState([
-    {image: ''},
-    {image: ''},
-    {image: ''},
-    {image: ''},
-    {image: ''},
-    {image: ''},
-  ]);
+  const [imageUrl, setImageUrl] = useState(
+    Array.from({length: 6}, () => ({image: ''})),
+  );
   const [loading, setLoading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [deleteStatus, setDeleteStatus] = useState(0);
 
-  const handleImage = async (i = 0) => {
-    let Test = await ImageSelector(i, [...imageUrl]);
-    console.log('handleImage -> Test', Test);
-    if (Test.success) {
-      let newArr = [...imageUrl];
-      let idx = newArr.findIndex(item => !item.image);
-      newArr.splice(idx, 0, {image: Test.response});
-      newArr.pop();
-      setImageUrl(newArr);
-    } else {
-      // console.log(Test.response)
+  const handleImage = async i => {
+    try {
+      const image = await ImageSelector();
+      if (image) {
+        setImageUrl(prevState => {
+          const newState = [...prevState];
+          newState[i].image = image;
+          return newState;
+        });
+      }
+    } catch (error) {
+      console.error('handleImage -> Error:', error);
     }
   };
 
@@ -66,7 +62,6 @@ const UploadImage = () => {
       Alert.alert(
         '',
         "Kindly ensure it's your actual picture preferably a formal one, for better curation.",
-
         [
           {text: 'Next', onPress: () => handleImageSending(imageData)},
           {text: 'Cancel'},
@@ -81,7 +76,7 @@ const UploadImage = () => {
   const handleImageSending = async imageData => {
     const serveImages = [];
     imageData.map(async img => {
-      // console.log('handleImageSending -> img', img.image)
+      // console.log('handleImageSending -> img', img.image);
       let nameImg = img.image.split('/')[img.image.split('/').length - 1];
       // console.log('handleImageSending -> nameImg', nameImg)
       let type =
@@ -97,7 +92,6 @@ const UploadImage = () => {
         name: nameImg,
       });
       setLoading(true);
-
       // upload image and handle error
     });
   };
@@ -110,7 +104,7 @@ const UploadImage = () => {
             style={tw`w-[${
               width / 4
             }px] h-32 mx-2 m-2 shadow shadow-gray-400 rounded-lg`}
-            onPress={() => handleImage()}>
+            onPress={() => handleImage(index)}>
             <View
               style={tw`w-full h-full items-center justify-center bg-white rounded-lg`}>
               <Text
@@ -170,14 +164,10 @@ const UploadImage = () => {
   };
 
   function handleOnDragging(gestureState) {
-    if (deleteStatus !== 1 && deleteStatus !== 2) {
-      setDeleteStatus(1);
-    }
     if (this.isBuffer) return;
-    if (gestureState.moveY <= 120) {
-      setDeleteStatus(2);
-    } else if (deleteStatus !== 1) {
-      setDeleteStatus(1);
+    const currentDeleteStatus = gestureState.moveY >= 500 ? 2 : 1;
+    if (deleteStatus !== currentDeleteStatus) {
+      setDeleteStatus(currentDeleteStatus);
     }
   }
 
@@ -185,7 +175,6 @@ const UploadImage = () => {
     <>
       <RenderDeleteView />
       <Bar value={10} />
-
       <LinearGradient
         colors={gradient.bg}
         style={tw`flex-1 p-5 flex-col justify-between`}>
@@ -238,14 +227,14 @@ const UploadImage = () => {
                 }}
                 onDragEnd={(startIndex, endIndex) => {
                   if (deleteStatus === 2) {
-                    const newData = [...imageUrl];
-                    newData.splice(startIndex, 1);
-                    newData.push({image: ''});
-                    setImageUrl(newData);
-                    setDeleteStatus(0);
-                  } else {
+                    setImageUrl(prevState => {
+                      const newArr = [...prevState];
+                      newArr.splice(startIndex, 1, {image: ''});
+                      return newArr;
+                    });
                     setDeleteStatus(0);
                   }
+                  setDeleteStatus(0);
                 }}
                 onDragging={handleOnDragging}
                 keyExtractor={(item, index) => index}
@@ -257,12 +246,11 @@ const UploadImage = () => {
             </View>
           )}
         </View>
-
         <PrimaryButton
           text={'Continue'}
           disabled={false}
           isLoading={false}
-          onPress={() => {}}
+          onPress={() => handleNext()}
         />
       </LinearGradient>
     </>
