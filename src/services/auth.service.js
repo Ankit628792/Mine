@@ -1,44 +1,17 @@
-import fetch_ from '../utils/axios-interceptor';
 import {endpoints} from './config';
-import {PUBLIC_REQUEST_KEY} from '../utils/constants';
+import HttpService from '../utils/axios-interceptor';
 
 export const AuthService = {
   auth: () => {
-    return fetch_({
-      url: endpoints.auth,
-      method: 'GET',
-    });
+    return HttpService.get(endpoints.auth);
   },
   sendOtp: data => {
-    return fetch_({
-      url: endpoints.sendOtp,
-      method: 'POST',
-      headers: {
-        [PUBLIC_REQUEST_KEY]: true,
-      },
-      data,
-    });
+    return HttpService.post(endpoints.sendOtp, data);
   },
   verifyOtp: data => {
-    return fetch_({
-      url: endpoints.verifyOtp,
-      method: 'POST',
-      headers: {
-        [PUBLIC_REQUEST_KEY]: true,
-      },
-      data: data,
-    });
+    return HttpService.post(endpoints.verifyOtp, data);
   },
   logOut: ({_id}) => {
-    return fetch_({
-      url: endpoints.logout,
-      method: 'PATCH',
-      headers: {
-        [PUBLIC_REQUEST_KEY]: true,
-      },
-      data: {
-        _id: _id,
-      },
-    });
+    return HttpService.patch(endpoints.logout, {_id});
   },
 };

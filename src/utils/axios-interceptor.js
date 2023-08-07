@@ -8,63 +8,56 @@ import {
   PUBLIC_REQUEST_KEY,
   TOKEN_PAYLOAD_KEY,
 } from './constants';
-import {createNavigationContainerRef} from '@react-navigation/native';
 
-const navigationRef = createNavigationContainerRef();
-
-export function navigate(name, params) {
-  if (navigationRef.isReady()) {
-    navigationRef.navigate(name, params);
-  }
-}
-
-const fetch_ = axios.create({
+const _axios = axios.create({
   baseURL: `${API_URL}${API_BASE_PATH}`,
-  timeout: 10000,
+  timeout: 5000,
 });
 
-// API Request interceptor
-fetch_.interceptors.request.use(
-  async config => {
-    const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY);
-    const deviceToken = await GetLocalStorage(DEVICE_TOKEN_KEY);
+const configure = () => {
+  _axios.interceptors.request.use(config => {
+    const jwtToken = GetLocalStorage(AUTH_TOKEN_KEY);
+    const deviceToken = GetLocalStorage(DEVICE_TOKEN_KEY);
     config.headers['Content-Type'] = 'application/json';
-
     if (jwtToken) {
       config.headers[TOKEN_PAYLOAD_KEY] = `Bearer ${jwtToken}`;
     }
     if (deviceToken) {
       config.headers[DEVICE_PAYLOAD_KEY] = deviceToken;
     }
-
     if (!jwtToken && !config.headers[PUBLIC_REQUEST_KEY]) {
       // navigate(ENTRY_ROUTE);
     }
-
     return config;
-  },
-  error => {
-    Promise.reject(error);
-  },
-);
+  });
+  _axios.interceptors.response.use(
+    response => {
+      const data = response.data;
+      if (data.message) {
+        // showToast(data.message);
+      }
+      return data;
+    },
+    error => {
+      const {data = {}, status, statusText} = error?.response || {};
+      data.description = data.message || statusText;
+      data.message = data.error || statusText;
+      data.statusCode = data.statusCode || status;
+      return Promise.reject(data);
+    },
+  );
+};
 
-// API response interceptor
-fetch_.interceptors.response.use(
-  response => {
-    const data = response.data;
-    if (data.message) {
-      // showToast(data.message);
-    }
-    return data;
-  },
-  error => {
-    const {data = {}, status, statusText} = error?.response || {};
-    data.description = data.message || statusText;
-    data.message = data.error || statusText;
-    data.statusCode = data.statusCode || status;
+const getAxiosClient = () => _axios;
 
-    return Promise.reject(data);
-  },
-);
+const HttpService = {
+  configure,
+  getAxiosClient,
+  get: getAxiosClient().get,
+  post: getAxiosClient().post,
+  put: getAxiosClient().put,
+  patch: getAxiosClient().patch,
+  delete: getAxiosClient().delete,
+};
 
-export default fetch_;
+export default HttpService;

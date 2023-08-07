@@ -1,6 +1,15 @@
 import Toast from 'react-native-root-toast';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Platform, ToastAndroid} from 'react-native';
+import {createNavigationContainerRef} from '@react-navigation/native';
+
+const navigationRef = createNavigationContainerRef();
+
+export function navigate(name, params) {
+  if (navigationRef.isReady()) {
+    navigationRef.navigate(name, params);
+  }
+}
 
 export function showToast(message, position = Toast.positions.TOP) {
   if (Platform.OS == 'ios') {
