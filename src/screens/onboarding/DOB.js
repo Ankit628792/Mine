@@ -8,15 +8,27 @@ import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
+import {useNavigation} from '@react-navigation/native';
 
 const DOB = () => {
+  const navigator = useNavigation();
   const [date, setDate] = useState(new Date(moment().subtract(18, 'years')));
   const [showPicker, setShowPicker] = useState(false);
 
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowPicker(false);
+    // const age = moment().diff(currentDate, 'years');
+    // if (age >= 16) {
+    //   console.log('Selected Date:', currentDate);
+    // } else {
+    //   alert('You must be at least 16 years old to proceed.');
+    // }
     setDate(currentDate);
+  };
+
+  const onSelectDate = () =>{
+    navigator.navigate('Gender');
   };
 
   const showDatePicker = () => {
@@ -56,7 +68,7 @@ const DOB = () => {
           text={'Continue'}
           disabled={false}
           isLoading={false}
-          onPress={() => {}}
+          onPress={onSelectDate}
         />
         {showPicker && (
           <DateTimePicker

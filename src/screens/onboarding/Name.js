@@ -5,6 +5,7 @@ import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
 import {colors, gradient} from '../../utils/colors';
 import {useNavigation} from '@react-navigation/native';
+import Bar from '../../components/Bar'
 
 const Name = () => {
   const navigator = useNavigation();
@@ -13,11 +14,6 @@ const Name = () => {
   const validateName = () => {
     if (name.trim() === '') {
       Alert.alert('Validation Error', 'Please enter a valid name.');
-    } else if (!/^[a-zA-Z]+$/.test(name)) {
-      Alert.alert(
-        'Validation Error',
-        'Name should contain only alphabetic characters.',
-      );
     } else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(name)) {
       Alert.alert(
         'Validation Error',

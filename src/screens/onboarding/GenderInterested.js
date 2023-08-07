@@ -6,9 +6,25 @@ import LinearGradient from 'react-native-linear-gradient';
 import {colors, gradient} from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
+import {useNavigation} from '@react-navigation/native';
 
 const GenderInterested = () => {
+  const navigator = useNavigation();
   const [interestedIn, setInterestedIn] = useState('');
+
+  const [isDisabled, setIsDisabled] = useState(true);
+
+  const handleGenderIntrestedSelection = selectedGender => {
+    setInterestedIn(selectedGender);
+    setIsDisabled(false);
+  };
+
+  const handleContinue = () => {
+    if (interestedIn) {
+      navigator.navigate('Bio');
+      // Perform your task here, e.g., navigate to the next screen
+    }
+  };
 
   return (
     <>
@@ -27,7 +43,7 @@ const GenderInterested = () => {
             </Text>
             <View style={tw`flex-row items-center justify-evenly mt-10`}>
               <Pressable
-                onPress={() => setInterestedIn('male')}
+                onPress={() => handleGenderIntrestedSelection('male')}
                 style={tw`w-20 h-20 ${
                   interestedIn == 'male' ? 'opacity-100' : 'opacity-60'
                 }`}>
@@ -40,7 +56,7 @@ const GenderInterested = () => {
                 />
               </Pressable>
               <Pressable
-                onPress={() => setInterestedIn('female')}
+                onPress={() => handleGenderIntrestedSelection('female')}
                 style={tw`w-20 h-20 ${
                   interestedIn == 'female' ? 'opacity-100' : 'opacity-60'
                 }`}>
@@ -53,7 +69,7 @@ const GenderInterested = () => {
                 />
               </Pressable>
               <Pressable
-                onPress={() => setInterestedIn('transgender')}
+                onPress={() => handleGenderIntrestedSelection('transgender')}
                 style={tw`w-20 h-20 ${
                   interestedIn == 'transgender' ? 'opacity-100' : 'opacity-60'
                 }`}>
@@ -70,9 +86,9 @@ const GenderInterested = () => {
         </View>
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
+          disabled={isDisabled}
           isLoading={false}
-          onPress={() => {}}
+          onPress={handleContinue}
         />
       </LinearGradient>
     </>

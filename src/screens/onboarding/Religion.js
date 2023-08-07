@@ -1,13 +1,31 @@
-import {View, Text, TextInput, Pressable, Image} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, Pressable, Modal, FlatList } from 'react-native';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
+import {useNavigation} from '@react-navigation/native';
 
 const Religion = () => {
+  const navigator = useNavigation();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [selectedReligion, setSelectedReligion] = useState('');
+  const religions = ['Hindu', 'Christian', 'Muslim', 'Buddhist', 'Other'];
+
+  const handleReligionSelect = (religion) => {
+    setSelectedReligion(religion);
+    setModalVisible(false);
+  };
+
+  const handleContinue = () => {
+    if (selectedReligion) {
+      //navigate to the next screen
+      navigator.navigate('Profession');
+    }
+  };
+
   return (
     <>
       <Bar value={6} />
@@ -17,28 +35,51 @@ const Religion = () => {
           <Text
             style={[
               tw`text-3xl font-medium text-center`,
-              {color: colors.black},
+              { color: colors.black },
             ]}>
             Your Religion
           </Text>
 
-          <View style={tw`p-5`}>
-            {/* On press add a modal to choose religion  */}
-            <Pressable
-              style={[
-                tw`border border-gray-50 p-2 rounded-lg mt-1`,
-                {backgroundColor: colors.white},
-              ]}>
-              <Text style={[tw`text-lg`, {color: colors.black}]}>Hindu</Text>
-            </Pressable>
-          </View>
+          <Pressable
+            onPress={() => setModalVisible(true)}
+            style={[
+              tw`border border-gray-50 p-2 rounded-lg mt-1`,
+              { backgroundColor: colors.white },
+            ]}>
+            <Text style={[tw`text-lg`, { color: colors.black }]}>
+              {selectedReligion || 'Select Religion'}
+            </Text>
+          </Pressable>
         </View>
+
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
+          disabled={!selectedReligion}
           isLoading={false}
-          onPress={() => {}}
+          onPress={handleContinue}
         />
+
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={modalVisible}
+          onRequestClose={() => setModalVisible(false)}>
+          <View style={tw`flex-1 justify-center items-center bg-opacity-70 bg-black`}>
+            <View style={tw`bg-white p-4 rounded-lg`}>
+              <FlatList
+                data={religions}
+                renderItem={({ item }) => (
+                  <Pressable
+                    onPress={() => handleReligionSelect(item)}
+                    style={tw`p-2`}>
+                    <Text style={[tw`text-lg`, { color: colors.black }]}>{item}</Text>
+                  </Pressable>
+                )}
+                keyExtractor={(item) => item}
+              />
+            </View>
+          </View>
+        </Modal>
       </LinearGradient>
     </>
   );
