@@ -1,12 +1,15 @@
-import { View, Text } from 'react-native'
+import { Text, Image } from 'react-native'
 import React from 'react'
 import tw from 'twrnc'
+import { colors, gradient } from '../utils/colors'
+import LinearGradient from 'react-native-linear-gradient'
 
 const NetworkNotAvailable = () => {
   return (
-    <View style={tw`flex-1 justify-center items-center`}>
-      <Text>NetworkNotAvailable</Text>
-    </View>
+    <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5 justify-center items-center`}>
+      <Image source={require('../assets/images/noNetwork.png')} style={tw`w-32 h-32`} />
+      <Text style={[tw`absolute bottom-12 text-xl font-medium`, { color: colors.darkGray }]}>Network Unavailable</Text>
+    </LinearGradient>
   )
 }
 

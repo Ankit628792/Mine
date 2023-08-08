@@ -51,7 +51,7 @@ const NavigationLayer = ({ user }) => {
 
     return (
         <NavigationContainer theme={theme === "dark" ? DarkTheme : DefaultTheme}>
-            <AuthGroup routeName={'UserNotInterest'} />
+            <AuthGroup routeName={'Login'} />
         </NavigationContainer>
     )
 }

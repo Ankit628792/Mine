@@ -12,7 +12,7 @@ export const AuthService = {
     sendOtp: (data) => {
 
         return fetch_({
-            url: endpoints.sendOtp,
+            url: endpoints.sendOtp + `/${data.countryCode}/${data.mobile}`,
             method: 'POST',
             headers: {
                 [PUBLIC_REQUEST_KEY]: true
@@ -22,12 +22,11 @@ export const AuthService = {
     },
     verifyOtp: (data) => {
         return fetch_({
-            url: endpoints.verifyOtp,
+            url: endpoints.verifyOtp + `?phoneNumber=${data.phoneNumber}&otp=${data.otp}&deviceToken=${data.fcmToken}`,
             method: 'POST',
             headers: {
                 [PUBLIC_REQUEST_KEY]: true
             },
-            data: data
         })
     },
     logOut: ({ _id }) => {

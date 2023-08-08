@@ -6,15 +6,16 @@ import { useNavigation } from "@react-navigation/native"
 import { AUTH_TOKEN_KEY } from '../utils/constants'
 import { AuthService } from "../services/auth.service"
 import { UserService } from "../services/user.service"
+import { ROUTES } from "../utils/routes"
 
 export const useSendOtp = (callback) => {
     return useMutation(AuthService.sendOtp, {
         onSuccess: (response) => {
-            if (response.success === true) {
+            if (response.id) {
                 console.log("OTP sent successfully!!")
                 showToast("OTP sent successfully!!")
                 if (typeof callback == 'function') {
-                    callback({ initialOtp: response.otp })
+                    callback()
                 }
             } else {
                 console.error(response.message)
@@ -36,9 +37,6 @@ export const useLogout = (callback) => {
                 if (typeof callback == 'function') {
                     callback();
                 }
-                queryClient.invalidateQueries("getConversations");
-                queryClient.invalidateQueries("getMatches");
-                queryClient.invalidateQueries("getRings");
                 console.log("Logout successfully!!")
             } else {
                 console.error(response.message)
@@ -64,20 +62,26 @@ export const useVerifyOtp = (callback) => {
     })
     return useMutation(AuthService.verifyOtp, {
         onSuccess: (response) => {
-            if (response.success === true) {
+            if (response.jwtToken) {
                 showToast("OTP Verified successfully!!")
                 if (typeof callback == 'function') {
                     callback()
                 }
-                AsyncStorage.setItem(AUTH_TOKEN_KEY, response.token)
-                if (response.status == 'pending') {
-                    navigator.navigate("CompleteProfile")
-                    // navigate to complete profile
+                AsyncStorage.setItem(AUTH_TOKEN_KEY, response.jwtToken)
+                if (response.on_boarding_process) {
+                    navigator.navigate(ROUTES[response.on_boarding_process])
                 }
-                else if (response.status == 'active') {
-                    refetch();
-                    navigator.navigate("HomeScreen")
+                else {
+                    navigator.navigate("Name")
                 }
+                // if (response.status == 'pending') {
+                //     navigator.navigate("CompleteProfile")
+                //     // navigate to complete profile
+                // }
+                // else if (response.status == 'active') {
+                //     refetch();
+                //     navigator.navigate("HomeScreen")
+                // }
             } else {
                 showToast(response.message)
             }

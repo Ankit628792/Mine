@@ -49,7 +49,7 @@ const VerifyOTP = ({ route }) => {
     const checkOtp = async () => {
         if (otp?.length == 6) {
             let token = await AsyncStorage.getItem('fcmToken')
-            // verifyOtp({ mobile: route.params?.mobile, otp: otp, fcmToken: token || '' })
+            verifyOtp({ phoneNumber: route.params?.mobile?.toString(), otp: otp, deviceToken: token || '' })
         }
     }
 
@@ -76,7 +76,7 @@ const VerifyOTP = ({ route }) => {
                         </View>
                         <View style={tw`flex-row items-center ${isVisible ? '' : 'opacity-0'}`}>
                             <Text style={[tw`text-sm mr-1`, { color: colors.darkGray }]}>Didn't received the code?</Text>
-                            <TouchableOpacity disabled={!isVisible} onPress={() => sendOtp({ mobile: route.params?.mobile })}><Text style={tw`font-medium text-orange-300`}>Send Again</Text></TouchableOpacity>
+                            <TouchableOpacity disabled={!isVisible} onPress={() => sendOtp({ mobile: route.params.mobile, countryCode: route.params.countryCode })}><Text style={tw`font-medium text-orange-300`}>Send Again</Text></TouchableOpacity>
                         </View>
                     </View>
                     <View style={tw`px-5`}>

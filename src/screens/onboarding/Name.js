@@ -5,6 +5,7 @@ import PrimaryButton from '../../components/PrimaryButton'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import { useNavigation } from '@react-navigation/native'
+import Bar from '../../components/Bar'
 
 const Name = () => {
   const navigator = useNavigation()

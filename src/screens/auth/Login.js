@@ -47,8 +47,8 @@ const Login = ({ route }) => {
         setIsOpen(false);
     };
 
-    let { mutate: sendOtp, isLoading, isError, error: err } = useSendOtp(({ initialOtp }) => {
-        navigator.navigate("VerifyOTP", { mobile: `+${country.code}${mobile}`, initialOtp: initialOtp, country: country.iso })
+    let { mutate: sendOtp, isLoading, isError, error: err } = useSendOtp(() => {
+        navigator.navigate("VerifyOTP", { mobile: mobile, countryCode: `+${country.code}` })
     });
 
     const validatePhoneNumber = () => {
@@ -57,8 +57,8 @@ const Login = ({ route }) => {
         if (!isValidNumber)
             setError("Invalid Mobile Number")
         else {
-            navigator.navigate("VerifyOTP", { mobile: `+${country.code}${mobile}` })
-            // sendOtp({ mobile: phoneNumberInstance?.number, countryCode: country.iso })
+            // navigator.navigate("VerifyOTP", { mobile: `+${country.code}${mobile}` })
+            sendOtp({ mobile: mobile, countryCode: `+${country.code}` })
             setError('')
         }
     };
