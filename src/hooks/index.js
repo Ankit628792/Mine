@@ -7,6 +7,19 @@ import {AUTH_TOKEN_KEY} from '../utils/constants';
 import {AuthService} from '../services/auth.service';
 import {UserService} from '../services/user.service';
 
+export const useDebounce = (value, delay = 500) => {
+  const [debouncedValue, setDebouncedValue] = useState(value);
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value);
+    }, delay);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [value, delay]);
+  return debouncedValue;
+};
+
 export const useSendOtp = callback => {
   return useMutation(AuthService.sendOtp, {
     onSuccess: response => {
