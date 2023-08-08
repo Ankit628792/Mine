@@ -13,4 +13,4 @@ const NetworkNotAvailable = () => {
   )
 }
 
-export default NetworkNotAvailable
+export default NetworkNotAvailable;

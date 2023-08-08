@@ -1,7 +1,7 @@
 // export const API_URL = ''
 export const API_URL = 'http://10.0.2.2:9090'
 
-export const API_BASE_PATH = '/api/v1'
+export const API_BASE_PATH = '/api/v1';
 
 export const endpoints = {
     auth: '/validateToken',

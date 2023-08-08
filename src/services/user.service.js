@@ -1,32 +1,21 @@
 import axios from "axios"
 import { GetLocalStorage } from "../utils/FunctionHelper"
-import fetch_ from "../utils/axios-interceptor"
 import { endpoints } from "./config"
 import { TOKEN_PAYLOAD_KEY } from "../utils/constants"
 
-export const UserService = {
-    updateProfile: (data) => {
-        return fetch_({
-            url: endpoints.profile,
-            method: 'PATCH',
-            data: data
-        })
-    },
-    updateProfilePic: (data) => {
-        return fetch_({
-            url: endpoints.profilePic,
-            method: 'PATCH',
-            data: data
-        })
-    },
+import HttpService from '../utils/axios-interceptor';
 
-    deleteImage: (data) => {
-        return fetch_({
-            url: endpoints.image + "/" + data,
-            method: 'DELETE',
-        })
+export const UserService = {
+    updateProfile: data => {
+        return HttpService.patch(endpoints.profile, data);
     },
-}
+    updateProfilePic: data => {
+        return HttpService.patch(endpoints.profilePic, data);
+    },
+    deleteImage: data => {
+        return HttpService.delete(endpoints.image + "/" + data);
+    },
+};
 
 export const uploadImage = async (data) => {
     const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY)

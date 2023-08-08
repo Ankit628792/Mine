@@ -37,6 +37,7 @@ export const useLogout = (callback) => {
                 if (typeof callback == 'function') {
                     callback();
                 }
+                //invalidate queries
                 console.log("Logout successfully!!")
             } else {
                 console.error(response.message)
@@ -45,8 +46,8 @@ export const useLogout = (callback) => {
         onError: (e) => {
             console.error("Oops! Unable to logout")
         }
-    })
-}
+    });
+};
 
 export const useVerifyOtp = (callback) => {
     const dispatch = useDispatch();
@@ -56,7 +57,7 @@ export const useVerifyOtp = (callback) => {
         retry: false,
         onSuccess: (res) => {
             if (res.success && res.data) {
-                dispatch(setUser(res.data));
+                // dispatch(setUser(res.data));
             }
         },
     })
@@ -90,24 +91,25 @@ export const useVerifyOtp = (callback) => {
             showToast("Oops! Unable to verify OTP")
             console.error("Oops! Unable to verify OTP")
         }
+
     })
 }
 
-export const useUpdateProfile = (callback) => {
+export const useUpdateProfile = callback => {
     return useMutation(UserService.updateProfile, {
-        onSuccess: (response) => {
+        onSuccess: response => {
             if (response.success === true) {
-                showToast("Profile Updated successfully!!")
+                showToast('Profile Updated successfully!!');
                 if (typeof callback == 'function') {
-                    callback()
+                    callback();
                 }
             } else {
-                showToast(response.message)
+                showToast(response.message);
             }
         },
-        onError: (e) => {
-            showToast("Oops! Unable to Update profile")
-            console.error("Oops! Unable to Update profile")
-        }
-    })
-}
+        onError: e => {
+            showToast('Oops! Unable to Update profile');
+            console.error('Oops! Unable to Update profile');
+        },
+    });
+};

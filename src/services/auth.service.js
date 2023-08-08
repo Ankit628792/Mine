@@ -1,44 +1,18 @@
-import fetch_ from "../utils/axios-interceptor"
-import { endpoints } from "./config"
-import { PUBLIC_REQUEST_KEY } from "../utils/constants"
+
+import { endpoints } from './config';
+import HttpService from '../utils/axios-interceptor';
 
 export const AuthService = {
     auth: () => {
-        return fetch_({
-            url: endpoints.auth,
-            method: 'GET'
-        })
+        return HttpService.get(endpoints.auth);
     },
-    sendOtp: (data) => {
-
-        return fetch_({
-            url: endpoints.sendOtp + `/${data.countryCode}/${data.mobile}`,
-            method: 'POST',
-            headers: {
-                [PUBLIC_REQUEST_KEY]: true
-            },
-            data
-        })
+    sendOtp: data => {
+        return HttpService.post(endpoints.sendOtp + `/${data.countryCode}/${data.mobile}`, data);
     },
-    verifyOtp: (data) => {
-        return fetch_({
-            url: endpoints.verifyOtp + `?phoneNumber=${data.phoneNumber}&otp=${data.otp}&deviceToken=${data.fcmToken}`,
-            method: 'POST',
-            headers: {
-                [PUBLIC_REQUEST_KEY]: true
-            },
-        })
+    verifyOtp: data => {
+        return HttpService.post(endpoints.verifyOtp + `?phoneNumber=${data.phoneNumber}&otp=${data.otp}&deviceToken=${data.fcmToken}`, data);
     },
     logOut: ({ _id }) => {
-        return fetch_({
-            url: endpoints.logout,
-            method: 'PATCH',
-            headers: {
-                [PUBLIC_REQUEST_KEY]: true
-            },
-            data: {
-                _id: _id
-            }
-        })
+        return HttpService.patch(endpoints.logout, { _id });
     },
-}
+};

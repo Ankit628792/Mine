@@ -4,22 +4,22 @@ let isConnected = false;
 let isDataServicePresent = false;
 
 const subscribeToNetworkChanges = () => {
-    NetInfo.addEventListener((state) => {
-        isConnected = state.isConnected;
-        isDataServicePresent = state.details.isConnectionExpensive;
-    });
+  NetInfo.addEventListener(state => {
+    isConnected = state.isConnected;
+    isDataServicePresent = state.details.isConnectionExpensive;
+  });
 };
 
 const isNetworkAvailable = () => {
-    return isConnected;
+  return isConnected;
 };
 
 const isDataServiceEnabled = () => {
-    return isDataServicePresent;
+  return isDataServicePresent;
 };
 
 export default {
-    subscribeToNetworkChanges,
-    isNetworkAvailable,
-    isDataServiceEnabled
+  subscribeToNetworkChanges,
+  isNetworkAvailable,
+  isDataServiceEnabled,
 };
