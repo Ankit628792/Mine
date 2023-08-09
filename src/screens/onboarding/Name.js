@@ -6,10 +6,13 @@ import LinearGradient from 'react-native-linear-gradient';
 import { colors, gradient } from '../../utils/colors';
 import { useNavigation } from '@react-navigation/native';
 import Bar from '../../components/Bar'
+import { useUpdateProfile } from '../../hooks';
 
 const Name = () => {
   const navigator = useNavigation();
   const [name, setName] = useState('');
+
+  const { mutate: updateProfile, isLoading, error } = useUpdateProfile(() => { console.log("Updated") })
 
   const validateName = () => {
     if (name.trim() === '') {
@@ -20,8 +23,9 @@ const Name = () => {
         'Name should not start or end with a space.',
       );
     } else {
+      updateProfile({ userName: name?.trim() })
       // console.log('Valid name:', name); // Print the name to the console
-      navigator.navigate('DOB');
+      // navigator.navigate('DOB');
       //POST API call
     }
   };
@@ -41,7 +45,7 @@ const Name = () => {
           <View style={tw`p-5`}>
             <TextInput
               style={[
-                tw`border border-gray-50 p-2 rounded-lg mt-1`,
+                tw`border border-gray-50 py-2 px-4 rounded-lg mt-1`,
                 { backgroundColor: colors.white },
               ]}
               value={name}
@@ -51,8 +55,8 @@ const Name = () => {
         </View>
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
-          isLoading={false}
+          disabled={name?.length < 3}
+          isLoading={isLoading}
           onPress={validateName}
         />
       </LinearGradient>

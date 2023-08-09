@@ -15,10 +15,11 @@ const _axios = axios.create({
 });
 
 const configure = () => {
-  _axios.interceptors.request.use(config => {
-    const jwtToken = GetLocalStorage(AUTH_TOKEN_KEY);
-    const deviceToken = GetLocalStorage(DEVICE_TOKEN_KEY);
+  _axios.interceptors.request.use(async (config) => {
+    const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY);
+    const deviceToken = await GetLocalStorage(DEVICE_TOKEN_KEY);
     config.headers['Content-Type'] = 'application/json';
+
     if (jwtToken) {
       config.headers[TOKEN_PAYLOAD_KEY] = `Bearer ${jwtToken}`;
     }

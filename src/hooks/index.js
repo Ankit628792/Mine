@@ -99,7 +99,7 @@ export const useUpdateProfile = callback => {
     return useMutation(UserService.updateProfile, {
         onSuccess: response => {
             if (response.success === true) {
-                showToast('Profile Updated successfully!!');
+                // showToast('Profile Updated successfully!!');
                 if (typeof callback == 'function') {
                     callback();
                 }
