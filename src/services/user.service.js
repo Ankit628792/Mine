@@ -5,16 +5,8 @@ import { AUTH_TOKEN_KEY, TOKEN_PAYLOAD_KEY } from "../utils/constants"
 
 import HttpService from '../utils/axios-interceptor';
 
-export const UserService = {
-    updateProfile: data => {
-        return HttpService.patch(endpoints.profile, data);
-    },
-    updateProfilePic: data => {
-        return HttpService.patch(endpoints.profilePic, data);
-    },
-    deleteImage: data => {
-        return HttpService.delete(endpoints.image + "/" + data);
-    },
+const updateProfile = data => {
+    return HttpService.patch(endpoints.profile, data);
 };
 
 export const uploadImage = async (data) => {
@@ -35,3 +27,8 @@ export const updateImage = async (data) => {
         }
     })
 }
+
+
+export const UserService = {
+    updateProfile
+};
