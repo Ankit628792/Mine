@@ -55,8 +55,8 @@ const Login = () => {
     setIsOpen(false);
   };
 
-  let { mutate: sendOtp, isLoading, isError, error: err } = useSendOtp(() => {
-    navigator.navigate("VerifyOTP", { mobile: mobile, countryCode: `+${country.code}` })
+  let { mutate: sendOtp, isLoading, isError, error: err } = useSendOtp(({ initialOtp }) => {
+    navigator.navigate("VerifyOTP", { mobile: mobile, countryCode: `+${country.code}`, initialOtp })
   });
 
   const validatePhoneNumber = () => {

@@ -20,6 +20,7 @@ import ImageSelector from '../../components/ImageSelector';
 import { useNavigation } from '@react-navigation/native';
 import DragSortableView from '../../components/DragSortableView';
 import Bar from '../../components/Bar';
+import { uploadImage } from '../../services/user.service';
 
 const { width, height } = Dimensions.get('window');
 const parentWidth = width - 20;
@@ -56,8 +57,8 @@ const UploadImage = () => {
 
   const handleNext = async () => {
     let imageData = imageUrl.filter(item => item.image !== '');
-    if (imageData.length === 0) {
-      Alert.alert('Please Upload Atleast One Image');
+    if (imageData.length < 2) {
+      Alert.alert('Please Upload At Least Two Image');
     } else {
       Alert.alert(
         '',
@@ -75,15 +76,14 @@ const UploadImage = () => {
 
   const handleImageSending = async imageData => {
     const serveImages = [];
-    imageData.map(async img => {
-      // console.log('handleImageSending -> img', img.image);
+    setLoading(true)
+    await Promise.all(imageData.map(async img => {
       let nameImg = img.image.split('/')[img.image.split('/').length - 1];
-      // console.log('handleImageSending -> nameImg', nameImg)
+
       let type =
         nameImg.split('.')[nameImg.split('.').length - 1] === 'png'
           ? 'image/png'
           : 'image/jpeg';
-      // console.log('handleImageSending -> type', type)
 
       let formdata = new FormData();
       formdata.append('image', {
@@ -91,9 +91,17 @@ const UploadImage = () => {
         uri: img.image,
         name: nameImg,
       });
-      setLoading(true);
+      let res = await uploadImage(formdata)
+      console.log(res.data)
+      if (res.data?.data) {
+        serveImages.push(res.data?.data?.url)
+      }
       // upload image and handle error
-    });
+    }))
+    if (serveImages.length) {
+      navigator.navigate("ProfileImage", { images: serveImages })
+    }
+    setLoading(false)
   };
 
   const RenderImage = ({ item, index }) => {
@@ -107,7 +115,7 @@ const UploadImage = () => {
             <View
               style={tw`w-full h-full items-center justify-center bg-white rounded-lg`}>
               <Text
-                style={[tw`text-5xl font-extralight`, { color: colors.blue }]}>
+                style={[tw`text-5xl font-extralight`, { color: colors.orange }]}>
                 +
               </Text>
             </View>
@@ -139,8 +147,8 @@ const UploadImage = () => {
           ]}>
           <View
             style={tw`${deleteStatus === 2
-                ? 'w-10 h-10 p-2 border border-red-500'
-                : 'w-8 h-8 p-1'
+              ? 'w-10 h-10 p-2 border border-red-500'
+              : 'w-8 h-8 p-1'
               } bg-white rounded-full`}>
             <Svg
               style={tw`text-red-500`}
@@ -188,7 +196,7 @@ const UploadImage = () => {
           {loading ? (
             <ActivityIndicator
               size="large"
-              color={colors.blue}
+              color={colors.orange}
               style={{ marginTop: 40 }}
             />
           ) : (

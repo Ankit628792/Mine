@@ -1,34 +1,33 @@
-import {View, Text, TextInput, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, Pressable } from 'react-native';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import moment from 'moment';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useDispatch } from 'react-redux';
+import { useUpdateProfile } from '../../hooks';
 
 const DOB = () => {
   const navigator = useNavigation();
   const [date, setDate] = useState(new Date(moment().subtract(18, 'years')));
   const [showPicker, setShowPicker] = useState(false);
 
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { navigator.navigate('Gender') })
+
+
   const handleDateChange = (event, selectedDate) => {
     const currentDate = selectedDate || date;
     setShowPicker(false);
-    // const age = moment().diff(currentDate, 'years');
-    // if (age >= 16) {
-    //   console.log('Selected Date:', currentDate);
-    // } else {
-    //   alert('You must be at least 16 years old to proceed.');
-    // }
     setDate(currentDate);
   };
 
-  const onSelectDate = () =>{
-    navigator.navigate('Gender');
+  const onSelectDate = () => {
+    updateProfile({ dob: moment(date).format('yyyy-DD-MM'), onBoardingProcess: 3 })
   };
 
   const showDatePicker = () => {
@@ -45,7 +44,7 @@ const DOB = () => {
             <Text
               style={[
                 tw`text-3xl font-medium text-center`,
-                {color: colors.black},
+                { color: colors.black },
               ]}>
               {' '}
               Your Date of Birth
@@ -55,9 +54,9 @@ const DOB = () => {
                 onPress={showDatePicker}
                 style={[
                   tw`border border-gray-50 p-2 rounded-lg mt-1`,
-                  {backgroundColor: colors.white},
+                  { backgroundColor: colors.white },
                 ]}>
-                <Text style={[tw` text-base`, {color: colors.black}]}>
+                <Text style={[tw` text-base text-center`, { color: colors.black }]}>
                   {date ? moment(date)?.format('DD MMM YYYY') : 'Select Date'}
                 </Text>
               </Pressable>
@@ -66,8 +65,7 @@ const DOB = () => {
         </View>
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
-          isLoading={false}
+          isLoading={isLoading}
           onPress={onSelectDate}
         />
         {showPicker && (

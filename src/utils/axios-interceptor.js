@@ -34,14 +34,14 @@ const configure = () => {
   _axios.interceptors.response.use(
     response => {
       const data = response.data;
-      if (data.message) {
+      if (data?.message) {
         // showToast(data.message);
       }
       return data;
     },
     error => {
       const { data = {}, status, statusText } = error?.response || {};
-      data.description = data.message || statusText;
+      data.description = data?.message || statusText;
       data.message = data.error || statusText;
       data.statusCode = data.statusCode || status;
       return error;

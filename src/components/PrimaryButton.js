@@ -19,7 +19,7 @@ function PrimaryButton({
       colors={disabled ? gradient.gray : gradient.orange}
       style={tw`w-full rounded-lg`}>
       <TouchableOpacity
-        disabled={disabled}
+        disabled={disabled || isLoading}
         onPress={() => (typeof onPress == 'function' ? onPress() : {})}
         style={tw`py-2 px-6 rounded-lg ${extra} items-center justify-center`}>
         {isLoading ? (

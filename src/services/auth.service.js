@@ -7,6 +7,7 @@ export const AuthService = {
         return HttpService.get(endpoints.auth);
     },
     sendOtp: data => {
+        console.log(data)
         return HttpService.post(endpoints.sendOtp + `/${data.countryCode}/${data.mobile}`, data);
     },
     verifyOtp: data => {

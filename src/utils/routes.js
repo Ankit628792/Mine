@@ -45,10 +45,6 @@ export const ROUTES = [
     },
     {
         id: 12,
-        name: 'Location',
-    },
-    {
-        id: 13,
         name: 'Home',
     }
 ]

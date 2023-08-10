@@ -108,7 +108,7 @@ const VerifyOTP = ({ route }) => {
               </Text>
               <TouchableOpacity
                 disabled={!isVisible}
-                onPress={() => sendOtp({ mobile: route.params?.mobile })}>
+                onPress={() => sendOtp({ mobile: route.params?.mobile, countryCode: route.params?.countryCode })}>
                 <Text style={tw`font-medium text-orange-300`}>Send Again</Text>
               </TouchableOpacity>
             </View>
@@ -116,7 +116,7 @@ const VerifyOTP = ({ route }) => {
           <View style={tw`px-5`}>
             <PrimaryButton
               text={'Submit'}
-              disabled={isLoading || otp.length !== 6}
+              disabled={otp.length !== 6}
               isLoading={isLoading}
               onPress={() => checkOtp()}
             />

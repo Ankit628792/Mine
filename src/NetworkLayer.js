@@ -3,6 +3,7 @@ import NetInfo from '@react-native-community/netinfo';
 import NetworkUnavailable from './components/NetworkNotAvailable';
 import ActivityLoader from './components/ActivityLoader';
 import NavigationLayer from './NavigationLayer';
+import LocationLayer from './LocationLayer';
 
 const NetworkLayer = () => {
   const [loading, setLoading] = useState(true);
@@ -24,7 +25,8 @@ const NetworkLayer = () => {
       {loading ? (
         <ActivityLoader />
       ) : isConnected ? (
-        <NavigationLayer user={null} />
+        <LocationLayer />
+        // <NavigationLayer user={null} />
       ) : (
         <NetworkUnavailable />
       )}

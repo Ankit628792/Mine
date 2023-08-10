@@ -1,23 +1,27 @@
-import {View, Text, TextInput, Pressable, Image,Alert} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, Pressable, Image, Alert, Keyboard } from 'react-native';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useUpdateProfile } from '../../hooks';
 
 const Bio = () => {
 
-  const navigator = useNavigation();  
+  const navigator = useNavigation();
   const [bio, setBio] = useState('');
 
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { navigator.navigate('Religion') })
+
   const handleContinue = () => {
-    if (bio.split(/\s+/).filter(Boolean).length < 100) {
-      Alert.alert('Bio must be at least 200 words');
+    Keyboard.dismiss()
+    if (bio.split(/\s+/).filter(Boolean).length < 10) {
+      Alert.alert('Bio must be at least 10 words');
     } else {
-      navigator.navigate('Religion');
+      updateProfile({ bio: bio?.trim(), onBoardingProcess: 6 })
     }
   };
   return (
@@ -29,7 +33,7 @@ const Bio = () => {
           <Text
             style={[
               tw`text-3xl font-medium text-center`,
-              {color: colors.black},
+              { color: colors.black },
             ]}>
             Tell us about yourself
           </Text>
@@ -40,8 +44,9 @@ const Bio = () => {
               numberOfLines={5}
               style={[
                 tw`border border-gray-50 p-2 rounded-lg mt-1`,
-                {backgroundColor: colors.white, color: colors.black},
+                { backgroundColor: colors.white, color: colors.black },
               ]}
+              placeholder='explain in at least 10 words'
               value={bio}
               onChangeText={setBio}
             />
@@ -49,8 +54,8 @@ const Bio = () => {
         </View>
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
-          isLoading={false}
+          disabled={bio.split(/\s+/).filter(Boolean).length < 10}
+          isLoading={isLoading}
           onPress={handleContinue}
         />
       </LinearGradient>

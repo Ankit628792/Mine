@@ -1,22 +1,43 @@
 import {
   View,
   Text,
-  TextInput,
-  Pressable,
-  Image,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
+import { useUpdateProfile } from '../../hooks';
+import { useNavigation } from '@react-navigation/native';
 
 const UserNotInterest = () => {
   const [data, setData] = useState([]);
+  const navigator = useNavigation();
+
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { navigator.navigate('Home') })
+
+  const handleSelect = (value) => {
+    let idx = data.findIndex(item => item == value)
+    if (idx > -1) {
+      let arr = [...data]
+      arr.splice(idx, 1)
+      setData([...arr])
+    }
+    else {
+      setData([...data, value])
+    }
+  }
+
+  const handleSubmit = () => {
+    if (data.length > 2) {
+      updateProfile({ notInterest: data, status: 'ACTIVE', onBoardingProcess: 12 })
+    }
+  }
+
   return (
     <>
       <Bar value={11} />
@@ -28,9 +49,9 @@ const UserNotInterest = () => {
         <Text
           style={[
             tw`text-3xl font-medium text-center pt-5`,
-            {color: colors.black},
+            { color: colors.black },
           ]}>
-          Select Your Non Interest
+          Select Non Interest
         </Text>
         <ScrollView style={tw`flex-grow mb-4 mt-6`}>
           <View style={tw`flex-row items-center flex-wrap`}>
@@ -39,9 +60,11 @@ const UserNotInterest = () => {
                 key={index}
                 style={[
                   tw`w-auto py-2 px-4 rounded-full m-2`,
-                  {backgroundColor: false ? colors.blue : colors.white},
-                ]}>
-                <Text style={[{color: false ? colors.white : colors.black}]}>
+                  { backgroundColor: data.includes(`Interest ${index + 1}`) ? colors.orange : colors.white },
+                ]}
+                onPress={() => handleSelect(`Interest ${index + 1}`)}
+              >
+                <Text style={[{ color: data.includes(`Interest ${index + 1}`) ? colors.white : colors.black }]}>
                   Interest {index + 1}
                 </Text>
               </TouchableOpacity>
@@ -50,9 +73,9 @@ const UserNotInterest = () => {
         </ScrollView>
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
-          isLoading={false}
-          onPress={() => {}}
+          disabled={data.length < 2}
+          isLoading={isLoading}
+          onPress={() => handleSubmit()}
         />
       </LinearGradient>
     </>

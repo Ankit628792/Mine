@@ -1,28 +1,27 @@
-import {View, Text, TextInput, Pressable, Image} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, Pressable, Image } from 'react-native';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
+import { useUpdateProfile } from '../../hooks';
 
 const Gender = () => {
   const navigator = useNavigation();
   const [gender, setGender] = useState('');
 
-  const [isDisabled, setIsDisabled] = useState(true);
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { navigator.navigate('GenderInterested') })
 
   const handleGenderSelection = selectedGender => {
     setGender(selectedGender);
-    setIsDisabled(false);
   };
 
   const handleContinue = () => {
     if (gender) {
-      navigator.navigate('GenderInterested');
-      // Perform your task here, e.g., navigate to the next screen
+      updateProfile({ gender: gender?.toUpperCase(), onBoardingProcess: 4 })
     }
   };
 
@@ -36,16 +35,15 @@ const Gender = () => {
             <Text
               style={[
                 tw`text-3xl font-medium text-center`,
-                {color: colors.black},
+                { color: colors.black },
               ]}>
               Your Gender
             </Text>
             <View style={tw`flex-row items-center justify-evenly mt-10`}>
               <Pressable
                 onPress={() => handleGenderSelection('male')}
-                style={tw`w-20 h-20 ${
-                  gender == 'male' ? 'opacity-100' : 'opacity-60'
-                }`}>
+                style={tw`w-20 h-20 ${gender == 'male' ? 'opacity-100' : 'opacity-60'
+                  }`}>
                 <Image
                   style={tw`w-full h-full`}
                   resizeMode="contain"
@@ -56,9 +54,8 @@ const Gender = () => {
               </Pressable>
               <Pressable
                 onPress={() => handleGenderSelection('female')}
-                style={tw`w-20 h-20 ${
-                  gender == 'female' ? 'opacity-100' : 'opacity-60'
-                }`}>
+                style={tw`w-20 h-20 ${gender == 'female' ? 'opacity-100' : 'opacity-60'
+                  }`}>
                 <Image
                   style={tw`w-full h-full`}
                   resizeMode="contain"
@@ -69,9 +66,8 @@ const Gender = () => {
               </Pressable>
               <Pressable
                 onPress={() => handleGenderSelection('transgender')}
-                style={tw`w-20 h-20 ${
-                  gender == 'transgender' ? 'opacity-100' : 'opacity-60'
-                }`}>
+                style={tw`w-20 h-20 ${gender == 'transgender' ? 'opacity-100' : 'opacity-60'
+                  }`}>
                 <Image
                   style={tw`w-full h-full`}
                   resizeMode="contain"
@@ -85,8 +81,8 @@ const Gender = () => {
         </View>
         <PrimaryButton
           text={'Continue'}
-          disabled={isDisabled}
-          isLoading={false}
+          disabled={!gender}
+          isLoading={isLoading}
           onPress={handleContinue}
         />
       </LinearGradient>
