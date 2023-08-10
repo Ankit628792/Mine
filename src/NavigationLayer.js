@@ -1,11 +1,11 @@
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import {useColorScheme} from 'react-native';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
 } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Intro from './screens/onboarding/Intro';
 import Name from './screens/onboarding/Name';
 import DOB from './screens/onboarding/DOB';
@@ -25,7 +25,7 @@ import Profile from './screens/profile/Profile';
 
 const Stack = createNativeStackNavigator();
 
-function AuthGroup({ routeName }) {
+function AuthGroup({routeName}) {
   return (
     <Stack.Navigator
       initialRouteName={routeName}
@@ -53,9 +53,8 @@ function AuthGroup({ routeName }) {
   );
 }
 
-const NavigationLayer = ({ user }) => {
+const NavigationLayer = ({user}) => {
   const theme = useColorScheme();
-
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <AuthGroup routeName={'Login'} />

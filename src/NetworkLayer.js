@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import NetworkUnavailable from './components/NetworkNotAvailable';
 import ActivityLoader from './components/ActivityLoader';
@@ -13,7 +13,6 @@ const NetworkLayer = () => {
       setIsConnected(state.isConnected);
       setLoading(false);
     });
-
     return () => {
       unsubscribe();
     };

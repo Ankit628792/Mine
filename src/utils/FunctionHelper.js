@@ -42,14 +42,12 @@ export async function _getUser() {
 
 export function numberWithComma(num) {
   var decimalPart;
-
   var array = Math.floor(num).toString().split('');
   var index = -3;
   while (array.length + index > 0) {
     array.splice(index, 0, ',');
     index -= 4;
   }
-
   if (2 > 0) {
     num = parseFloat(num);
     decimalPart = num.toFixed(2).split('.')[1];
@@ -95,6 +93,5 @@ export const RemoveLocalStorage = async key => {
   } catch (e) {
     // remove error
   }
-
   console.log('Done.');
 };
