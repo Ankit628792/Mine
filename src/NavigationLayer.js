@@ -63,7 +63,7 @@ const NavigationLayer = ({ user }) => {
   const theme = useColorScheme();
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AuthGroup routeName={'ProfileImage' || (user ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || "Name" : 'Intro')} />
+      <AuthGroup routeName={user ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || "Name" : 'Intro'} />
     </NavigationContainer>
   );
 };
