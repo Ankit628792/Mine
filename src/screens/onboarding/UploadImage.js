@@ -92,7 +92,7 @@ const UploadImage = () => {
         name: nameImg,
       });
       let res = await uploadImage(formdata)
-      console.log(res.data)
+      // console.log(res.data)
       if (res.data?.data) {
         serveImages.push(res.data?.data?.url)
       }

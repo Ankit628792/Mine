@@ -10,27 +10,55 @@ import { useUpdateProfile } from '../../hooks';
 import { useDispatch } from 'react-redux';
 import { setIntoUser } from '../../redux/user/user-slice';
 import BackButton from '../../components/BackButton';
+import ImageSelector from '../../components/ImageSelector';
+import { uploadProfileImage } from '../../services/user.service';
 
 const width = Dimensions.get('screen').width
 
 const ProfileImage = ({ route }) => {
   const dispatch = useDispatch();
   const navigator = useNavigation();
-  const [profile, setProfile] = useState(route.params?.images[0]);
+  const [profile, setProfile] = useState();
+  const [loading, setLoading] = useState(false)
 
-  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { dispatch(setIntoUser({ profileImage: profile })); navigator.navigate('UserInterest') })
-
-  const validateSelect = () => {
-    if (!profile) {
-      Alert.alert('Please choose a picture for profile');
-    } else {
-      updateProfile({ profileImage: profile, onBoardingProcess: 10 })
+  const handleImage = async i => {
+    try {
+      const image = await ImageSelector();
+      if (image) {
+        setProfile(image)
+      }
+    } catch (error) {
+      console.error('handleImage -> Error:', error);
     }
   };
 
+  const handleSubmit = async () => {
+    setLoading(true);
+    let nameImg = profile.split('/')[profile.split('/').length - 1];
+
+    let type =
+      nameImg.split('.')[nameImg.split('.').length - 1] === 'png'
+        ? 'image/png'
+        : 'image/jpeg';
+
+    let formdata = new FormData();
+    formdata.append('profile_pic', {
+      type: type,
+      uri: profile,
+      name: nameImg,
+    });
+    let res = await uploadProfileImage(formdata)
+
+    if (res.data.status) {
+      dispatch(setIntoUser({ profileImage: profile })); navigator.navigate('UserInterest')
+    }
+    setLoading(false)
+  }
+
+
   return (
     <>
-      <Bar value={1} />
+      <Bar value={11} />
       <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
         <BackButton />
         <Text
@@ -41,28 +69,34 @@ const ProfileImage = ({ route }) => {
           Your Profile Picture
         </Text>
         <View style={tw`flex-grow flex-row flex-wrap py-10 items-center justify-center`}>
-          {
-            route.params?.images?.map(image => {
-              return <Pressable
-                onPress={() => setProfile(image)}
-                style={[
-                  tw`w-[${width / 4}px] h-32 m-2 shadow shadow-gray-400 rounded-xl overflow-hidden relative border-4 ${profile == image ? 'border-orange-500' : 'border-white'}`,
-                  { zIndex: 10000 },
-                ]}>
+          <Pressable
+            onPress={() => handleImage()}
+            style={[
+              tw`w-40 h-40 m-2 rounded-xl overflow-hidden relative bg-white items-center justify-center`,
+              { zIndex: 10000 },
+            ]}>
+            {
+              profile
+                ?
                 <Image
-                  source={{ uri: image }}
+                  source={{ uri: profile }}
                   resizeMode="cover"
                   style={tw`h-full w-full`}
                 />
-              </Pressable>
-            })
-          }
+                :
+                <Image
+                  source={{ uri: 'https://cdn-icons-png.flaticon.com/512/848/848043.png' }}
+                  resizeMode="cover"
+                  style={tw`h-32 w-32 opacity-20`}
+                />
+            }
+          </Pressable>
         </View>
         <PrimaryButton
           text={'Continue'}
           disabled={!profile}
-          isLoading={isLoading}
-          onPress={validateSelect}
+          isLoading={loading}
+          onPress={handleSubmit}
         />
       </LinearGradient >
     </>

@@ -25,6 +25,7 @@ import VerifyOTP from './screens/auth/VerifyOTP';
 import Profile from './screens/profile/Profile';
 import { ROUTES } from './utils/routes';
 import HomeScreen from './screens/home/HomeScreen';
+import NavigatorTab from './components/BottomTabs/NavigatorTab';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,7 +53,7 @@ function AuthGroup({ routeName }) {
       <Stack.Screen name="Location" component={Location} />
       <Stack.Screen name="PersonalChat" component={PersonalChat} />
       <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Home" component={NavigatorTab} />
       {/* Other screen for user info  */}
     </Stack.Navigator>
   );
@@ -62,7 +63,7 @@ const NavigationLayer = ({ user }) => {
   const theme = useColorScheme();
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AuthGroup routeName={user ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || "Name" : 'Intro'} />
+      <AuthGroup routeName={'ProfileImage' || (user ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || "Name" : 'Intro')} />
     </NavigationContainer>
   );
 };

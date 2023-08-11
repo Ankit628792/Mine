@@ -26,7 +26,7 @@ const Name = () => {
         'Name should not start or end with a space.',
       );
     } else {
-      updateProfile({ fullName: name?.trim(), onBoardingProcess: 2 })
+      updateProfile({ fullName: name?.trim(), userName: name?.trim(), onBoardingProcess: 2 })
     }
   };
 
