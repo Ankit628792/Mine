@@ -1,11 +1,11 @@
 import React from 'react';
-import { useColorScheme } from 'react-native';
+import {useColorScheme} from 'react-native';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
 } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Intro from './screens/onboarding/Intro';
 import Name from './screens/onboarding/Name';
 import DOB from './screens/onboarding/DOB';
@@ -17,19 +17,19 @@ import Profession from './screens/onboarding/Profession';
 import UserInterest from './screens/onboarding/UserInterest';
 import UserNotInterest from './screens/onboarding/UserNotInterest';
 import UploadImage from './screens/onboarding/UploadImage';
-import ProfileImage from './screens/onboarding/ProfileImage'
+import ProfileImage from './screens/onboarding/ProfileImage';
 import Location from './screens/onboarding/Location';
 import PersonalChat from './screens/chat/PersonalChat';
 import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
 import Profile from './screens/profile/Profile';
-import { ROUTES } from './utils/routes';
+import {ROUTES} from './utils/routes';
 import HomeScreen from './screens/home/HomeScreen';
 import NavigatorTab from './components/BottomTabs/NavigatorTab';
 
 const Stack = createNativeStackNavigator();
 
-function AuthGroup({ routeName }) {
+function AuthGroup({routeName}) {
   return (
     <Stack.Navigator
       initialRouteName={routeName}
@@ -59,11 +59,18 @@ function AuthGroup({ routeName }) {
   );
 }
 
-const NavigationLayer = ({ user }) => {
+const NavigationLayer = ({user}) => {
   const theme = useColorScheme();
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AuthGroup routeName={user ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || "Name" : 'Intro'} />
+      <AuthGroup
+        routeName={
+          user
+            ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
+            : 'Home'
+          // : 'Intro'
+        }
+      />
     </NavigationContainer>
   );
 };
