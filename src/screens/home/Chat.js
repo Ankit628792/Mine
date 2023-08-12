@@ -11,9 +11,9 @@ const PersonalChatList = () => {
 
   return (
     <ScrollView>
-      {[0, 1, 2, 3, 4].map(item => {
+      {[0, 1, 2, 3, 4].map((item, index) => {
         return (
-          <TouchableOpacity onPress={handleCardClick}>
+          <TouchableOpacity onPress={handleCardClick} key={index}>
             <View
               style={{
                 backgroundColor: 'lightgray',
@@ -54,9 +54,9 @@ const LikedChatList = () => {
   };
   return (
     <ScrollView>
-      {[0, 1].map(item => {
+      {[0, 1].map((item, index) => {
         return (
-          <TouchableOpacity onPress={handleCardClick}>
+          <TouchableOpacity onPress={handleCardClick} key={index}>
             <View
               style={{
                 backgroundColor: 'lightgray',
