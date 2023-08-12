@@ -1,14 +1,18 @@
 import React, {useState} from 'react';
 import Swiper from 'react-native-deck-swiper';
-import {StyleSheet, Text, View, Image} from 'react-native';
+import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 
 const SwipeableProfile = ({profiles}) => {
   const [cards] = useState(profiles);
+  const windowHeight = Dimensions.get('window').height;
+  const cardHeight = windowHeight - 170;
 
   const renderCard = () => {
     const profile = cards[0];
     return (
-      <View style={styles.card} key={profile.phoneNumber}>
+      <View
+        style={[styles.card, {height: cardHeight}]}
+        key={profile.phoneNumber}>
         <Image
           source={{uri: profile.profileImage}}
           style={styles.profileImage}
@@ -56,13 +60,12 @@ const SwipeableProfile = ({profiles}) => {
 const styles = StyleSheet.create({
   card: {
     borderRadius: 10,
-    borderWidth: 1,
+    borderWidth: 2,
     borderColor: '#E8E8E8',
-    backgroundColor: 'white',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '90%',
+    height: '80%',
     width: '100%',
   },
   profileImage: {
@@ -73,17 +76,21 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   cardDetails: {
+    position: 'absolute',
     width: '100%',
     padding: 15,
-    paddingBottom: 20,
+    bottom: 0,
+    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   fullName: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 5,
+    color: '#fff',
   },
   bio: {
     fontSize: 16,
+    color: '#fff',
   },
 });
 
