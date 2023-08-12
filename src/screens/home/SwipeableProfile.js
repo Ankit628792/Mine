@@ -4,11 +4,12 @@ import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
 
 const SwipeableProfile = ({profiles}) => {
   const [cards] = useState(profiles);
+  const [count, setCount] = useState(0);
   const windowHeight = Dimensions.get('window').height;
   const cardHeight = windowHeight - 170;
 
   const renderCard = () => {
-    const profile = cards[0];
+    const profile = cards[count];
     return (
       <View
         style={[styles.card, {height: cardHeight}]}
@@ -25,26 +26,21 @@ const SwipeableProfile = ({profiles}) => {
     );
   };
 
-  const onSwiped = type => {
-    console.log(`on swiped ${type}`);
+  const onSwiped = name => {
+    console.log(`on swiped ${name}`);
+    setCount(count + 1);
   };
 
   const onSwipedAllCards = () => {
     console.log('All cards swiped');
   };
 
-  const swipeLeft = () => {
-    swiperRef.current.swipeLeft();
-  };
-
   return (
     <Swiper
-      onSwiped={() => onSwiped('general')}
-      onSwipedLeft={() => onSwiped('left')}
-      onSwipedRight={() => onSwiped('right')}
-      onSwipedTop={() => onSwiped('top')}
-      onSwipedBottom={() => onSwiped('bottom')}
-      onTapCard={swipeLeft}
+      onSwipedLeft={() => onSwiped(profiles[0].fullName)}
+      onSwipedRight={() => onSwiped(profiles[0].fullName)}
+      onSwipedTop={() => onSwiped(profiles[0].fullName)}
+      onSwipedBottom={() => onSwiped(profiles[0].fullName)}
       cards={cards}
       cardVerticalMargin={20}
       renderCard={renderCard}
@@ -53,6 +49,10 @@ const SwipeableProfile = ({profiles}) => {
       stackSeparation={15}
       animateOverlayLabelsOpacity
       animateCardOpacity
+      overlayLabels={{
+        left: {title: 'NOPE', style: styles.overlayLabelLeft},
+        right: {title: 'LIKED', style: styles.overlayLabelRight},
+      }}
     />
   );
 };
@@ -91,6 +91,26 @@ const styles = StyleSheet.create({
   bio: {
     fontSize: 16,
     color: '#fff',
+  },
+  overlayLabelLeft: {
+    label: {
+      color: 'red',
+    },
+    wrapper: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+  },
+  overlayLabelRight: {
+    label: {
+      color: 'blue',
+    },
+    wrapper: {
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
   },
 });
 
