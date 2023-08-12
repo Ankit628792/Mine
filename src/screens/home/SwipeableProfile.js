@@ -34,48 +34,43 @@ const SwipeableProfile = ({profiles}) => {
   };
 
   return (
-    <View style={styles.container}>
-      <Swiper
-        onSwiped={() => onSwiped('general')}
-        onSwipedLeft={() => onSwiped('left')}
-        onSwipedRight={() => onSwiped('right')}
-        onSwipedTop={() => onSwiped('top')}
-        onSwipedBottom={() => onSwiped('bottom')}
-        onTapCard={swipeLeft}
-        cards={cards}
-        cardVerticalMargin={20}
-        renderCard={renderCard}
-        onSwipedAll={onSwipedAllCards}
-        stackSize={3}
-        stackSeparation={15}
-        animateOverlayLabelsOpacity
-        animateCardOpacity
-        swipeBackCard
-      />
-    </View>
+    <Swiper
+      onSwiped={() => onSwiped('general')}
+      onSwipedLeft={() => onSwiped('left')}
+      onSwipedRight={() => onSwiped('right')}
+      onSwipedTop={() => onSwiped('top')}
+      onSwipedBottom={() => onSwiped('bottom')}
+      onTapCard={swipeLeft}
+      cards={cards}
+      cardVerticalMargin={20}
+      renderCard={renderCard}
+      onSwipedAll={onSwipedAllCards}
+      stackSize={3}
+      stackSeparation={15}
+      animateOverlayLabelsOpacity
+      animateCardOpacity
+    />
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
   card: {
-    flex: 1,
+    borderRadius: 10,
+    borderWidth: 1,
     borderColor: '#E8E8E8',
+    backgroundColor: 'white',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: 'white',
+    height: '90%',
+    width: '100%',
   },
   profileImage: {
     width: '100%',
-    height: 300,
+    height: '100%',
     borderRadius: 10,
     marginBottom: 10,
-    objectFit: 'cover',
+    padding: 20,
   },
   cardDetails: {
     width: '100%',

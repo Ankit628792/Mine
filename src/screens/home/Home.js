@@ -1,4 +1,5 @@
 import React from 'react';
+import {StyleSheet, View} from 'react-native';
 import SwipeableProfile from './SwipeableProfile';
 
 const profilesData = [
@@ -6,7 +7,7 @@ const profilesData = [
     phoneNumber: '8745960884',
     country: 'India',
     profileImage:
-      'http://res.cloudinary.com/die9o5d6p/image/upload/v1691661816/lxgbf0tvbhpq4nguralg.png',
+      'https://img.buzzfeed.com/buzzfeed-static/static/2017-12/12/13/asset/buzzfeed-prod-fastlane-01/sub-buzz-16868-1513104983-9.png?downsize=700%3A%2A&output-quality=auto&output-format=auto',
     dob: '2001-01-07',
     age: 22,
     bio: 'I am a coder',
@@ -22,7 +23,7 @@ const profilesData = [
     phoneNumber: '1234567890',
     country: 'USA',
     profileImage:
-      'http://res.cloudinary.com/die9o5d6p/image/upload/v1691661816/sample_profile2.png',
+      'https://imgix.bustle.com/scary-mommy/2019/05/garrett-tinder.jpg?w=414&h=825&fit=crop&crop=faces&auto=format%2Ccompress',
     dob: '1995-05-15',
     age: 28,
     bio: 'Passionate about technology and innovation.',
@@ -37,7 +38,17 @@ const profilesData = [
 ];
 
 const Home = () => {
-  return <SwipeableProfile profiles={profilesData} />;
+  return (
+    <View style={styles.container}>
+      <SwipeableProfile profiles={profilesData} />
+    </View>
+  );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: '#000',
+  },
+});
 
 export default Home;
