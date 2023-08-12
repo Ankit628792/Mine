@@ -26,6 +26,7 @@ import Profile from './screens/profile/Profile';
 import {ROUTES} from './utils/routes';
 import HomeScreen from './screens/home/HomeScreen';
 import NavigatorTab from './components/BottomTabs/NavigatorTab';
+import LikedChats from './screens/chat/LikedChats';
 
 const Stack = createNativeStackNavigator();
 
@@ -52,6 +53,7 @@ function AuthGroup({routeName}) {
       <Stack.Screen name="ProfileImage" component={ProfileImage} />
       <Stack.Screen name="Location" component={Location} />
       <Stack.Screen name="PersonalChat" component={PersonalChat} />
+      <Stack.Screen name="LikedChat" component={LikedChats} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Home" component={NavigatorTab} />
       {/* Other screen for user info  */}
