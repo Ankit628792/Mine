@@ -1,7 +1,37 @@
-import React from 'react';
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
+import React, {useState} from 'react';
+import {
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  ScrollView,
+  StyleSheet,
+} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
-import {useState} from 'react';
+
+const ChatCard = ({onPress}) => (
+  <View style={styles.container}>
+    <TouchableOpacity onPress={onPress} style={styles.card}>
+      <View style={styles.userInfo}>
+        <View style={styles.userImgWrapper}>
+          <Image
+            source={{
+              uri: 'https://ca-times.brightspotcdn.com/dims4/default/b4ef547/2147483647/strip/false/crop/3817x3968+0+0/resize/1429x1486!/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fff%2F47%2F08088f494f9a89fb369c6b367422%2Fla-photos-1staff-471763-en-ana-de-armas-mjc-24.jpg',
+            }}
+            style={styles.userImg}
+          />
+        </View>
+        <View style={styles.textSection}>
+          <View style={styles.userInfoText}>
+            <Text style={styles.userName}>User Name</Text>
+            <Text style={styles.postTime}>34 min ago</Text>
+          </View>
+          <Text style={styles.messageText}>hi ryan gosling...</Text>
+        </View>
+      </View>
+    </TouchableOpacity>
+  </View>
+);
 
 const PersonalChatList = () => {
   const navigation = useNavigation();
@@ -11,38 +41,9 @@ const PersonalChatList = () => {
 
   return (
     <ScrollView>
-      {[0, 1, 2, 3, 4].map((item, index) => {
-        return (
-          <TouchableOpacity onPress={handleCardClick} key={index}>
-            <View
-              style={{
-                backgroundColor: 'lightgray',
-                padding: 16,
-                margin: 6,
-                marginBottom: 2,
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderRadius: 8,
-              }}>
-              <Image
-                source={{
-                  uri: 'https://ca-times.brightspotcdn.com/dims4/default/b4ef547/2147483647/strip/false/crop/3817x3968+0+0/resize/1429x1486!/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fff%2F47%2F08088f494f9a89fb369c6b367422%2Fla-photos-1staff-471763-en-ana-de-armas-mjc-24.jpg',
-                }}
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 25,
-                  marginRight: 12,
-                }}
-              />
-              <View style={{flex: 1}}>
-                <Text>User Name</Text>
-                <Text style={{color: 'gray'}}>last seen: 34 min ago</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+      {[0, 1, 2, 3, 4].map((item, index) => (
+        <ChatCard key={index} onPress={handleCardClick} />
+      ))}
     </ScrollView>
   );
 };
@@ -52,75 +53,124 @@ const LikedChatList = () => {
   const handleCardClick = () => {
     navigation.navigate('LikedChat');
   };
+
   return (
     <ScrollView>
-      {[0, 1].map((item, index) => {
-        return (
-          <TouchableOpacity onPress={handleCardClick} key={index}>
-            <View
-              style={{
-                backgroundColor: 'lightgray',
-                padding: 16,
-                margin: 6,
-                marginBottom: 2,
-                flexDirection: 'row',
-                alignItems: 'center',
-                borderRadius: 8,
-              }}>
-              <Image
-                source={{
-                  uri: 'https://ca-times.brightspotcdn.com/dims4/default/b4ef547/2147483647/strip/false/crop/3817x3968+0+0/resize/1429x1486!/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fff%2F47%2F08088f494f9a89fb369c6b367422%2Fla-photos-1staff-471763-en-ana-de-armas-mjc-24.jpg',
-                }}
-                style={{
-                  width: 50,
-                  height: 50,
-                  borderRadius: 25,
-                  marginRight: 12,
-                }}
-              />
-              <View style={{flex: 1}}>
-                <Text>User Name</Text>
-                <Text style={{color: 'gray'}}>last seen: 34 min ago</Text>
-              </View>
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+      {[0, 1].map((item, index) => (
+        <ChatCard key={index} onPress={handleCardClick} />
+      ))}
     </ScrollView>
   );
 };
 
-const Chat = () => {
-  const [activeTab, setActiveTab] = useState('personal');
-
+const HeaderButton = props => {
   return (
-    <View style={{flex: 1}}>
-      <View style={{flexDirection: 'row', marginTop: 10}}>
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'gray',
-            padding: 10,
-            flex: 0.5,
-            borderRightColor: 'white',
-            borderRightWidth: 1,
-          }}
-          onPress={() => setActiveTab('personal')}>
-          <Text style={{color: 'white'}}>Personal Chat</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={{
-            backgroundColor: 'gray',
-            padding: 10,
-            flex: 0.5,
-          }}
-          onPress={() => setActiveTab('liked')}>
-          <Text style={{color: 'white'}}>Liked Chat</Text>
-        </TouchableOpacity>
+    <TouchableOpacity
+      style={{
+        backgroundColor:
+          props.activeTab === props.text ? 'rgb(225, 29, 72)' : 'white',
+        paddingVertical: 6,
+        paddingHorizontal: 16,
+        borderRadius: 30,
+      }}
+      onPress={() => props.setActiveTab(props.text)}>
+      <Text
+        style={{
+          color: props.activeTab === props.text ? 'white' : 'black',
+          fontSize: 15,
+          fontWeight: 'bold',
+        }}>
+        {props.text}
+      </Text>
+    </TouchableOpacity>
+  );
+};
+
+const Chat = () => {
+  const [activeTab, setActiveTab] = useState('Personal Chat');
+  return (
+    <View style={{backgroundColor: 'white'}}>
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'center',
+          padding: 20,
+          paddingBottom: 0,
+        }}>
+        <HeaderButton
+          text="Personal Chat"
+          btnColor="black"
+          textColor="white"
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
+        <HeaderButton
+          text="Liked Chat"
+          btnColor="white"
+          textColor="black"
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+        />
       </View>
-      {activeTab === 'personal' && <PersonalChatList />}
-      {activeTab === 'liked' && <LikedChatList />}
+      {activeTab === 'Personal Chat' ? <PersonalChatList /> : <LikedChatList />}
     </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    paddingLeft: 20,
+    paddingRight: 20,
+    alignItems: 'center',
+    // backgroundColor: '#ffffff',
+  },
+  card: {
+    width: '100%',
+  },
+  userInfo: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  userImgWrapper: {
+    paddingTop: 15,
+    paddingBottom: 15,
+  },
+  userImg: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+  },
+  textSection: {
+    flexDirection: 'column',
+    justifyContent: 'center',
+    padding: 15,
+    paddingLeft: 0,
+    marginLeft: 10,
+    width: 300,
+    borderBottomWidth: 1,
+    borderBottomColor: '#cccccc',
+  },
+  userInfoText: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 5,
+  },
+  userName: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    fontFamily: 'Lato-Regular',
+    color: '#000',
+  },
+  postTime: {
+    fontSize: 12,
+    color: '#666',
+    fontFamily: 'Lato-Regular',
+  },
+  messageText: {
+    fontSize: 14,
+    color: '#333333',
+  },
+});
 
 export default Chat;
