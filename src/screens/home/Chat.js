@@ -8,6 +8,10 @@ import {
   StyleSheet,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/FontAwesome';
+import LinearGradient from 'react-native-linear-gradient';
+import {gradient} from '../../utils/colors';
+import tw from 'twrnc';
 
 const ChatCard = ({onPress}) => (
   <View style={styles.container}>
@@ -72,8 +76,17 @@ const HeaderButton = props => {
         paddingVertical: 6,
         paddingHorizontal: 16,
         borderRadius: 30,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 10,
       }}
       onPress={() => props.setActiveTab(props.text)}>
+      <Icon
+        name={props.iconName}
+        size={20}
+        color={props.activeTab === props.text ? 'white' : 'black'}
+        style={{marginRight: 5}}
+      />
       <Text
         style={{
           color: props.activeTab === props.text ? 'white' : 'black',
@@ -89,7 +102,9 @@ const HeaderButton = props => {
 const Chat = () => {
   const [activeTab, setActiveTab] = useState('Personal Chat');
   return (
-    <View style={{backgroundColor: 'white'}}>
+    <LinearGradient
+      style={tw`flex-1 flex-col justify-between relative`}
+      colors={gradient.orange}>
       <View
         style={{
           flexDirection: 'row',
@@ -103,6 +118,7 @@ const Chat = () => {
           textColor="white"
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          iconName="user"
         />
         <HeaderButton
           text="Liked Chat"
@@ -110,10 +126,11 @@ const Chat = () => {
           textColor="black"
           activeTab={activeTab}
           setActiveTab={setActiveTab}
+          iconName="heart"
         />
       </View>
       {activeTab === 'Personal Chat' ? <PersonalChatList /> : <LikedChatList />}
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -160,16 +177,16 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'bold',
     fontFamily: 'Lato-Regular',
-    color: '#000',
+    color: 'black',
   },
   postTime: {
     fontSize: 12,
-    color: '#666',
+    color: 'white',
     fontFamily: 'Lato-Regular',
   },
   messageText: {
     fontSize: 14,
-    color: '#333333',
+    color: 'white',
   },
 });
 

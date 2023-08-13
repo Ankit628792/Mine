@@ -70,7 +70,6 @@ const NavigationLayer = ({user}) => {
           user
             ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
             : 'Home'
-          // : 'Intro'
         }
       />
     </NavigationContainer>

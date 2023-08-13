@@ -1,46 +1,65 @@
-import { View, Text, Pressable, Modal, FlatList, TouchableOpacity } from 'react-native';
-import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  Pressable,
+  Modal,
+  FlatList,
+  TouchableOpacity,
+} from 'react-native';
+import React, {useState} from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import { colors, gradient } from '../../utils/colors';
+import {colors, gradient} from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import { useNavigation } from '@react-navigation/native';
-import { useUpdateProfile } from '../../hooks';
+import {useNavigation} from '@react-navigation/native';
+import {useUpdateProfile} from '../../hooks';
 import Blur50 from '../../components/Blue50';
-import { Path, Svg } from 'react-native-svg';
+import {Path, Svg} from 'react-native-svg';
 
 const Religion = () => {
   const navigator = useNavigation();
   const [selectedReligion, setSelectedReligion] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const religions = ['Hindu', 'Christian', 'Muslim', 'Buddhist', 'Sikh', 'Jain', 'Other'];
+  const religions = [
+    'Hindu',
+    'Christian',
+    'Muslim',
+    'Buddhist',
+    'Sikh',
+    'Jain',
+    'Other',
+  ];
 
-  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { navigator.navigate('Profession') })
+  const {mutate: updateProfile, isLoading} = useUpdateProfile(() => {
+    navigator.navigate('Profession');
+  });
 
-
-  const handleReligionSelect = (religion) => {
+  const handleReligionSelect = religion => {
     setSelectedReligion(religion);
     setModalVisible(false);
   };
 
   const handleContinue = () => {
     if (selectedReligion) {
-      updateProfile({ religion: selectedReligion?.toUpperCase(), onBoardingProcess: 7 })
+      updateProfile({
+        religion: selectedReligion?.toUpperCase(),
+        onBoardingProcess: 7,
+      });
     }
   };
 
   return (
     <>
       <Bar value={6} />
-      <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
+      <LinearGradient colors={gradient.orange} style={tw`flex-1 p-5`}>
         <BackButton />
         <View style={tw`flex-grow py-10`}>
           <Text
             style={[
               tw`text-3xl font-medium text-center`,
-              { color: colors.black },
+              {color: colors.black},
             ]}>
             Your Religion
           </Text>
@@ -49,9 +68,9 @@ const Religion = () => {
             onPress={() => setModalVisible(true)}
             style={[
               tw`border border-gray-50 p-2 rounded-lg mt-5`,
-              { backgroundColor: colors.white },
+              {backgroundColor: colors.white},
             ]}>
-            <Text style={[tw`text-lg text-center`, { color: colors.black }]}>
+            <Text style={[tw`text-lg text-center`, {color: colors.black}]}>
               {selectedReligion || 'Select Religion'}
             </Text>
           </Pressable>
@@ -89,7 +108,7 @@ const Religion = () => {
 
               <FlatList
                 data={religions}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                   <TouchableOpacity
                     onPress={() => handleReligionSelect(item)}
                     style={tw`p-2 w-full`}>

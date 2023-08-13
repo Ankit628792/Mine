@@ -73,7 +73,7 @@ const Location = () => {
     <>
       <Bar value={12} />
       <LinearGradient
-        colors={gradient.bg}
+        colors={gradient.orange}
         style={tw`flex-1 p-5 flex-col justify-between`}>
         <BackButton />
         <View style={tw`flex-grow py-5`}>

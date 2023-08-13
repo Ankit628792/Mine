@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import PostCard from '../../components/PostCard';
 import tw from 'twrnc';
+import LinearGradient from 'react-native-linear-gradient';
+import {gradient} from '../../utils/colors';
 
 const Profile = () => {
   const [posts, setPosts] = useState([
@@ -45,49 +47,53 @@ const Profile = () => {
   const handleDelete = () => {};
 
   return (
-    <SafeAreaView style={tw`flex-1 bg-white`}>
-      <ScrollView
-        style={tw`p-4`}
-        contentContainerStyle={tw`justify-center items-center`}
-        showsVerticalScrollIndicator={false}>
-        <Image
-          style={tw`h-32 w-32 rounded-full`}
-          source={{
-            uri: userData
-              ? userData.userImg ||
-                'https://i1.sndcdn.com/artworks-1CYFgpCe6nIn-0-t500x500.jpg'
-              : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-          }}
-        />
-        <Text style={tw`text-xl font-bold mt-4 mb-2`}>
-          {userData ? userData.fname || 'Test' : 'Test'}
-          {userData ? userData.lname || 'User' : 'User'}
-        </Text>
-        <Text style={tw`text-base font-semibold mb-4`}>
-          {userData ? userData.about || 'No details added.' : ''}
-        </Text>
-        <View style={tw`w-full h-px bg-black mb-4`} />
-        <View style={tw`flex-row justify-around w-full my-4`}>
-          <View style={tw`items-center`}>
-            <Text style={tw`text-2xl font-bold mb-1`}>{posts.length}</Text>
-            <Text style={tw`text-sm`}>Posts</Text>
+    <LinearGradient
+      style={tw`flex-1 flex-col justify-between relative`}
+      colors={gradient.orange}>
+      <SafeAreaView>
+        <ScrollView
+          style={tw`p-1 pt-5`}
+          contentContainerStyle={tw`justify-center items-center`}
+          showsVerticalScrollIndicator={false}>
+          <Image
+            style={tw`h-32 w-32 rounded-full`}
+            source={{
+              uri: userData
+                ? userData.userImg ||
+                  'https://i1.sndcdn.com/artworks-1CYFgpCe6nIn-0-t500x500.jpg'
+                : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+            }}
+          />
+          <Text style={tw`text-xl font-bold mt-4 mb-2`}>
+            {userData ? userData.fname || 'Test' : 'Test'}
+            {userData ? userData.lname || 'User' : 'User'}
+          </Text>
+          <Text style={tw`text-base font-semibold mb-4`}>
+            {userData ? userData.about || 'No details added.' : ''}
+          </Text>
+          <View style={tw`w-full h-px bg-black mb-4`} />
+          <View style={tw`flex-row justify-around w-full my-4`}>
+            <View style={tw`items-center`}>
+              <Text style={tw`text-2xl font-bold mb-1`}>{posts.length}</Text>
+              <Text style={tw`text-sm`}>Posts</Text>
+            </View>
+            <View style={tw`items-center`}>
+              <Text style={tw`text-2xl font-bold mb-1`}>10,000</Text>
+              <Text style={tw`text-sm`}>Followers</Text>
+            </View>
+            <View style={tw`items-center`}>
+              <Text style={tw`text-2xl font-bold mb-1`}>100</Text>
+              <Text style={tw`text-sm`}>Following</Text>
+            </View>
           </View>
-          <View style={tw`items-center`}>
-            <Text style={tw`text-2xl font-bold mb-1`}>10,000</Text>
-            <Text style={tw`text-sm`}>Followers</Text>
+          <View style={tw`flex-row`}>
+            {posts.map(item => (
+              <PostCard key={item.id} item={item} onDelete={handleDelete} />
+            ))}
           </View>
-          <View style={tw`items-center`}>
-            <Text style={tw`text-2xl font-bold mb-1`}>100</Text>
-            <Text style={tw`text-sm`}>Following</Text>
-          </View>
-        </View>
-        <View style={tw`flex-row`}>
-          {posts.map(item => (
-            <PostCard key={item.id} item={item} onDelete={handleDelete} />
-          ))}
-        </View>
-      </ScrollView>
-    </SafeAreaView>
+        </ScrollView>
+      </SafeAreaView>
+    </LinearGradient>
   );
 };
 

@@ -20,6 +20,7 @@ import moment from 'moment';
 import {useRef} from 'react';
 import {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
+import {gradient} from '../../utils/colors';
 
 const ChatItem = React.memo(({item, mine, last, next}) => {
   const {image, message, createdAt} = item;
@@ -162,7 +163,9 @@ const PersonalChat = ({route}) => {
     <>
       <LinearGradient
         style={tw`flex-1 p-5 relatives`}
-        colors={['#00d2ff', '#3a7bd5']}>
+        colors={gradient.orange}
+        // colors={['#00d2ff', '#3a7bd5']}
+      >
         <View
           style={tw`flex-row items-center justify-between relative z-20 pb-5`}>
           <TouchableOpacity onPress={() => navigator.goBack()}>

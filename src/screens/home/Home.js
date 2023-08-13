@@ -1,6 +1,9 @@
 import React from 'react';
 import {StyleSheet, View} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
+import {gradient} from '../../utils/colors';
 import SwipeableProfile from './SwipeableProfile';
+import tw from 'twrnc';
 
 const profilesData = [
   {
@@ -93,9 +96,13 @@ const profilesData = [
 
 const Home = () => {
   return (
-    <View style={styles.container}>
-      <SwipeableProfile profiles={profilesData} />
-    </View>
+    <LinearGradient
+      style={tw`flex-1 flex-col justify-between relative`}
+      colors={gradient.orange}>
+      <View style={styles.container}>
+        <SwipeableProfile profiles={profilesData} />
+      </View>
+    </LinearGradient>
   );
 };
 

@@ -1,15 +1,23 @@
-import { View, Text, TextInput, Pressable, Image, TouchableOpacity, FlatList } from 'react-native';
-import React, { useState } from 'react';
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  Image,
+  TouchableOpacity,
+  FlatList,
+} from 'react-native';
+import React, {useState} from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import { colors, gradient } from '../../utils/colors';
+import {colors, gradient} from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import { useUpdateProfile } from '../../hooks';
+import {useUpdateProfile} from '../../hooks';
 import Blur50 from '../../components/Blue50';
-import { Path, Svg } from 'react-native-svg';
-import { useNavigation } from '@react-navigation/native';
+import {Path, Svg} from 'react-native-svg';
+import {useNavigation} from '@react-navigation/native';
 
 const Profession = () => {
   const navigator = useNavigation();
@@ -17,30 +25,35 @@ const Profession = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const professions = ['TEACHER', 'STUDENT'];
 
-  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => { navigator.navigate('UploadImage') })
+  const {mutate: updateProfile, isLoading} = useUpdateProfile(() => {
+    navigator.navigate('UploadImage');
+  });
 
-  const handleSelect = (profession) => {
+  const handleSelect = profession => {
     setSelectedValue(profession);
     setModalVisible(false);
   };
 
   const handleContinue = () => {
     if (selectedValue) {
-      updateProfile({ profession: selectedValue?.toUpperCase(), onBoardingProcess: 8 })
+      updateProfile({
+        profession: selectedValue?.toUpperCase(),
+        onBoardingProcess: 8,
+      });
     }
   };
 
   return (
     <>
       <Bar value={7} />
-      <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
+      <LinearGradient colors={gradient.orange} style={tw`flex-1 p-5`}>
         <BackButton />
         <View style={tw`flex-grow py-10`}>
           <View style={tw`p-5`}>
             <Text
               style={[
                 tw`text-3xl font-medium text-center`,
-                { color: colors.black },
+                {color: colors.black},
               ]}>
               Your Profession
             </Text>
@@ -50,9 +63,9 @@ const Profession = () => {
                 onPress={() => setModalVisible(true)}
                 style={[
                   tw`border border-gray-50 p-2 rounded-lg mt-1`,
-                  { backgroundColor: colors.white },
+                  {backgroundColor: colors.white},
                 ]}>
-                <Text style={[tw`text-lg text-center`, { color: colors.black }]}>
+                <Text style={[tw`text-lg text-center`, {color: colors.black}]}>
                   {selectedValue || 'Select Profession'}
                 </Text>
               </Pressable>
@@ -91,7 +104,7 @@ const Profession = () => {
 
               <FlatList
                 data={professions}
-                renderItem={({ item }) => (
+                renderItem={({item}) => (
                   <TouchableOpacity
                     onPress={() => handleSelect(item)}
                     style={tw`p-2 w-full`}>

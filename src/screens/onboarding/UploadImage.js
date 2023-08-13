@@ -9,20 +9,20 @@ import {
   Image,
   Platform,
 } from 'react-native';
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import tw from 'twrnc';
-import { colors, gradient } from '../../utils/colors';
+import {colors, gradient} from '../../utils/colors';
 import LinearGradient from 'react-native-linear-gradient';
 import BackButton from '../../components/BackButton';
 import PrimaryButton from '../../components/PrimaryButton';
-import { Path, Svg } from 'react-native-svg';
+import {Path, Svg} from 'react-native-svg';
 import ImageSelector from '../../components/ImageSelector';
-import { useNavigation } from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import DragSortableView from '../../components/DragSortableView';
 import Bar from '../../components/Bar';
-import { uploadImage } from '../../services/user.service';
+import {uploadImage} from '../../services/user.service';
 
-const { width, height } = Dimensions.get('window');
+const {width, height} = Dimensions.get('window');
 const parentWidth = width - 20;
 const childrenWidth = width / 4;
 const childrenHeight = 150;
@@ -34,7 +34,7 @@ const marginChildrenRight = 10;
 const UploadImage = () => {
   const navigator = useNavigation();
   const [imageUrl, setImageUrl] = useState(
-    Array.from({ length: 6 }, () => ({ image: '' })),
+    Array.from({length: 6}, () => ({image: ''})),
   );
   const [loading, setLoading] = useState(false);
   const [uploadError, setUploadError] = useState('');
@@ -64,8 +64,8 @@ const UploadImage = () => {
         '',
         "Kindly ensure it's your actual picture preferably a formal one, for better curation.",
         [
-          { text: 'Next', onPress: () => handleImageSending(imageData) },
-          { text: 'Cancel' },
+          {text: 'Next', onPress: () => handleImageSending(imageData)},
+          {text: 'Cancel'},
         ],
         {
           cancelable: true,
@@ -76,46 +76,49 @@ const UploadImage = () => {
 
   const handleImageSending = async imageData => {
     const serveImages = [];
-    setLoading(true)
-    await Promise.all(imageData.map(async img => {
-      let nameImg = img.image.split('/')[img.image.split('/').length - 1];
+    setLoading(true);
+    await Promise.all(
+      imageData.map(async img => {
+        let nameImg = img.image.split('/')[img.image.split('/').length - 1];
 
-      let type =
-        nameImg.split('.')[nameImg.split('.').length - 1] === 'png'
-          ? 'image/png'
-          : 'image/jpeg';
+        let type =
+          nameImg.split('.')[nameImg.split('.').length - 1] === 'png'
+            ? 'image/png'
+            : 'image/jpeg';
 
-      let formdata = new FormData();
-      formdata.append('image', {
-        type: type,
-        uri: img.image,
-        name: nameImg,
-      });
-      let res = await uploadImage(formdata)
-      // console.log(res.data)
-      if (res.data?.data) {
-        serveImages.push(res.data?.data?.url)
-      }
-      // upload image and handle error
-    }))
+        let formdata = new FormData();
+        formdata.append('image', {
+          type: type,
+          uri: img.image,
+          name: nameImg,
+        });
+        let res = await uploadImage(formdata);
+        // console.log(res.data)
+        if (res.data?.data) {
+          serveImages.push(res.data?.data?.url);
+        }
+        // upload image and handle error
+      }),
+    );
     if (serveImages.length) {
-      navigator.navigate("ProfileImage", { images: serveImages })
+      navigator.navigate('ProfileImage', {images: serveImages});
     }
-    setLoading(false)
+    setLoading(false);
   };
 
-  const RenderImage = ({ item, index }) => {
+  const RenderImage = ({item, index}) => {
     return (
       <>
         {!Boolean(item.image) ? (
           <TouchableOpacity
-            style={tw`w-[${width / 4
-              }px] h-32 mx-2 m-2 shadow shadow-gray-400 rounded-lg`}
+            style={tw`w-[${
+              width / 4
+            }px] h-32 mx-2 m-2 shadow shadow-gray-400 rounded-lg`}
             onPress={() => handleImage(index)}>
             <View
               style={tw`w-full h-full items-center justify-center bg-white rounded-lg`}>
               <Text
-                style={[tw`text-5xl font-extralight`, { color: colors.orange }]}>
+                style={[tw`text-5xl font-extralight`, {color: colors.orange}]}>
                 +
               </Text>
             </View>
@@ -124,10 +127,10 @@ const UploadImage = () => {
           <View
             style={[
               tw`w-[${width / 4}px] h-32 m-2 shadow shadow-gray-400 rounded-lg`,
-              { zIndex: 10000 },
+              {zIndex: 10000},
             ]}>
             <Image
-              source={{ uri: item.image }}
+              source={{uri: item.image}}
               resizeMode="contain"
               style={tw`h-full w-full rounded-lg`}
             />
@@ -143,13 +146,14 @@ const UploadImage = () => {
         <View
           style={[
             tw`w-full absolute bottom-0 flex-row justify-center pb-[4%]`,
-            { zIndex: 100, height: Platform.OS === 'ios' ? 200 : 140 },
+            {zIndex: 100, height: Platform.OS === 'ios' ? 200 : 140},
           ]}>
           <View
-            style={tw`${deleteStatus === 2
-              ? 'w-10 h-10 p-2 border border-red-500'
-              : 'w-8 h-8 p-1'
-              } bg-white rounded-full`}>
+            style={tw`${
+              deleteStatus === 2
+                ? 'w-10 h-10 p-2 border border-red-500'
+                : 'w-8 h-8 p-1'
+            } bg-white rounded-full`}>
             <Svg
               style={tw`text-red-500`}
               fill="none"
@@ -182,14 +186,14 @@ const UploadImage = () => {
       <RenderDeleteView />
       <Bar value={10} />
       <LinearGradient
-        colors={gradient.bg}
+        colors={gradient.orange}
         style={tw`flex-1 p-5 flex-col justify-between`}>
         <BackButton />
         <View style={tw`flex-grow py-5`}>
           <Text
             style={[
               tw`text-3xl font-medium text-center`,
-              { color: colors.black },
+              {color: colors.black},
             ]}>
             Upload Your Images
           </Text>
@@ -197,7 +201,7 @@ const UploadImage = () => {
             <ActivityIndicator
               size="large"
               color={colors.orange}
-              style={{ marginTop: 40 }}
+              style={{marginTop: 40}}
             />
           ) : (
             <View style={tw`flex-1 items-center`}>
@@ -217,7 +221,7 @@ const UploadImage = () => {
                     this.deleteIndex = null;
                     const newData = [...data];
                     newData.splice(deleteIndex, 1);
-                    newData.push({ image: '' });
+                    newData.push({image: ''});
                     newData.sort(
                       (a, b) =>
                         Number(Boolean(b.image)) - Number(Boolean(a.image)),
@@ -235,7 +239,7 @@ const UploadImage = () => {
                   if (deleteStatus === 2) {
                     setImageUrl(prevState => {
                       const newArr = [...prevState];
-                      newArr.splice(startIndex, 1, { image: '' });
+                      newArr.splice(startIndex, 1, {image: ''});
                       return newArr;
                     });
                     setDeleteStatus(0);
