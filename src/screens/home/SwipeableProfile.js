@@ -42,7 +42,7 @@ const SwipeableProfile = ({cards}) => {
         cardVerticalMargin={20}
         renderCard={cardData => <CardComponent cardData={cardData} />}
         onSwipedAll={onSwipedAllCards}
-        stackSize={3}
+        stackSize={5}
         stackSeparation={15}
         animateOverlayLabelsOpacity
         animateCardOpacity

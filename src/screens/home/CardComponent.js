@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 
 const CardComponent = ({cardData}) => {
   const windowHeight = Dimensions.get('window').height;
@@ -12,23 +13,30 @@ const CardComponent = ({cardData}) => {
         source={{uri: cardData.profileImage}}
         style={styles.profileImage}
       />
-      <View style={styles.cardDetails}>
+      <LinearGradient
+        colors={['rgb(225, 29, 72)', '#FCAEAE']}
+        style={styles.linearGradient}>
         <Text style={styles.fullName}>{cardData.fullName}</Text>
         <Text style={styles.bio}>{cardData.bio}</Text>
-      </View>
+      </LinearGradient>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  linearGradient: {
+    position: 'absolute',
+    width: '100%',
+    padding: 15,
+    bottom: 1,
+  },
   card: {
     borderRadius: 10,
-    borderWidth: 2,
+    borderWidth: 0,
     borderColor: '#E8E8E8',
     overflow: 'hidden',
     alignItems: 'center',
     justifyContent: 'center',
-    height: '80%',
     width: '100%',
   },
   profileImage: {
@@ -36,24 +44,16 @@ const styles = StyleSheet.create({
     height: '100%',
     borderRadius: 10,
     marginBottom: 10,
-    padding: 20,
-  },
-  cardDetails: {
-    position: 'absolute',
-    width: '100%',
-    padding: 15,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
   },
   fullName: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 5,
-    color: '#fff',
+    color: '#F0F0F0',
   },
   bio: {
     fontSize: 16,
-    color: '#fff',
+    color: '#F0F0F0',
   },
 });
 
