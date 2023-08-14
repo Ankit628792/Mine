@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import NetworkUtil from './src/utils/NetworkUtil';
 import HttpService from './src/utils/axios-interceptor';
+import ErrorBoundary from './src/components/ErrorBoundary';
 
 const queryClient = new QueryClient();
 
@@ -14,14 +15,16 @@ const App = () => {
   HttpService.configure();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <Provider store={store}>
-        <SafeAreaView style={{flex: 1}}>
-          <StatusBar barStyle="default" />
-          <NetworkLayer />
-        </SafeAreaView>
-      </Provider>
-    </QueryClientProvider>
+    <ErrorBoundary>
+      <QueryClientProvider client={queryClient}>
+        <Provider store={store}>
+          <SafeAreaView style={{flex: 1}}>
+            <StatusBar barStyle="default" />
+            <NetworkLayer />
+          </SafeAreaView>
+        </Provider>
+      </QueryClientProvider>
+    </ErrorBoundary>
   );
 };
 
