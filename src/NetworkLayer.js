@@ -18,17 +18,17 @@ const NetworkLayer = () => {
     };
   }, []);
 
-  return (
-    <>
-      {loading ? (
-        <ActivityLoader />
-      ) : isConnected ? (
-        <LocationLayer />
-      ) : (
-        <NetworkUnavailable />
-      )}
-    </>
-  );
+  return <NetworkRenderer loading={loading} isConnected={isConnected} />;
+};
+
+const NetworkRenderer = ({loading, isConnected}) => {
+  if (loading) {
+    return <ActivityLoader />;
+  } else if (isConnected) {
+    return <LocationLayer />;
+  } else {
+    return <NetworkUnavailable />;
+  }
 };
 
 export default NetworkLayer;

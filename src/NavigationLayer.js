@@ -24,54 +24,43 @@ import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
 import Profile from './screens/profile/Profile';
 import {ROUTES} from './utils/routes';
-import HomeScreen from './screens/home/HomeScreen';
+// import HomeScreen from './screens/home/HomeScreen';
 import NavigatorTab from './components/BottomTabs/NavigatorTab';
 import LikedChats from './screens/chat/LikedChats';
 
 const Stack = createNativeStackNavigator();
 
-function AuthGroup({routeName}) {
-  return (
-    <Stack.Navigator
-      initialRouteName={routeName}
-      screenOptions={{
-        headerShown: false,
-      }}>
-      <Stack.Screen name="Intro" component={Intro} />
-      <Stack.Screen name="Login" component={Login} />
-      <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
-      <Stack.Screen name="Name" component={Name} />
-      <Stack.Screen name="DOB" component={DOB} />
-      <Stack.Screen name="Gender" component={Gender} />
-      <Stack.Screen name="GenderInterested" component={GenderInterested} />
-      <Stack.Screen name="Bio" component={Bio} />
-      <Stack.Screen name="Religion" component={Religion} />
-      <Stack.Screen name="Profession" component={Profession} />
-      <Stack.Screen name="UserInterest" component={UserInterest} />
-      <Stack.Screen name="UserNotInterest" component={UserNotInterest} />
-      <Stack.Screen name="UploadImage" component={UploadImage} />
-      <Stack.Screen name="ProfileImage" component={ProfileImage} />
-      <Stack.Screen name="Location" component={Location} />
-      <Stack.Screen name="PersonalChat" component={PersonalChat} />
-      <Stack.Screen name="LikedChat" component={LikedChats} />
-      <Stack.Screen name="Profile" component={Profile} />
-      <Stack.Screen name="Home" component={NavigatorTab} />
-      {/* Other screen for user info  */}
-    </Stack.Navigator>
-  );
-}
-
 const NavigationLayer = ({user}) => {
   const theme = useColorScheme();
+  const initialRouteName = user
+    ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
+    : 'Home';
+
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AuthGroup
-        routeName={
-          user
-            ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
-            : 'Home'
-        }
-      />
+      <Stack.Navigator
+        initialRouteName={initialRouteName}
+        screenOptions={{headerShown: false}}>
+        <Stack.Screen name="Intro" component={Intro} />
+        <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+        <Stack.Screen name="Name" component={Name} />
+        <Stack.Screen name="DOB" component={DOB} />
+        <Stack.Screen name="Gender" component={Gender} />
+        <Stack.Screen name="GenderInterested" component={GenderInterested} />
+        <Stack.Screen name="Bio" component={Bio} />
+        <Stack.Screen name="Religion" component={Religion} />
+        <Stack.Screen name="Profession" component={Profession} />
+        <Stack.Screen name="UserInterest" component={UserInterest} />
+        <Stack.Screen name="UserNotInterest" component={UserNotInterest} />
+        <Stack.Screen name="UploadImage" component={UploadImage} />
+        <Stack.Screen name="ProfileImage" component={ProfileImage} />
+        <Stack.Screen name="Location" component={Location} />
+        <Stack.Screen name="PersonalChat" component={PersonalChat} />
+        <Stack.Screen name="LikedChat" component={LikedChats} />
+        <Stack.Screen name="Profile" component={Profile} />
+        <Stack.Screen name="Home" component={NavigatorTab} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };
