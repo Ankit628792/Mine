@@ -1,97 +1,61 @@
 import React, {useState} from 'react';
 import Swiper from 'react-native-deck-swiper';
-import {StyleSheet, Text, View, Image, Dimensions} from 'react-native';
+import {StyleSheet, Text, View} from 'react-native';
+import CardComponent from './CardComponent';
+import SwipeService from '../../services/swipe.service';
 
-const SwipeableProfile = ({profiles}) => {
-  const [cards] = useState(profiles);
-  const [count, setCount] = useState(0);
-  const windowHeight = Dimensions.get('window').height;
-  const cardHeight = windowHeight - 170;
+const SwipeableProfile = ({cards}) => {
+  const [currentIndex, setCurrentIndex] = useState(0);
 
-  const renderCard = () => {
-    const profile = cards[count];
-    return (
-      <View
-        style={[styles.card, {height: cardHeight}]}
-        key={profile.phoneNumber}>
-        <Image
-          source={{uri: profile.profileImage}}
-          style={styles.profileImage}
-        />
-        <View style={styles.cardDetails}>
-          <Text style={styles.fullName}>{profile.fullName}</Text>
-          <Text style={styles.bio}>{profile.bio}</Text>
-        </View>
-      </View>
-    );
+  const onSwipeLeft = card => {
+    setCurrentIndex(currentIndex + 1);
+    SwipeService.leftSwipe(card);
   };
 
-  const onSwiped = name => {
-    console.log(`on swiped ${name}`);
-    setCount(count + 1);
+  const onSwipeRight = card => {
+    setCurrentIndex(currentIndex + 1);
+    SwipeService.rightSwipe(card);
+  };
+
+  const onSwipeDown = card => {
+    console.log('onSwipeDown');
+  };
+
+  const onSwipeUp = card => {
+    setCurrentIndex(currentIndex + 1);
+    SwipeService.upSwipe(card);
   };
 
   const onSwipedAllCards = () => {
-    console.log('All cards swiped');
+    console.log('onSwipedAllCards');
+    SwipeService.fetchCards();
   };
 
   return (
-    <Swiper
-      onSwipedLeft={() => onSwiped(profiles[0].fullName)}
-      onSwipedRight={() => onSwiped(profiles[0].fullName)}
-      onSwipedTop={() => onSwiped(profiles[0].fullName)}
-      onSwipedBottom={() => onSwiped(profiles[0].fullName)}
-      cards={cards}
-      cardVerticalMargin={20}
-      renderCard={renderCard}
-      onSwipedAll={onSwipedAllCards}
-      stackSize={3}
-      stackSeparation={15}
-      animateOverlayLabelsOpacity
-      animateCardOpacity
-      overlayLabels={{
-        left: {title: 'NOPE', style: styles.overlayLabelLeft},
-        right: {title: 'LIKED', style: styles.overlayLabelRight},
-      }}
-    />
+    <>
+      <Swiper
+        onSwipedLeft={() => onSwipeLeft(cards[currentIndex])}
+        onSwipedRight={() => onSwipeRight(cards[currentIndex])}
+        onSwipedTop={() => onSwipeUp(cards[currentIndex])}
+        onSwipedBottom={() => onSwipeDown(cards[currentIndex])}
+        cards={cards}
+        cardVerticalMargin={20}
+        renderCard={cardData => <CardComponent cardData={cardData} />}
+        onSwipedAll={onSwipedAllCards}
+        stackSize={3}
+        stackSeparation={15}
+        animateOverlayLabelsOpacity
+        animateCardOpacity
+        overlayLabels={{
+          left: {title: 'NOPE', style: styles.overlayLabelLeft},
+          right: {title: 'LIKED', style: styles.overlayLabelRight},
+        }}
+      />
+    </>
   );
 };
 
 const styles = StyleSheet.create({
-  card: {
-    borderRadius: 10,
-    borderWidth: 2,
-    borderColor: '#E8E8E8',
-    overflow: 'hidden',
-    alignItems: 'center',
-    justifyContent: 'center',
-    height: '80%',
-    width: '100%',
-  },
-  profileImage: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
-    marginBottom: 10,
-    padding: 20,
-  },
-  cardDetails: {
-    position: 'absolute',
-    width: '100%',
-    padding: 15,
-    bottom: 0,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-  },
-  fullName: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 5,
-    color: '#fff',
-  },
-  bio: {
-    fontSize: 16,
-    color: '#fff',
-  },
   overlayLabelLeft: {
     label: {
       color: 'red',
