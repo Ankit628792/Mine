@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient';
 
 const CardComponent = ({cardData}) => {
   const windowHeight = Dimensions.get('window').height;
-  const cardHeight = windowHeight - 170;
+  const cardHeight = windowHeight - 300;
   return (
     <View
       style={[styles.card, {height: cardHeight}]}

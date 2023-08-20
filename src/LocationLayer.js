@@ -1,10 +1,10 @@
 import React from 'react';
 import NavigationLayer from './NavigationLayer';
-import {useQuery} from 'react-query';
-import {useDispatch} from 'react-redux';
+import { useQuery } from 'react-query';
+import { useDispatch } from 'react-redux';
 import ActivityLoader from './components/ActivityLoader';
-import {setUser} from './redux/user/user-slice';
-import {AuthService} from './services/auth.service';
+import { setUser } from './redux/user/user-slice';
+import { AuthService } from './services/auth.service';
 
 const LocationLayer = () => {
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ const LocationLayer = () => {
   );
 };
 
-const RenderNavigationLayer = ({res, isError}) => {
+const RenderNavigationLayer = ({ res, isError }) => {
   if (isError) {
     return <div>Error occurred: {isError}</div>;
   }
