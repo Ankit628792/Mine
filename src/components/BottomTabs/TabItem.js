@@ -97,7 +97,8 @@ const styles = StyleSheet.create({
     width: LABEL_WIDTH,
   },
   label: {
-    color: 'rgb(225, 29, 72)',
+    color: '#FF5F6D', // text color
+    // color: 'rgb(225, 29, 72)', // text color
     fontSize: 17,
   },
 });

@@ -1,15 +1,13 @@
 import React from 'react';
-import LinearGradient from 'react-native-linear-gradient';
-import {gradient} from '../../utils/colors';
 import tw from 'twrnc';
+import { View } from 'react-native';
 
-const TabComponent = ({content}) => {
+const TabComponent = ({ content }) => {
   return (
-    <LinearGradient
-      style={tw`flex-1 flex-col justify-between relative`}
-      colors={gradient.orange}>
+    <View
+      style={tw`flex-1 flex-col justify-between relative`}>
       {content}
-    </LinearGradient>
+    </View>
   );
 };
 

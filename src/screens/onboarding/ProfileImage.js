@@ -31,7 +31,7 @@ const ProfileImage = ({route}) => {
 
   const handleImage = async i => {
     try {
-      const image = await ImageSelector();
+      const image = await ImageSelector('single');
       if (image) {
         setProfile(image);
       }

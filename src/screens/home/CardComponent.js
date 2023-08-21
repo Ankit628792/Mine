@@ -1,23 +1,34 @@
 import React from 'react';
-import {View, Text, StyleSheet, Dimensions, Image} from 'react-native';
+import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
+import tw from 'twrnc'
+import { colors } from '../../utils/colors';
+import { Path, Svg } from 'react-native-svg';
+const windowHeight = Dimensions.get('window').height;
 
-const CardComponent = ({cardData}) => {
-  const windowHeight = Dimensions.get('window').height;
-  const cardHeight = windowHeight - 300;
+const CardComponent = ({ cardData }) => {
+  const cardHeight = windowHeight - 280;
+
   return (
     <View
-      style={[styles.card, {height: cardHeight}]}
+      style={[styles.card, { height: cardHeight }]}
       key={cardData.phoneNumber}>
       <Image
-        source={{uri: cardData.profileImage}}
+        source={{ uri: cardData.profileImage }}
         style={styles.profileImage}
       />
       <LinearGradient
-        colors={['rgb(225, 29, 72)', '#FCAEAE']}
+        colors={['rgba(0,0,0,0)', 'rgba(0,0,0,0.8)', 'rgba(0,0,0,1)']}
         style={styles.linearGradient}>
         <Text style={styles.fullName}>{cardData.fullName}</Text>
-        <Text style={styles.bio}>{cardData.bio}</Text>
+        <Text style={[tw`text-base my-1`, { color: colors.white }]}>{cardData.profession || "Majdoor"}</Text>
+        <View style={tw`flex-row`}>
+          <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={tw`text-white w-6 h-6 mr-1`}>
+            <Path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
+          </Svg>
+          <Text style={[tw`text-base`, { color: colors.white }]}>Infinity Km away</Text>
+
+        </View>
       </LinearGradient>
     </View>
   );
@@ -27,7 +38,7 @@ const styles = StyleSheet.create({
   linearGradient: {
     position: 'absolute',
     width: '100%',
-    padding: 15,
+    padding: 20,
     bottom: 1,
   },
   card: {
@@ -46,15 +57,11 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   fullName: {
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 5,
     color: '#F0F0F0',
   },
-  bio: {
-    fontSize: 16,
-    color: '#F0F0F0',
-  },
+
 });
 
 export default CardComponent;

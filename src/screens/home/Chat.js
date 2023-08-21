@@ -1,11 +1,12 @@
 import React from 'react';
-import {StyleSheet, ScrollView} from 'react-native';
-import {useState} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import { StyleSheet, ScrollView } from 'react-native';
+import { useState } from 'react';
+import { useNavigation } from '@react-navigation/native';
 import TabComponent from './TabComponent';
-import {gradient} from '../../utils/colors';
-import {TabBar, TabView} from 'react-native-tab-view';
+import { gradient } from '../../utils/colors';
+import { TabBar, TabView } from 'react-native-tab-view';
 import ChatCard from '../chat/ChatCard';
+import tw from 'twrnc'
 
 const PersonalChatList = () => {
   const navigation = useNavigation();
@@ -13,7 +14,7 @@ const PersonalChatList = () => {
     navigation.navigate('PersonalChat');
   };
   return (
-    <ScrollView>
+    <ScrollView style={tw`p-2`}>
       {[0, 1, 2, 3, 4].map(index => (
         <ChatCard key={index} onPress={handleCardClick} />
       ))}
@@ -21,13 +22,13 @@ const PersonalChatList = () => {
   );
 };
 
-const LikedChatList = () => {
+const MatchList = () => {
   const navigation = useNavigation();
   const handleCardClick = () => {
     navigation.navigate('LikedChat');
   };
   return (
-    <ScrollView>
+    <ScrollView style={tw`p-2`}>
       {[0, 1].map(index => (
         <ChatCard key={index} onPress={handleCardClick} />
       ))}
@@ -38,22 +39,22 @@ const LikedChatList = () => {
 const Chat = () => {
   const [index, setIndex] = useState(0);
   const [routes] = useState([
-    {key: 'personal', title: 'Personal Chat'},
-    {key: 'liked', title: 'Liked Chat'},
+    { key: 'matches', title: 'Matches' },
+    { key: 'chats', title: 'Chats' },
   ]);
-  const renderScene = ({route}) => {
+  const renderScene = ({ route }) => {
     switch (route.key) {
-      case 'personal':
+      case 'chats':
         return <TabComponent content={<PersonalChatList />} />;
-      case 'liked':
-        return <TabComponent content={<LikedChatList />} />;
+      case 'matches':
+        return <TabComponent content={<MatchList />} />;
       default:
         return null;
     }
   };
   return (
     <TabView
-      navigationState={{index, routes}}
+      navigationState={{ index, routes }}
       renderScene={renderScene}
       onIndexChange={setIndex}
       renderTabBar={props => (
@@ -70,6 +71,8 @@ const Chat = () => {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: gradient.orange[0],
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   tabIndicator: {
     backgroundColor: 'white',

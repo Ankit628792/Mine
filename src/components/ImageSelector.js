@@ -1,10 +1,10 @@
 import ImagePicker from 'react-native-image-crop-picker';
 
-const ImageSelector = async () => {
+const ImageSelector = async (type) => {
   try {
     const image = await ImagePicker.openPicker({
-      width: 300,
-      height: 400,
+      width: 400,
+      height: type == 'multiple' ? 500 : 400,
       cropping: true,
       multiple: false,
     });

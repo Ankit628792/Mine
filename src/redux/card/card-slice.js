@@ -42,6 +42,7 @@ const initialState = {
       age: 23,
       bio: 'I am a coder',
       fullName: 'Nitesh Kumar',
+      profession: 'SOFTWARE DEVELOPER',
     },
     {
       phoneNumber: '9876543210',
@@ -51,6 +52,7 @@ const initialState = {
       age: 23,
       bio: 'I am a coder',
       fullName: 'Nitesh Kumar',
+      profession: 'SOFTWARE DEVELOPER',
     },
     {
       phoneNumber: '9876543210',
@@ -60,6 +62,7 @@ const initialState = {
       age: 23,
       bio: 'I am a coder',
       fullName: 'Nitesh Kumar',
+      profession: 'SOFTWARE DEVELOPER',
     },
     {
       phoneNumber: '9876543210',
@@ -69,6 +72,7 @@ const initialState = {
       age: 23,
       bio: 'I am a coder',
       fullName: 'Nitesh Kumar',
+      profession: 'SOFTWARE DEVELOPER',
     },
     {
       phoneNumber: '9876543210',
@@ -78,6 +82,7 @@ const initialState = {
       age: 23,
       bio: 'I am a coder',
       fullName: 'Nitesh Kumar',
+      profession: 'SOFTWARE DEVELOPER',
     },
     {
       phoneNumber: '9876543210',
@@ -87,6 +92,7 @@ const initialState = {
       age: 23,
       bio: 'I am a coder',
       fullName: 'Nitesh Kumar',
+      profession: 'SOFTWARE DEVELOPER',
     },
   ],
 };

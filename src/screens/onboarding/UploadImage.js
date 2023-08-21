@@ -42,7 +42,7 @@ const UploadImage = () => {
 
   const handleImage = async i => {
     try {
-      const image = await ImageSelector();
+      const image = await ImageSelector('multiple');
       if (image) {
         setImageUrl(prevState => {
           const newState = [...prevState];

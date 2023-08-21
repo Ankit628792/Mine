@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {
   Image,
   SafeAreaView,
@@ -10,9 +10,20 @@ import {
 import PostCard from '../../components/PostCard';
 import tw from 'twrnc';
 import LinearGradient from 'react-native-linear-gradient';
-import {gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
+import { TabBar, TabView } from 'react-native-tab-view';
+import { StyleSheet } from 'react-native';
+import TabComponent from '../home/TabComponent';
+import About from './About';
+import Images from './Images';
 
 const Profile = () => {
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    { key: 'about', title: 'About' },
+    { key: 'images', title: 'Images' },
+  ]);
+
   const [posts, setPosts] = useState([
     {
       id: '1',
@@ -34,8 +45,6 @@ const Profile = () => {
     },
   ]);
 
-  const [loading, setLoading] = useState(true);
-  const [deleted, setDeleted] = useState(false);
   const [userData, setUserData] = useState({
     fname: 'Test',
     lname: 'User',
@@ -43,58 +52,69 @@ const Profile = () => {
     about: 'No details added.',
   });
 
-  const logout = () => {};
-  const handleDelete = () => {};
+
+
+  const renderScene = ({ route }) => {
+    switch (route.key) {
+      case 'about':
+        return (
+          <About />
+        );
+      case 'images':
+        return (
+          <Images />
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <LinearGradient
       style={tw`flex-1 flex-col justify-between relative`}
       colors={gradient.orange}>
-      <SafeAreaView>
-        <ScrollView
-          style={tw`p-1 pt-5`}
-          contentContainerStyle={tw`justify-center items-center`}
-          showsVerticalScrollIndicator={false}>
-          <Image
-            style={tw`h-32 w-32 rounded-full`}
-            source={{
-              uri: userData
-                ? userData.userImg ||
-                  'https://i1.sndcdn.com/artworks-1CYFgpCe6nIn-0-t500x500.jpg'
-                : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
-            }}
+      <View
+        style={tw`p-5 pb-0 justify-center items-center`}>
+        <Image
+          style={tw`h-32 w-32 rounded-full border-2 border-white`}
+          source={{
+            uri: userData
+              ? userData.userImg ||
+              'https://i1.sndcdn.com/artworks-1CYFgpCe6nIn-0-t500x500.jpg'
+              : 'https://lh5.googleusercontent.com/-b0PKyNuQv5s/AAAAAAAAAAI/AAAAAAAAAAA/AMZuuclxAM4M1SCBGAO7Rp-QP6zgBEUkOQ/s96-c/photo.jpg',
+          }}
+        />
+        <Text style={[tw`text-2xl font-medium mt-2 text-center`, { color: colors.white }]}>Ryan Gosling</Text>
+        <Text style={[tw`text-lg font-medium mt-1 text-center`, { color: colors.white }]}>+91 8985464414</Text>
+
+      </View>
+      <TabView
+        sceneContainerStyle={{ shadowOpacity: 0 }}
+        navigationState={{ index, routes }}
+        renderScene={renderScene}
+        onIndexChange={setIndex}
+        renderTabBar={props => (
+          <TabBar
+            {...props}
+            indicatorStyle={styles.tabIndicator}
+            style={styles.tabBar}
           />
-          <Text style={tw`text-xl font-bold mt-4 mb-2`}>
-            {userData ? userData.fname || 'Test' : 'Test'}
-            {userData ? userData.lname || 'User' : 'User'}
-          </Text>
-          <Text style={tw`text-base font-semibold mb-4`}>
-            {userData ? userData.about || 'No details added.' : ''}
-          </Text>
-          <View style={tw`w-full h-px bg-black mb-4`} />
-          <View style={tw`flex-row justify-around w-full my-4`}>
-            <View style={tw`items-center`}>
-              <Text style={tw`text-2xl font-bold mb-1`}>{posts.length}</Text>
-              <Text style={tw`text-sm`}>Posts</Text>
-            </View>
-            <View style={tw`items-center`}>
-              <Text style={tw`text-2xl font-bold mb-1`}>10,000</Text>
-              <Text style={tw`text-sm`}>Followers</Text>
-            </View>
-            <View style={tw`items-center`}>
-              <Text style={tw`text-2xl font-bold mb-1`}>100</Text>
-              <Text style={tw`text-sm`}>Following</Text>
-            </View>
-          </View>
-          <View style={tw`flex-row`}>
-            {posts.map(item => (
-              <PostCard key={item.id} item={item} onDelete={handleDelete} />
-            ))}
-          </View>
-        </ScrollView>
-      </SafeAreaView>
+        )}
+      />
     </LinearGradient>
   );
 };
 
 export default Profile;
+
+
+const styles = StyleSheet.create({
+  tabBar: {
+    backgroundColor: 'transparent',
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  tabIndicator: {
+    backgroundColor: 'white',
+  },
+});

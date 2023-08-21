@@ -59,6 +59,8 @@ const Likes = () => {
 const styles = StyleSheet.create({
   tabBar: {
     backgroundColor: gradient.orange[0],
+    paddingTop: 8,
+    paddingBottom: 8,
   },
   tabIndicator: {
     backgroundColor: 'white',
