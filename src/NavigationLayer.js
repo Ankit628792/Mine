@@ -28,6 +28,7 @@ import {ROUTES} from './utils/routes';
 import NavigatorTab from './components/BottomTabs/NavigatorTab';
 import LikedChats from './screens/chat/LikedChats';
 import Filter from './screens/home/Filter';
+import EditProfile from './screens/profile/EditProfile';
 
 const Stack = createNativeStackNavigator();
 
@@ -61,6 +62,7 @@ const NavigationLayer = ({user}) => {
         <Stack.Screen name="LikedChat" component={LikedChats} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Filter" component={Filter} />
+        <Stack.Screen name="Edit Profile" component={EditProfile} />
         <Stack.Screen name="Home" component={NavigatorTab} />
       </Stack.Navigator>
     </NavigationContainer>

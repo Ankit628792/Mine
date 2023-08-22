@@ -10,20 +10,20 @@ const About = () => {
     return (
         <ScrollView style={tw`flex-1 p-5`}>
             <View>
-                <Text style={[tw`text-xl font-medium`, { color: colors.white }]}>About</Text>
-                <Text style={[tw`text-lg`, { color: colors.white }]}>ftdfyuijvvjb</Text>
+                <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>About</Text>
+                <Text style={[tw`text-lg`, { color: colors.darkGray }]}>ftdfyuijvvjb</Text>
             </View>
             <View style={tw`mt-4`}>
-                <Text style={[tw`text-xl font-medium`, { color: colors.white }]}>Date of Birth</Text>
-                <Text style={[tw`text-lg`, { color: colors.white }]}>{moment().format('DD MMM YYYY')}</Text>
+                <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Date of Birth</Text>
+                <Text style={[tw`text-lg`, { color: colors.darkGray }]}>{moment().format('DD MMM YYYY')}</Text>
             </View>
             <View style={tw`mt-4`}>
-                <Text style={[tw`text-xl font-medium`, { color: colors.white }]}>Gender</Text>
-                <Text style={[tw`text-lg`, { color: colors.white }]}>Male</Text>
+                <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Gender</Text>
+                <Text style={[tw`text-lg`, { color: colors.darkGray }]}>Male</Text>
             </View>
 
             <View style={tw`mt-4`}>
-                <Text style={[tw`text-xl font-medium`, { color: colors.white }]}>Interests</Text>
+                <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Interested</Text>
                 <View style={tw`flex-row items-center flex-wrap py-2`}>
                     {
                         Array(3).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
@@ -31,7 +31,7 @@ const About = () => {
                 </View>
             </View>
             <View style={tw`mt-4`}>
-                <Text style={[tw`text-xl font-medium`, { color: colors.white }]}>Interests</Text>
+                <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Not Interested</Text>
                 <View style={tw`flex-row items-center flex-wrap py-2`}>
                     {
                         Array(3).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
@@ -49,14 +49,14 @@ const Interest = ({ interest }) => (
         style={[
             tw`w-auto py-2 px-4 rounded-full mr-2`,
             {
-                backgroundColor: colors.white,
+                backgroundColor: colors.orange,
             },
         ]}
     >
         <Text
             style={[
                 {
-                    color: colors.black,
+                    color: colors.white,
                 },
             ]}>
             interest
