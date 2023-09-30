@@ -44,7 +44,7 @@ const configure = () => {
       data.description = data?.message || statusText;
       data.message = data.error || statusText;
       data.statusCode = data.statusCode || status;
-      return error;
+      return data;
     },
   );
 };

@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet } from 'react-native';
 import Animated, { useAnimatedStyle } from 'react-native-reanimated';
+import { colors } from '../../utils/colors';
+import tw from 'twrnc'
 
 const circleContainerSize = 50;
 
@@ -11,7 +13,7 @@ const AnimatedCircle = ({ circleX }) => {
         };
     }, []);
 
-    return <Animated.View style={[circleContainerStyle, styles.container]} />;
+    return <Animated.View style={[tw`shadow-lg shadow-purple-400`, circleContainerStyle, styles.container,]} />;
 };
 
 export default AnimatedCircle;
@@ -23,7 +25,7 @@ const styles = StyleSheet.create({
         width: circleContainerSize,
         borderRadius: circleContainerSize,
         height: circleContainerSize,
-        backgroundColor: '#FF5F6D', // button background
+        backgroundColor: colors.purple, // button background
         // backgroundColor: 'rgb(225, 29, 72)', // button background
         justifyContent: 'center',
         alignItems: 'center',

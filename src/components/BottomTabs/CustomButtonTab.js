@@ -1,19 +1,19 @@
-import React from 'react';
-import {Dimensions, StyleSheet, View} from 'react-native';
-import Svg, {Path} from 'react-native-svg';
+import React, { useState } from 'react';
+import { Dimensions, StyleSheet, View } from 'react-native';
+import Svg, { Path } from 'react-native-svg';
 import Animated, {
   runOnJS,
   useAnimatedProps,
   useSharedValue,
   withTiming,
 } from 'react-native-reanimated';
-import {interpolatePath} from 'react-native-redash';
+import { interpolatePath } from 'react-native-redash';
 
 import usePath from '../../hooks/usePath';
 
 import TabItem from './TabItem';
 import AnimatedCircle from './AnimatedCircle';
-import {parse} from 'react-native-redash';
+import { parse } from 'react-native-redash';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const getPathXCenter = currentPath => {
@@ -25,31 +25,18 @@ const getPathXCenter = currentPath => {
 };
 
 const AnimatedPath = Animated.createAnimatedComponent(Path);
-export const CustomBottomTab = ({state, descriptors, navigation}) => {
-  const {containerPath, curvedPaths, tHeight} = usePath();
+export const CustomBottomTab = ({ state, descriptors, navigation }) => {
+  const [activeRoute, setActiveRoute] = useState('Home')
+  const { containerPath, curvedPaths, tHeight } = usePath();
   const circleXCoordinate = useSharedValue(0);
   const progress = useSharedValue(1);
   const handleMoveCircle = currentPath => {
     circleXCoordinate.value = getPathXCenter(currentPath);
   };
-  const selectIcon = routeName => {
-    switch (routeName) {
-      case 'Home':
-        return 'home';
-      case 'Likes':
-        return 'calendar';
-      case 'Chat':
-        return 'clockcircleo';
-      case 'Profile':
-        return 'appstore1';
-      default:
-        return 'home';
-    }
-  };
   const animatedProps = useAnimatedProps(() => {
     const currentPath = interpolatePath(
       progress.value,
-      Array.from({length: curvedPaths.length}, (_, index) => index + 1),
+      Array.from({ length: curvedPaths.length }, (_, index) => index + 1),
       curvedPaths,
     );
     runOnJS(handleMoveCircle)(currentPath);
@@ -59,6 +46,7 @@ export const CustomBottomTab = ({state, descriptors, navigation}) => {
   });
 
   const handleTabPress = (index, tab) => {
+    setActiveRoute(tab)
     navigation.navigate(tab);
     progress.value = withTiming(index);
   };
@@ -74,18 +62,19 @@ export const CustomBottomTab = ({state, descriptors, navigation}) => {
           styles.tabItemsContainer,
           {
             height: tHeight,
+            zIndex: 20,
           },
         ]}>
         {state.routes.map((route, index) => {
-          const {options} = descriptors[route.key];
+          const { options } = descriptors[route.key];
           const label = options.tabBarLabel ? options.tabBarLabel : route.name;
           return (
             <TabItem
               key={index.toString()}
               label={label}
-              icon={selectIcon(route.name)}
               activeIndex={state.index + 1}
               index={index}
+              activeRoute={activeRoute}
               onTabPress={() => handleTabPress(index + 1, route.name)}
             />
           );
@@ -108,12 +97,5 @@ const styles = StyleSheet.create({
     position: 'absolute',
     flexDirection: 'row',
     width: '100%',
-  },
-  shadowMd: {
-    // elevation: 3,
-    // shadowColor: '#fff',
-    // shadowOpacity: 0.2,
-    // shadowRadius: 3,
-    // shadowOffset: { width: 0, height: 3 },
   },
 });

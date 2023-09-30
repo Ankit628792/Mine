@@ -48,7 +48,7 @@ const EditProfile = ({ route }) => {
 
 
     return (
-        <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5`}>
+        <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
             <View style={tw`flex-row items-center`}>
                 <BackButton buttonClass='mr-4' />
                 <Text style={[tw`text-2xl font-medium`, { color: colors.black }]}>Edit Profile</Text>

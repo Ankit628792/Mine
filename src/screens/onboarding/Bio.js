@@ -7,21 +7,21 @@ import {
   Alert,
   Keyboard,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import {useNavigation} from '@react-navigation/native';
-import {useUpdateProfile} from '../../hooks';
+import { useNavigation } from '@react-navigation/native';
+import { useUpdateProfile } from '../../hooks';
 
 const Bio = () => {
   const navigator = useNavigation();
   const [bio, setBio] = useState('');
 
-  const {mutate: updateProfile, isLoading} = useUpdateProfile(() => {
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
     navigator.navigate('Religion');
   });
 
@@ -30,32 +30,32 @@ const Bio = () => {
     if (bio.split(/\s+/).filter(Boolean).length < 10) {
       Alert.alert('Bio must be at least 10 words');
     } else {
-      updateProfile({bio: bio?.trim(), onBoardingProcess: 6});
+      updateProfile({ bio: bio?.trim(), onBoardingProcess: 6 });
     }
   };
   return (
     <>
       <Bar value={5} />
-      <LinearGradient colors={gradient.orange} style={tw`flex-1 p-5`}>
-        <BackButton />
-        <View style={tw`flex-grow py-10`}>
+      <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
+        <View style={tw`flex-grow py-5`}>
           <Text
             style={[
               tw`text-3xl font-medium text-center`,
-              {color: colors.black},
+              { color: colors.black },
             ]}>
             Tell us about yourself
           </Text>
-          <View style={tw`p-5`}>
+          <View style={tw`py-5 px-3`}>
             <TextInput
               multiline={true}
               textAlignVertical="top"
-              numberOfLines={5}
+              numberOfLines={7}
+              placeholderTextColor={'#999'}
               style={[
-                tw`border border-gray-50 p-2 rounded-lg mt-1`,
-                {backgroundColor: colors.white, color: colors.black},
+                tw`border border-gray-50 p-3 rounded-lg mt-1 text-lg bg-white`,
+                { color: colors.black },
               ]}
-              placeholder="explain in at least 10 words"
+              placeholder="Explain in at least 10 words"
               value={bio}
               onChangeText={setBio}
             />

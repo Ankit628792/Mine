@@ -9,7 +9,6 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
 import {useNavigation} from '@react-navigation/native';
-import {useDispatch} from 'react-redux';
 import {useUpdateProfile} from '../../hooks';
 
 const DOB = () => {
@@ -41,9 +40,8 @@ const DOB = () => {
   return (
     <>
       <Bar value={2} />
-      <LinearGradient colors={gradient.orange} style={tw`flex-1 p-5`}>
-        <BackButton />
-        <View style={tw`flex-grow py-10`}>
+      <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
+        <View style={tw`flex-grow py-5`}>
           <View style={tw`p-5`}>
             <Text
               style={[
@@ -57,11 +55,10 @@ const DOB = () => {
               <Pressable
                 onPress={showDatePicker}
                 style={[
-                  tw`border border-gray-50 p-2 rounded-lg mt-1`,
-                  {backgroundColor: colors.white},
+                  tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
                 ]}>
                 <Text
-                  style={[tw` text-base text-center`, {color: colors.black}]}>
+                  style={[tw` text-base text-center text-lg`, {color: colors.black}]}>
                   {date ? moment(date)?.format('DD MMM YYYY') : 'Select Date'}
                 </Text>
               </Pressable>

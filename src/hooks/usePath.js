@@ -5,7 +5,7 @@ import { parse } from 'react-native-redash';
 import { Dimensions } from 'react-native';
 
 const SCREEN_WIDTH = Dimensions.get('window').width
-const NUM_TABS = 4;
+const NUM_TABS = 5;
 const SCALE = 0.7;
 const TAB_BAR_HEIGHT = 64;
 

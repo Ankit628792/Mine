@@ -1,11 +1,12 @@
-import {View, Text, TouchableOpacity, Image} from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import React from 'react';
 import tw from 'twrnc';
-import LinearGradient from 'react-native-linear-gradient';
-import {colors, intro} from '../../utils/colors';
+import { colors } from '../../utils/colors';
 import PagerView from 'react-native-pager-view';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
+const height = Dimensions.get('window').height
+const width = Dimensions.get('window').width
 const Intro = () => {
   const navigator = useNavigation();
   const [currentPage, setCurrentPage] = React.useState(1);
@@ -16,256 +17,93 @@ const Intro = () => {
 
   return (
     <>
-      <LinearGradient
-        start={{x: 0, y: 0}}
-        end={{x: 1, y: 1}}
-        colors={intro.orange}
+      <View
         style={tw`flex-1`}>
         <PagerView
-          style={{flex: 1}}
+          style={{ flex: 1 }}
           initialPage={0}
           onPageSelected={event =>
             handlePageChange(event.nativeEvent.position)
           }>
           <View
             key="1"
-            style={tw`absolute bottom-20 left-0 right-0 w-full p-10`}>
-            <Text style={[tw`text-4xl font-bold`, {color: colors.white}]}>
-              Find Your
-            </Text>
-            <Text style={[tw`text-4xl font-bold`, {color: colors.white}]}>
-              Someone Special
-            </Text>
-            <Text style={[tw`text-xl my-3`, {color: colors.white}]}>
-              With our new exciting feature
-            </Text>
-            <Image
-              source={require('../../assets/images/hero1.jpg')}
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 10,
-                transform: [
-                  {translateX: 20},
-                  {translateY: 250},
-                  {rotate: '-15deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero2.jpg')}
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: -30,
-                left: 100,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '-5deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero3.jpg')}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 130,
-                left: -50,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '15deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero2.jpg')}
-              style={{
-                height: 200,
-                width: 200,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 110,
-                left: 100,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '-15deg'},
-                ],
-              }}
-            />
+            style={tw`flex-1 items-center justify-between bg-white`}>
+            <View style={[tw`flex-grow rounded-b-full overflow-hidden`, { transform: [{ scaleX: 1 }], backgroundColor: colors.white, height: height - 300, width: 1000 }]}>
+              <Image
+                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2508/2508651.png' }}
+                style={[tw`mx-auto h-full mt-20`, { width: width - 50 }]}
+                resizeMode='contain'
+              />
+            </View>
+            <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
+              <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
+                Connect with your
+              </Text>
+              <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
+                Ideal Matches
+              </Text>
+              <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
+                Lorem ipsum dolor sit amet, consectetur adipisicing.
+              </Text>
+            </View>
           </View>
+
           <View
             key="2"
-            style={tw`absolute bottom-20 left-0 right-0 w-full p-10`}>
-            <Text style={[tw`text-4xl font-bold`, {color: colors.white}]}>
-              More Profiles,
-            </Text>
-            <Text style={[tw`text-4xl font-bold`, {color: colors.white}]}>
-              More Dates
-            </Text>
-            <Text style={[tw`text-xl my-3`, {color: colors.white}]}>
-              Connecting you with more profiles
-            </Text>
-            <Image
-              source={require('../../assets/images/hero1.jpg')}
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 10,
-                transform: [
-                  {translateX: 20},
-                  {translateY: 250},
-                  {rotate: '-15deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero2.jpg')}
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: -30,
-                left: 100,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '-5deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero3.jpg')}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 130,
-                left: -50,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '15deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero2.jpg')}
-              style={{
-                height: 200,
-                width: 200,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 110,
-                left: 100,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '-15deg'},
-                ],
-              }}
-            />
+            style={tw`flex-1 items-center justify-between bg-white`}>
+            <View style={[tw`flex-grow rounded-b-full overflow-hidden`, { transform: [{ scaleX: 1 }], backgroundColor: colors.white, height: height - 300, width: 1000 }]}>
+              <Image
+                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/11728/11728513.png' }}
+                style={[tw`mx-auto h-full mt-10`, { width: width - 50 }]}
+                resizeMode='contain'
+              />
+            </View>
+            <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
+              <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
+                Meet New People
+              </Text>
+              <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
+                Nearby You
+              </Text>
+              <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
+                Lorem ipsum dolor sit amet, consectetur adipisicing.
+              </Text>
+            </View>
           </View>
+
           <View
             key="3"
-            style={tw`absolute bottom-20 left-0 right-0 w-full p-10`}>
-            <Text style={[tw`text-4xl font-bold`, {color: colors.white}]}>
-              Interact Around
-            </Text>
-            <Text style={[tw`text-4xl font-bold`, {color: colors.white}]}>
-              The World
-            </Text>
-            <Text style={[tw`text-xl my-3`, {color: colors.white}]}>
-              Send direct message to your matches
-            </Text>
-            <Image
-              source={require('../../assets/images/hero1.jpg')}
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 10,
-                transform: [
-                  {translateX: 20},
-                  {translateY: 250},
-                  {rotate: '-15deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero2.jpg')}
-              style={{
-                height: 100,
-                width: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: -30,
-                left: 100,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '-5deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero3.jpg')}
-              style={{
-                width: 100,
-                height: 100,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 130,
-                left: -50,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '15deg'},
-                ],
-              }}
-            />
-            <Image
-              source={require('../../assets/images/hero2.jpg')}
-              style={{
-                height: 200,
-                width: 200,
-                borderRadius: 20,
-                position: 'absolute',
-                top: 110,
-                left: 100,
-                transform: [
-                  {translateX: 50},
-                  {translateY: 250},
-                  {rotate: '-15deg'},
-                ],
-              }}
-            />
+            style={tw`flex-1 items-center justify-between bg-white`}>
+            <View style={[tw`flex-grow rounded-b-full overflow-hidden`, { transform: [{ scaleX: 1 }], backgroundColor: colors.white, height: height - 300, width: 1000 }]}>
+              <Image
+                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/9770/9770584.png' }}
+                style={[tw`mx-auto h-full mt-20`, { width: width - 50 }]}
+                resizeMode='contain'
+              />
+            </View>
+            <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
+              <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
+                Engage and Connect
+              </Text>
+              <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
+                With your love
+              </Text>
+              <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
+                Lorem ipsum dolor sit amet, consectetur adipisicing.
+              </Text>
+            </View>
           </View>
         </PagerView>
-      </LinearGradient>
+      </View>
       <View
-        style={tw`absolute bottom-0 left-0 right-0 w-full p-10 flex-row items-center justify-between`}>
+        style={[tw`w-full p-5 flex-row items-center justify-between bg-white`, { height: 100 }]}>
         <View style={tw`flex-row items-center`}>
           {[...Array(3).fill(1).keys()].map(key => (
             <View
               key={key}
               style={[
-                tw`w-2 h-2 mx-1 rounded-full`,
-                {backgroundColor: colors.white, opacity: 1},
+                tw`w-2.5 h-2.5 mx-1 rounded-full`,
+                { backgroundColor: key == currentPage ? colors.purple : colors.gray, opacity: 1 },
               ]}></View>
           ))}
         </View>
@@ -273,7 +111,7 @@ const Intro = () => {
           <Text
             style={[
               tw`text-lg py-2 px-5 rounded-xl`,
-              {color: colors.black, backgroundColor: colors.white},
+              { color: colors.white, backgroundColor: colors.purple },
             ]}>
             Get Started
           </Text>

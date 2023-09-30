@@ -30,9 +30,8 @@ const Gender = () => {
   return (
     <>
       <Bar value={3} />
-      <LinearGradient colors={gradient.orange} style={tw`flex-1 p-5`}>
-        <BackButton />
-        <View style={tw`flex-grow py-10`}>
+      <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
+        <View style={tw`flex-grow py-5`}>
           <View style={tw`p-5`}>
             <Text
               style={[
@@ -45,7 +44,7 @@ const Gender = () => {
               <Pressable
                 onPress={() => handleGenderSelection('male')}
                 style={tw`w-20 h-20 ${
-                  gender == 'male' ? 'opacity-100' : 'opacity-60'
+                  gender == 'male' ? 'opacity-100' : 'opacity-50'
                 }`}>
                 <Image
                   style={tw`w-full h-full`}
@@ -58,7 +57,7 @@ const Gender = () => {
               <Pressable
                 onPress={() => handleGenderSelection('female')}
                 style={tw`w-20 h-20 ${
-                  gender == 'female' ? 'opacity-100' : 'opacity-60'
+                  gender == 'female' ? 'opacity-100' : 'opacity-50'
                 }`}>
                 <Image
                   style={tw`w-full h-full`}
@@ -71,7 +70,7 @@ const Gender = () => {
               <Pressable
                 onPress={() => handleGenderSelection('transgender')}
                 style={tw`w-20 h-20 ${
-                  gender == 'transgender' ? 'opacity-100' : 'opacity-60'
+                  gender == 'transgender' ? 'opacity-100' : 'opacity-50'
                 }`}>
                 <Image
                   style={tw`w-full h-full`}

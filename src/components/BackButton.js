@@ -18,7 +18,7 @@ const BackButton = ({
       <TouchableOpacity
         onPress={() => (typeof onPress == 'function' ? onPress() : navigator.goBack())}
         disabled={disabled}
-        style={tw`w-9 h-9 rounded-lg bg-white shadow-md items-center justify-center ${buttonClass}`}>
+        style={tw`w-9 h-9 rounded-lg bg-white shadow-md shadow-gray-300 items-center justify-center ${buttonClass}`}>
         <Svg
           fill="none"
           viewBox="0 0 24 24"

@@ -6,7 +6,7 @@ import LinearGradient from 'react-native-linear-gradient'
 
 const NetworkNotAvailable = () => {
   return (
-    <LinearGradient colors={gradient.bg} style={tw`flex-1 p-5 justify-center items-center`}>
+    <LinearGradient colors={gradient.white} style={tw`flex-1 p-5 justify-center items-center`}>
       <Image source={require('../assets/images/noNetwork.png')} style={tw`w-32 h-32`} />
       <Text style={[tw`absolute bottom-12 text-xl font-medium`, { color: colors.darkGray }]}>Network Unavailable</Text>
     </LinearGradient>

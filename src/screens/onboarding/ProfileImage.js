@@ -67,8 +67,7 @@ const ProfileImage = ({route}) => {
   return (
     <>
       <Bar value={11} />
-      <LinearGradient colors={gradient.orange} style={tw`flex-1 p-5`}>
-        <BackButton />
+      <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
         <Text
           style={[
             tw`text-3xl font-medium text-center pt-5`,
@@ -96,7 +95,7 @@ const ProfileImage = ({route}) => {
                   uri: 'https://cdn-icons-png.flaticon.com/512/848/848043.png',
                 }}
                 resizeMode="cover"
-                style={tw`h-32 w-32 opacity-20`}
+                style={tw`h-20 w-20 opacity-20`}
               />
             )}
           </Pressable>

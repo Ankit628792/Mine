@@ -5,6 +5,7 @@ import { useDispatch } from 'react-redux';
 import ActivityLoader from './components/ActivityLoader';
 import { setUser } from './redux/user/user-slice';
 import { AuthService } from './services/auth.service';
+import Splash from './components/Splash';
 
 const LocationLayer = () => {
   const dispatch = useDispatch();
@@ -40,6 +41,7 @@ const RenderNavigationLayer = ({ res, isError }) => {
     return <div>Error occurred: {isError}</div>;
   }
 
+  // return <Splash />
   return <NavigationLayer user={res?.data || null} authenticated={!isError} />;
 };
 

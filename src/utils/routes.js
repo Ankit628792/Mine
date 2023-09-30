@@ -45,6 +45,6 @@ export const ROUTES = [
     },
     {
         id: 12,
-        name: 'Home',
+        name: 'Main',
     }
 ]

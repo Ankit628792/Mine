@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import LinearGradient from 'react-native-linear-gradient';
 import tw from 'twrnc';
 import {
@@ -10,32 +10,15 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import {Path, Svg} from 'react-native-svg';
-import {parsePhoneNumberFromString} from 'libphonenumber-js';
+import { Path, Svg } from 'react-native-svg';
+import { parsePhoneNumberFromString } from 'libphonenumber-js';
 import countryCodes from '../../utils/countryCodes.json';
-import {useSendOtp} from '../../hooks';
+import { useSendOtp } from '../../hooks';
 import Blur50 from '../../components/Blue50';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../components/PrimaryButton';
+import { colors, gradient } from '../../utils/colors';
 
-const colors = {
-  primary: '#0072ff',
-  white: '#FFF',
-  cyan: '#48D1CC',
-  bg: '#F5F7FA',
-  black: '#333',
-  darkGray: '#999',
-  blue: '#0072ff',
-  orange: '#FF5F6D',
-};
-
-const gradient = {
-  primary: ['#7F00FF', '#E100FF'],
-  blue: ['#00c6ff', '#0072ff'],
-  gray: ['#F5F7FA', '#B8C6DB'],
-  orange: ['#FF5F6D', '#FFC371'],
-  bg: ['#F5F7FA', '#F5F7FA'],
-};
 
 const Login = () => {
   const navigator = useNavigation();
@@ -60,7 +43,7 @@ const Login = () => {
     isLoading,
     isError,
     error: err,
-  } = useSendOtp(({initialOtp}) => {
+  } = useSendOtp(({ initialOtp }) => {
     navigator.navigate('VerifyOTP', {
       mobile: mobile,
       countryCode: `+${country.code}`,
@@ -74,7 +57,7 @@ const Login = () => {
     if (!isValidNumber) setError('Invalid Mobile Number');
     else {
       // navigator.navigate("VerifyOTP", { mobile: `+${country.code}${mobile}` })
-      sendOtp({mobile: mobile, countryCode: `+${country.code}`});
+      sendOtp({ mobile: mobile, countryCode: `+${country.code}` });
       setError('');
     }
   };
@@ -88,21 +71,17 @@ const Login = () => {
     <>
       <LinearGradient
         style={tw`flex-1 flex-col justify-between relative`}
-        colors={gradient.orange}>
-        <Image
-          source={require('../../assets/images/logo.png')}
-          style={tw`w-32 h-32 self-center mt-20`}
-        />
+        colors={gradient.purple}>
         <View
           style={[
             tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-3xl`,
-            {backgroundColor: colors.white},
+            { backgroundColor: colors.white },
           ]}>
           <View style={tw`w-full p-5`}>
             <Text
               style={[
                 tw`font-bold text-3xl text-center`,
-                {color: colors.black},
+                { color: colors.black },
               ]}>
               Enter your mobile number
             </Text>
@@ -113,7 +92,7 @@ const Login = () => {
                   Keyboard.dismiss();
                   setIsOpen(true);
                 }}>
-                <Text style={[tw`text-2xl text-center`, {color: colors.black}]}>
+                <Text style={[tw`text-2xl text-center`, { color: colors.black }]}>
                   +{country.code}
                 </Text>
               </TouchableOpacity>
@@ -126,10 +105,10 @@ const Login = () => {
                   setError('');
                 }}
                 placeholder="9818451195"
-                placeholderTextColor={'rgba(0, 0, 0, 0.4)'}
+                placeholderTextColor={'#999'}
                 style={[
                   tw`flex-grow text-2xl py-2 px-4 tracking-wide font-medium border-b border-gray-400 rounded-lg`,
-                  {color: colors.black},
+                  { color: colors.black },
                 ]}
               />
             </View>
@@ -139,18 +118,18 @@ const Login = () => {
           </View>
 
           <View style={tw`px-5`}>
-            <Text style={[tw`text-center leading-5`, {color: colors.darkGray}]}>
+            <Text style={[tw`text-center leading-5`, { color: colors.darkGray }]}>
               By tapping Next, you've accepted
             </Text>
             <View style={tw`flex-row items-center justify-center mb-6`}>
               <TouchableOpacity
                 onPress={() => navigator.navigate('TermsAndConditions')}>
-                <Text style={[{color: colors.orange}]}>Terms & Conditions</Text>
+                <Text style={[{ color: colors.purple }]}>Terms & Conditions</Text>
               </TouchableOpacity>
-              <Text style={[{color: colors.darkGray}]}> and </Text>
+              <Text style={[{ color: colors.darkGray }]}> and </Text>
               <TouchableOpacity
                 onPress={() => navigator.navigate('PrivacyPolicy')}>
-                <Text style={[{color: colors.orange}]}>Privacy Policy</Text>
+                <Text style={[{ color: colors.purple }]}>Privacy Policy</Text>
               </TouchableOpacity>
             </View>
             <PrimaryButton
@@ -188,7 +167,7 @@ const Login = () => {
               <FlatList
                 data={countryCodes}
                 keyExtractor={item => item.country}
-                renderItem={({item}) => (
+                renderItem={({ item }) => (
                   <TouchableOpacity
                     onPress={() => handleOptionSelect(item)}
                     style={tw`p-2 w-full`}>

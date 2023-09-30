@@ -1,4 +1,5 @@
-export const API_URL = 'http://10.0.2.2:9090';
+// export const API_URL = 'http://10.0.2.2:9090';
+export const API_URL = 'http://3.137.159.219';
 
 export const API_BASE_PATH = '/api/v1';
 

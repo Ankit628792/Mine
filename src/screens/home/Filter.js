@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, ScrollView, Dimensions } from 'react-native'
+import { View, Text, ScrollView, Dimensions, TouchableOpacity } from 'react-native'
 import MultiSlider from '@ptomasroos/react-native-multi-slider'
-import { TouchableOpacity } from 'react-native-gesture-handler'
 import tw from 'twrnc'
 import { colors } from '../../utils/colors';
 import { useNavigation } from '@react-navigation/native'
@@ -38,12 +37,12 @@ const Filter = () => {
     }
 
     return (
-        <View style={tw`flex-1`}>
+        <View style={[tw`flex-1`, { backgroundColor: colors.white }]}>
             <View style={tw`flex-row justify-between p-5`}>
                 <BackButton />
                 <Text style={tw`text-gray-900 font-bold text-2xl`}>Filter</Text>
                 <TouchableOpacity onPress={handleBackButton}>
-                    <Text style={[tw`text-lg font-medium`, { color: colors.orange }]}>Apply</Text>
+                    <Text style={[tw`text-lg font-medium`, { color: colors.purple }]}>Apply</Text>
                 </TouchableOpacity>
             </View>
             {
@@ -58,10 +57,10 @@ const Filter = () => {
                                 <View style={tw`p-3 relative bg-white shadow-lg shadow-gray-200 rounded-md my-2`}>
                                     <Text style={[tw`text-lg font-medium mb-4`, { color: colors.black }]}>Age Preference</Text>
                                     <MultiSlider
-                                        selectedStyle={{ backgroundColor: '#ff5f6d8c' }}
+                                        selectedStyle={{ backgroundColor: 'rgba(119,44,232,0.5)' }}
                                         trackStyle={{ height: 6, borderRadius: 10 }}
-                                        unselectedStyle={{ backgroundColor: '#ff5f6d30' }}
-                                        markerStyle={{ backgroundColor: colors.orange, width: 20, height: 20, marginTop: 4 }}
+                                        unselectedStyle={{ backgroundColor: 'rgba(119,44,232,0.2)' }}
+                                        markerStyle={{ backgroundColor: colors.purple, width: 20, height: 20, marginTop: 4 }}
                                         containerStyle={[tw`flex-row justify-center`]}
                                         values={ageValues}
                                         sliderLength={WIDTH > 360 ? 300 : 280}
@@ -84,10 +83,10 @@ const Filter = () => {
                             <View style={tw`p-3 relative bg-white shadow-lg shadow-gray-200 rounded-md my-2`}>
                                 <Text style={[tw`text-lg font-medium mb-4`, { color: colors.black }]}>Distance</Text>
                                 <MultiSlider
-                                    selectedStyle={{ backgroundColor: '#ff5f6d8c' }}
+                                    selectedStyle={{ backgroundColor: 'rgba(119,44,232,0.5)' }}
                                     trackStyle={{ height: 6, borderRadius: 10 }}
-                                    unselectedStyle={{ backgroundColor: '#ff5f6d30' }}
-                                    markerStyle={{ backgroundColor: colors.orange, width: 20, height: 20, marginTop: 4 }}
+                                    unselectedStyle={{ backgroundColor: 'rgba(119,44,232,0.2)' }}
+                                    markerStyle={{ backgroundColor: colors.purple, width: 20, height: 20, marginTop: 4 }}
                                     containerStyle={[tw`flex-row justify-center`]}
                                     sliderLength={WIDTH > 360 ? 275 : 260}
                                     values={[distance]}
@@ -108,7 +107,7 @@ const Filter = () => {
                         <View style={tw`m-5 mt-auto`}>
                             <TouchableOpacity style={tw`mb-5 rounded-2xl`} onPress={handleBackButton}>
                                 <View style={tw`py-4 bg-white rounded-xl shadow-lg shadow-gray-200`}>
-                                    <Text style={[tw`text-lg text-center font-semibold`, { color: colors.orange }]}>See Matches</Text>
+                                    <Text style={[tw`text-xl text-center font-medium`, { color: colors.purple }]}>See Matches</Text>
                                 </View>
                             </TouchableOpacity>
                         </View>
@@ -124,7 +123,7 @@ export default Filter
 const LocationCustomMarker = (props) => {
     return (
         <View style={tw`mt-8 z-20 w-24 flex-col items-center`}>
-            <View style={[tw`w-5 h-5 rounded-full`, { backgroundColor: colors.orange }]}></View>
+            <View style={[tw`w-5 h-5 rounded-full`, { backgroundColor: colors.purple }]}></View>
             <Text style={tw`text-lg text-gray-900 mt-2 font-medium`}>{props.currentValue}km</Text>
         </View>
     );
@@ -133,7 +132,7 @@ const LocationCustomMarker = (props) => {
 const AgeCustomMarker = (props) => {
     return (
         <View style={tw`mt-8`}>
-            <View style={[tw`w-5 h-5 rounded-full`, { backgroundColor: colors.orange }]}></View>
+            <View style={[tw`w-5 h-5 rounded-full`, { backgroundColor: colors.purple }]}></View>
             <Text style={tw`text-lg text-gray-900 mt-2 font-medium`}>{props.currentValue}</Text>
         </View>
     );

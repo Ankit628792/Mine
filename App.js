@@ -15,7 +15,7 @@ const App = () => {
   HttpService.configure();
 
   return (
-    <ErrorBoundary>
+    // <ErrorBoundary>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <SafeAreaView style={{ flex: 1 }}>
@@ -24,7 +24,7 @@ const App = () => {
           </SafeAreaView>
         </Provider>
       </QueryClientProvider>
-    </ErrorBoundary>
+    // </ErrorBoundary>
   );
 };
 

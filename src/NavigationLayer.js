@@ -29,6 +29,7 @@ import NavigatorTab from './components/BottomTabs/NavigatorTab';
 import LikedChats from './screens/chat/LikedChats';
 import Filter from './screens/home/Filter';
 import EditProfile from './screens/profile/EditProfile';
+import Setting from './screens/settings/Setting';
 
 const Stack = createNativeStackNavigator();
 
@@ -36,7 +37,7 @@ const NavigationLayer = ({user}) => {
   const theme = useColorScheme();
   const initialRouteName = user
     ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
-    : 'Home';
+    : 'Intro';
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -63,7 +64,8 @@ const NavigationLayer = ({user}) => {
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Filter" component={Filter} />
         <Stack.Screen name="Edit Profile" component={EditProfile} />
-        <Stack.Screen name="Home" component={NavigatorTab} />
+        <Stack.Screen name="Setting" component={Setting} />
+        <Stack.Screen name="Main" component={NavigatorTab} />
       </Stack.Navigator>
     </NavigationContainer>
   );

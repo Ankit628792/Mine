@@ -16,14 +16,14 @@ function PrimaryButton({
     <LinearGradient
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
-      colors={disabled ? gradient.gray : gradient.orange}
+      colors={isLoading ? gradient.purple : disabled ? gradient.gray : gradient.purple}
       style={tw`w-full rounded-lg`}>
       <TouchableOpacity
         disabled={disabled || isLoading}
         onPress={() => (typeof onPress == 'function' ? onPress() : {})}
         style={tw`py-2 px-6 rounded-lg ${extra} items-center justify-center`}>
         {isLoading ? (
-          <ActivityIndicator size={32} color={'#FFF'} />
+          <ActivityIndicator size={36} color={'#FFF'} />
         ) : (
           <Text
             style={tw`text-2xl ${disabled ? 'text-gray-700' : 'text-white'

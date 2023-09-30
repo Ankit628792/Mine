@@ -16,26 +16,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
 import PrimaryButton from '../../components/PrimaryButton';
-const colors = {
-  primary: '#0072ff',
-  white: '#FFF',
-  cyan: '#48D1CC',
-  bg: '#F5F7FA',
-  black: '#333',
-  darkGray: '#999',
-  blue: '#0072ff',
-  orange: '#FF5F6D',
-};
+import { colors, gradient } from '../../utils/colors';
 
-const gradient = {
-  primary: ['#7F00FF', '#E100FF'],
-  blue: ['#00c6ff', '#0072ff'],
-  gray: ['#F5F7FA', '#B8C6DB'],
-  orange: ['#FF5F6D', '#FFC371'],
-};
 
 const VerifyOTP = ({route}) => {
-  // get mobile from route params
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState(true);
 
@@ -72,11 +56,7 @@ const VerifyOTP = ({route}) => {
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <LinearGradient
         style={tw`flex-1 flex-col justify-between relative p-5 pb-10`}
-        colors={gradient.orange}>
-        <Image
-          source={require('../../assets/images/logo.png')}
-          style={tw`w-32 h-32 self-center mt-20`}
-        />
+        colors={gradient.purple}>
         <BackButton />
         <View></View>
         <View
@@ -106,7 +86,7 @@ const VerifyOTP = ({route}) => {
                 pinCount={6}
                 code={otp}
                 codeInputFieldStyle={{
-                  color: otp?.length == 6 ? colors.orange : colors.black,
+                  color: otp?.length == 6 ? colors.purple : colors.black,
                 }}
                 onCodeChanged={val => setOtp(val)}
                 onCodeFilled={val => setOtp(val)}
@@ -125,7 +105,7 @@ const VerifyOTP = ({route}) => {
                     countryCode: route.params?.countryCode,
                   })
                 }>
-                <Text style={tw`font-medium text-orange-300`}>Send Again</Text>
+                <Text style={tw`font-medium text-purple-400`}>Send Again</Text>
               </TouchableOpacity>
             </View>
           </View>
