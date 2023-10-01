@@ -48,7 +48,7 @@ const Profile = () => {
                     : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg',
                 }}
               />
-              <TouchableOpacity onPress={() => navigator.navigate('Edit Profile', { user: userData })} style={[tw`p-1 rounded-full absolute bottom-0.5 right-0.5 border border-white w-9 h-9 items-center justify-center`, { backgroundColor: colors.purple }]}>
+              <TouchableOpacity onPress={() => navigator.navigate('EditProfile', { user: userData })} style={[tw`p-1 rounded-full absolute bottom-0.5 right-0.5 border border-white w-9 h-9 items-center justify-center`, { backgroundColor: colors.purple }]}>
                 <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={tw`w-5 h-5 text-white`}>
                   <Path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                 </Svg>
@@ -64,7 +64,7 @@ const Profile = () => {
               </Svg>
             </TouchableOpacity>
 
-            <TouchableOpacity style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 rounded-md shadow-lg shadow-gray-300`}>
+            <TouchableOpacity onPress={() => navigator.navigate('EditImages')} style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 rounded-md shadow-lg shadow-gray-300`}>
               <Text style={tw`text-base text-gray-700`}>Edit Pictures</Text>
               <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={tw`text-gray-700 w-7 h-7`}>
                 <Path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

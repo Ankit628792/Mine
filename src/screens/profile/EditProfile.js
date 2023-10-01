@@ -109,147 +109,158 @@ const EditProfile = ({ route }) => {
     return (
         <>
             <BottomSheetModalProvider>
-                <View style={tw`flex-row items-center justify-between p-5 bg-white gap-4`}>
+                {/* <View style={tw`flex-row items-center justify-between p-5 bg-white gap-4`}>
                     <BackButton buttonClass='bg-gray-800' iconClass='text-gray-50' />
                     <Text style={[tw`text-2xl font-medium`, { color: colors.black }]}>Edit Profile</Text>
                     <TouchableOpacity>
                         <Text style={[tw`text-lg font-medium`, { color: colors.purple }]}>Save</Text>
                     </TouchableOpacity>
                 </View>
-                <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
-                    <ScrollView style={tw`py-8`}>
-                        <View style={tw`items-center gap-5 w-full px-2`}>
-                            <TouchableOpacity onPress={handleImage} style={tw`w-32 h-32 border border-gray-100 rounded-xl bg-white items-center justify-center`}>
-                                {
-                                    loading ?
-                                        <ActivityIndicator size={30} color={colors.orange} />
-                                        :
-                                        <Image source={{ uri: userData?.image || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} />
-                                }
-                            </TouchableOpacity>
-                            <View style={tw`w-full`}>
-                                <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Name</Text>
-                                <TextInput style={tw`w-full bg-white rounded-lg px-4 shadow-lg shadow-gray-100`} value={userData?.name} onChangeText={(txt) => setUserData({ ...userData, name: txt })} />
-                            </View>
-                            <View style={tw`w-full`}>
-                                <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Bio</Text>
-                                <TextInput multiline={true} numberOfLines={10} textAlignVertical='top' style={tw`w-full bg-white rounded-lg px-4 shadow-lg shadow-gray-100`} value={userData?.bio} onChangeText={(txt) => setUserData({ ...userData, bio: txt })} />
-                            </View>
-
-                            <View style={tw`w-full`}>
-                                <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Date Of Birth</Text>
-                                <TouchableOpacity
-                                    onPress={showDatePicker}
-                                    style={[
-                                        tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
-                                    ]}>
-                                    <Text
-                                        style={[tw` text-base text-center text-lg`, { color: colors.black }]}>
-                                        {date ? moment(date)?.format('DD MMM YYYY') : 'Select Date'}
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={tw`w-full`}>
-                                <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Profession</Text>
-                                <TouchableOpacity
-                                    onPress={() => setModalVisible('profession')}
-                                    style={[
-                                        tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
-                                    ]}>
-                                    <Text
-                                        style={[tw` text-base text-center text-lg`, { color: colors.black }]}>
-                                        {selectedProfession || 'Select Profession'}
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={tw`w-full`}>
-                                <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Religion</Text>
-                                <TouchableOpacity
-                                    onPress={() => setModalVisible('religion')}
-                                    style={[
-                                        tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
-                                    ]}>
-                                    <Text
-                                        style={[tw` text-base text-center text-lg`, { color: colors.black }]}>
-                                        {selectedReligion || 'Select Religion'}
-                                    </Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={tw`w-full`}>
-                                <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Would like to date</Text>
-
-                                <View style={tw`flex-row items-center justify-start gap-5 my-2`}>
-                                    <TouchableOpacity
-                                        onPress={() => handleGenderInterestedSelection('male')}
-                                        style={tw`w-20 h-20 ${interestedIn == 'male' ? 'opacity-100' : 'opacity-50'
-                                            }`}>
-                                        <Image
-                                            style={tw`w-full h-full`}
-                                            resizeMode="contain"
-                                            source={{
-                                                uri: 'https://cdn-icons-png.flaticon.com/512/4139/4139981.png',
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => handleGenderInterestedSelection('female')}
-                                        style={tw`w-20 h-20 ${interestedIn == 'female' ? 'opacity-100' : 'opacity-50'
-                                            }`}>
-                                        <Image
-                                            style={tw`w-full h-full`}
-                                            resizeMode="contain"
-                                            source={{
-                                                uri: 'https://cdn-icons-png.flaticon.com/512/4140/4140060.png',
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                                    <TouchableOpacity
-                                        onPress={() => handleGenderInterestedSelection('everyone')}
-                                        style={tw`w-20 h-20 ${interestedIn == 'everyone' ? 'opacity-100' : 'opacity-50'
-                                            }`}>
-                                        <Image
-                                            style={tw`w-full h-full`}
-                                            resizeMode="contain"
-                                            source={{
-                                                uri: 'https://cdn-icons-png.flaticon.com/512/3778/3778360.png',
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                                </View>
-                            </View>
-
-                            <View style={tw`w-full`}>
-                                <View style={tw`flex-row items-center gap-2`}>
-                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Your Interests</Text>
-                                    <TouchableOpacity onPress={() => openBottomSheet('interest')}>
-                                        <Text style={[tw``, { color: colors.purple }]}>Edit</Text>
-                                    </TouchableOpacity>
-                                </View>
-                                <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
+                <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}> */}
+                <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
+                    <View style={tw`p-5 flex-row items-center justify-between`}>
+                        <BackButton />
+                        <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>Edit Profile</Text>
+                        <TouchableOpacity>
+                            <Text style={[tw`text-lg font-medium text-white`]}>Save</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={[tw`p-5 pb-0 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
+                        <ScrollView style={tw`py-8`}>
+                            <View style={tw`items-center gap-5 w-full px-2`}>
+                                <TouchableOpacity onPress={handleImage} style={tw`w-32 h-32 border border-gray-100 rounded-xl bg-white items-center justify-center`}>
                                     {
-                                        Array(3).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
+                                        loading ?
+                                            <ActivityIndicator size={30} color={colors.orange} />
+                                            :
+                                            <Image source={{ uri: userData?.image || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} />
                                     }
+                                </TouchableOpacity>
+                                <View style={tw`w-full`}>
+                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Name</Text>
+                                    <TextInput style={tw`w-full bg-white rounded-lg px-4 shadow-lg shadow-gray-100`} value={userData?.name} onChangeText={(txt) => setUserData({ ...userData, name: txt })} />
                                 </View>
-                            </View>
-                            <View style={tw`w-full`}>
-                                <View style={tw`flex-row items-center gap-2`}>
-                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Your Non Interests</Text>
-                                    <TouchableOpacity onPress={() => openBottomSheet('nonInterest')}>
-                                        <Text style={[tw``, { color: colors.purple }]}>Edit</Text>
+                                <View style={tw`w-full`}>
+                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Bio</Text>
+                                    <TextInput multiline={true} numberOfLines={10} textAlignVertical='top' style={tw`w-full bg-white rounded-lg px-4 shadow-lg shadow-gray-100`} value={userData?.bio} onChangeText={(txt) => setUserData({ ...userData, bio: txt })} />
+                                </View>
+
+                                <View style={tw`w-full`}>
+                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Date Of Birth</Text>
+                                    <TouchableOpacity
+                                        onPress={showDatePicker}
+                                        style={[
+                                            tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
+                                        ]}>
+                                        <Text
+                                            style={[tw` text-base text-center text-lg`, { color: colors.black }]}>
+                                            {date ? moment(date)?.format('DD MMM YYYY') : 'Select Date'}
+                                        </Text>
                                     </TouchableOpacity>
                                 </View>
-                                <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
-                                    {
-                                        Array(3).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
-                                    }
+                                <View style={tw`w-full`}>
+                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Profession</Text>
+                                    <TouchableOpacity
+                                        onPress={() => setModalVisible('profession')}
+                                        style={[
+                                            tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
+                                        ]}>
+                                        <Text
+                                            style={[tw` text-base text-center text-lg`, { color: colors.black }]}>
+                                            {selectedProfession || 'Select Profession'}
+                                        </Text>
+                                    </TouchableOpacity>
                                 </View>
-                            </View>
+                                <View style={tw`w-full`}>
+                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Religion</Text>
+                                    <TouchableOpacity
+                                        onPress={() => setModalVisible('religion')}
+                                        style={[
+                                            tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
+                                        ]}>
+                                        <Text
+                                            style={[tw` text-base text-center text-lg`, { color: colors.black }]}>
+                                            {selectedReligion || 'Select Religion'}
+                                        </Text>
+                                    </TouchableOpacity>
+                                </View>
+                                <View style={tw`w-full`}>
+                                    <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Would like to date</Text>
 
-                        </View>
-                        <View style={tw`h-32 w-full`}></View>
-                    </ScrollView>
-                    <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(255,255,255,1)']} style={tw`absolute left-0 bottom-0 right-0 h-20`} />
+                                    <View style={tw`flex-row items-center justify-start gap-5 my-2`}>
+                                        <TouchableOpacity
+                                            onPress={() => handleGenderInterestedSelection('male')}
+                                            style={tw`w-20 h-20 ${interestedIn == 'male' ? 'opacity-100' : 'opacity-50'
+                                                }`}>
+                                            <Image
+                                                style={tw`w-full h-full`}
+                                                resizeMode="contain"
+                                                source={{
+                                                    uri: 'https://cdn-icons-png.flaticon.com/512/4139/4139981.png',
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => handleGenderInterestedSelection('female')}
+                                            style={tw`w-20 h-20 ${interestedIn == 'female' ? 'opacity-100' : 'opacity-50'
+                                                }`}>
+                                            <Image
+                                                style={tw`w-full h-full`}
+                                                resizeMode="contain"
+                                                source={{
+                                                    uri: 'https://cdn-icons-png.flaticon.com/512/4140/4140060.png',
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                        <TouchableOpacity
+                                            onPress={() => handleGenderInterestedSelection('everyone')}
+                                            style={tw`w-20 h-20 ${interestedIn == 'everyone' ? 'opacity-100' : 'opacity-50'
+                                                }`}>
+                                            <Image
+                                                style={tw`w-full h-full`}
+                                                resizeMode="contain"
+                                                source={{
+                                                    uri: 'https://cdn-icons-png.flaticon.com/512/3778/3778360.png',
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                    </View>
+                                </View>
+
+                                <View style={tw`w-full`}>
+                                    <View style={tw`flex-row items-center gap-2`}>
+                                        <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Your Interests</Text>
+                                        <TouchableOpacity onPress={() => openBottomSheet('interest')}>
+                                            <Text style={[tw``, { color: colors.purple }]}>Edit</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
+                                        {
+                                            Array(3).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
+                                        }
+                                    </View>
+                                </View>
+                                <View style={tw`w-full`}>
+                                    <View style={tw`flex-row items-center gap-2`}>
+                                        <Text style={[tw`text-lg mb-1 font-medium`, { color: colors.black }]}>Your Non Interests</Text>
+                                        <TouchableOpacity onPress={() => openBottomSheet('nonInterest')}>
+                                            <Text style={[tw``, { color: colors.purple }]}>Edit</Text>
+                                        </TouchableOpacity>
+                                    </View>
+                                    <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
+                                        {
+                                            Array(3).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
+                                        }
+                                    </View>
+                                </View>
+
+                            </View>
+                            <View style={tw`h-32 w-full`}></View>
+                        </ScrollView>
+                        <LinearGradient colors={['rgba(0,0,0,0)', 'rgba(255,255,255,1)']} style={tw`absolute left-0 bottom-0 right-0 h-20`} />
+                    </View>
                 </LinearGradient>
+
                 {sheet ? <Pressable onPress={() => closeBottomSheet()} style={[tw`absolute inset-0`, { backgroundColor: 'rgba(119,44,232,0.1)' }]}></Pressable> : <></>}
                 <BottomSheetModal
                     enablePanDownToClose={true}

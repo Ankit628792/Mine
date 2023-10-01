@@ -32,6 +32,7 @@ import EditProfile from './screens/profile/EditProfile';
 import Setting from './screens/settings/Setting';
 import ViewProfile from './screens/profile/ViewProfile';
 import Match from './screens/home/Match';
+import EditImages from './screens/profile/EditImages';
 
 const Stack = createNativeStackNavigator();
 
@@ -65,7 +66,8 @@ const NavigationLayer = ({user}) => {
         <Stack.Screen name="LikedChat" component={LikedChats} />
         <Stack.Screen name="Profile" component={Profile} />
         <Stack.Screen name="Filter" component={Filter} />
-        <Stack.Screen name="Edit Profile" component={EditProfile} />
+        <Stack.Screen name="EditProfile" component={EditProfile} />
+        <Stack.Screen name="EditImages" component={EditImages} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
         <Stack.Screen name="Match" component={Match} />
         <Stack.Screen name="Setting" component={Setting} />

@@ -9,6 +9,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import BackButton from '../../components/BackButton';
 import tw from 'twrnc'
 import { Path, Svg } from 'react-native-svg';
+import { setUser } from '../../redux/user/user-slice';
 
 const Setting = () => {
     const dispatch = useDispatch();
@@ -54,7 +55,7 @@ const Setting = () => {
                     <Text style={tw`text-gray-700 text-base`}>Version</Text>
                     <Text style={tw`text-gray-600`}>1.0.0</Text>
                 </View>
-                <TouchableOpacity style={[tw`rounded-xl py-3 px-10`, { backgroundColor: colors.purple }]} onPress={_logout}>
+                <TouchableOpacity style={[tw`rounded-xl py-3 px-10 bg-rose-500`]} onPress={_logout}>
                     <Text style={tw`text-white text-xl text-center`}>Logout</Text>
                 </TouchableOpacity>
             </View>

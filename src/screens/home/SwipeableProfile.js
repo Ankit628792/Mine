@@ -55,8 +55,8 @@ const SwipeableProfile = ({ cards, navigator }) => {
         cardVerticalMargin={20}
         renderCard={cardData => <CardComponent cardData={cardData} />}
         onSwipedAll={onSwipedAllCards}
-        stackSize={5}
-        stackSeparation={10}
+        stackSize={3}
+        stackSeparation={12}
         animateOverlayLabelsOpacity
         animateCardOpacity
         overlayLabels={{

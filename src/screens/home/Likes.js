@@ -19,7 +19,7 @@ const Likes = () => {
       <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
         {/* <NoLike /> */}
         <ScrollView showsVerticalScrollIndicator={false} style={tw`pt-5`}>
-          <View style={tw`flex-row flex-wrap justify-center gap-5`}>
+          <View style={tw`flex-row flex-wrap justify-center gap-4`}>
             {
               Array(20).fill(1).map((item, i) => (<LikeCard navigator={navigator} key={i} />))
             }

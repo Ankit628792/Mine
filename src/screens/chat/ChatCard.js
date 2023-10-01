@@ -5,9 +5,9 @@ import tw from 'twrnc'
 import { colors } from '../../utils/colors'
 import { Dimensions } from 'react-native'
 
-const ChatCard = () => {
+const ChatCard = ({ navigator }) => {
   return (
-    <TouchableOpacity style={tw`flex-row py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
+    <TouchableOpacity onPress={() => navigator.navigate('PersonalChat')} style={tw`flex-row py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
       <Image
         source={{
           uri: 'https://ca-times.brightspotcdn.com/dims4/default/b4ef547/2147483647/strip/false/crop/3817x3968+0+0/resize/1429x1486!/quality/80/?url=https%3A%2F%2Fcalifornia-times-brightspot.s3.amazonaws.com%2Fff%2F47%2F08088f494f9a89fb369c6b367422%2Fla-photos-1staff-471763-en-ana-de-armas-mjc-24.jpg',
