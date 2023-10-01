@@ -18,12 +18,12 @@ import { useUpdateProfile } from '../../hooks';
 import Blur50 from '../../components/Blue50';
 import { Path, Svg } from 'react-native-svg';
 import { useNavigation } from '@react-navigation/native';
+import { professions } from '../../utils/constants';
 
 const Profession = () => {
   const navigator = useNavigation();
   const [selectedValue, setSelectedValue] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const professions = ['TEACHER', 'STUDENT'];
 
   const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
     navigator.navigate('UploadImage');

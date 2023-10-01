@@ -13,7 +13,7 @@ const LocationLayer = () => {
   const queryConfig = {
     retry: false,
     onSuccess: res => {
-      if (res.status && res.data) {
+      if (res?.status && res.data) {
         dispatch(setUser(res.data));
       }
     },
@@ -28,7 +28,7 @@ const LocationLayer = () => {
   return (
     <>
       {isLoading ? (
-        <ActivityLoader />
+        <Splash />
       ) : (
         <RenderNavigationLayer res={res} isError={isError} />
       )}
@@ -41,7 +41,6 @@ const RenderNavigationLayer = ({ res, isError }) => {
     return <div>Error occurred: {isError}</div>;
   }
 
-  // return <Splash />
   return <NavigationLayer user={res?.data || null} authenticated={!isError} />;
 };
 

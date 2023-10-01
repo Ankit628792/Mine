@@ -6,10 +6,15 @@ import { colors } from '../../utils/colors'
 import { TouchableOpacity } from 'react-native'
 import ImageSelector from '../../components/ImageSelector'
 import { Path, Svg } from 'react-native-svg'
+import PrimaryButton from '../../components/PrimaryButton'
+import Blur50 from '../../components/Blue50'
 
 const cardWidth = (Dimensions.get('window').width - 90) / 3
 
-const Images = ({ setPopUp }) => {
+const Images = () => {
+    const [popUp, setPopUp] = useState({
+        open: false
+    })
     const [images, setImages] = useState([
         { id: 1, image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' },
         { id: 2, image: 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png' },
@@ -71,7 +76,53 @@ const Images = ({ setPopUp }) => {
                     }
                 </View>
             </ScrollView>
+            {popUp.open ? (
+                <View
+                    style={tw`flex-1 flex-row items-center justify-center rounded-lg px-5 py-32 absolute inset-0`}>
+                    <Blur50 onPress={() => setPopUp({ open: false })} />
+                    <View
+                        nativeID=" jyg"
+                        style={tw`bg-gray-50 p-5 rounded-lg w-full relative`}>
+                        <TouchableOpacity onPress={() => setPopUp({ open: false })}>
+                            <Svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                strokeWidth={1.5}
+                                stroke="currentColor"
+                                style={tw`w-8 h-8 text-gray-800 ml-auto`}>
+                                <Path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </Svg>
+                        </TouchableOpacity>
+                        <View style={tw`items-center justify-center p-5`}>
+                            {
+                                popUp.type == 'delete'
+                                    ?
+                                    <>
+                                        <Text style={[tw`text-xl text-center mb-8`, { color: colors.darkGray }]}>Are you sure, you want remove the image?</Text>
+                                        <PrimaryButton text={'Delete'} onPress={popUp.onClick} />
+                                    </>
+                                    :
+                                    popUp.type == 'edit'
+                                        ?
+                                        <>
+                                            <Text style={[tw`text-xl text-center mb-8`, { color: colors.darkGray }]}>Uplaod new image</Text>
+                                            <PrimaryButton text={'Upload'} onPress={popUp.onClick} />
+                                        </>
+                                        :
+                                        <></>
+                            }
+                        </View>
 
+                    </View>
+                </View>
+            ) : (
+                <></>
+            )}
         </>
     )
 }

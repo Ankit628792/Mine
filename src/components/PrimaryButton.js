@@ -11,17 +11,18 @@ function PrimaryButton({
   onPress,
   extra = '',
   textClass = '',
+  outer = '',
 }) {
   return (
     <LinearGradient
       start={{ x: 1, y: 1 }}
       end={{ x: 0, y: 0 }}
       colors={isLoading ? gradient.purple : disabled ? gradient.gray : gradient.purple}
-      style={tw`w-full rounded-lg`}>
+      style={tw`w-full rounded-xl ${outer}`}>
       <TouchableOpacity
         disabled={disabled || isLoading}
         onPress={() => (typeof onPress == 'function' ? onPress() : {})}
-        style={tw`py-2 px-6 rounded-lg ${extra} items-center justify-center`}>
+        style={tw`py-2 px-6 rounded-xl ${extra} items-center justify-center`}>
         {isLoading ? (
           <ActivityIndicator size={36} color={'#FFF'} />
         ) : (

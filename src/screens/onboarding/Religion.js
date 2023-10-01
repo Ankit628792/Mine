@@ -17,29 +17,21 @@ import { useNavigation } from '@react-navigation/native';
 import { useUpdateProfile } from '../../hooks';
 import Blur50 from '../../components/Blue50';
 import { Path, Svg } from 'react-native-svg';
+import { religions } from '../../utils/constants';
 
 const Religion = () => {
   const navigator = useNavigation();
   const [selectedReligion, setSelectedReligion] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  const religions = [
-    'Hindu',
-    'Christian',
-    'Muslim',
-    'Buddhist',
-    'Sikh',
-    'Jain',
-    'Other',
-  ];
-
-  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
-    navigator.navigate('Profession');
-  });
-
+  
   const handleReligionSelect = religion => {
     setSelectedReligion(religion);
     setModalVisible(false);
   };
+
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
+    navigator.navigate('Profession');
+  });
 
   const handleContinue = () => {
     if (selectedReligion) {

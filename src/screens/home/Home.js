@@ -23,7 +23,7 @@ const Home = () => {
         </TouchableOpacity>
       </View>
       <View style={[tw`flex-1 rounded-t-[40px] relative`, { backgroundColor: colors.white }]}>
-        <SwipeableProfile cards={cardsData} />
+        <SwipeableProfile cards={cardsData} navigator={navigator} />
       </View>
     </LinearGradient>
   );

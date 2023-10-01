@@ -7,6 +7,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import NetworkUtil from './src/utils/NetworkUtil';
 import HttpService from './src/utils/axios-interceptor';
 import ErrorBoundary from './src/components/ErrorBoundary';
+import { colors } from './src/utils/colors';
 
 const queryClient = new QueryClient();
 
@@ -16,14 +17,14 @@ const App = () => {
 
   return (
     // <ErrorBoundary>
-      <QueryClientProvider client={queryClient}>
-        <Provider store={store}>
-          <SafeAreaView style={{ flex: 1 }}>
-            <StatusBar barStyle="default" />
-            <NetworkLayer />
-          </SafeAreaView>
-        </Provider>
-      </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>
+      <Provider store={store}>
+        <SafeAreaView style={{ flex: 1 }}>
+          <StatusBar barStyle="default" backgroundColor={colors.purple} />
+          <NetworkLayer />
+        </SafeAreaView>
+      </Provider>
+    </QueryClientProvider>
     // </ErrorBoundary>
   );
 };

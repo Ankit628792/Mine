@@ -1,19 +1,19 @@
-import {View, Text, TextInput, Pressable, Image} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import {useNavigation} from '@react-navigation/native';
-import {useUpdateProfile} from '../../hooks';
+import { useNavigation } from '@react-navigation/native';
+import { useUpdateProfile } from '../../hooks';
 
 const GenderInterested = () => {
   const navigator = useNavigation();
   const [interestedIn, setInterestedIn] = useState('');
 
-  const {mutate: updateProfile, isLoading} = useUpdateProfile(() => {
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
     navigator.navigate('Bio');
   });
 
@@ -40,16 +40,15 @@ const GenderInterested = () => {
             <Text
               style={[
                 tw`text-3xl font-medium text-center`,
-                {color: colors.black},
+                { color: colors.black },
               ]}>
               Who would you like to date?
             </Text>
             <View style={tw`flex-row items-center justify-evenly mt-10`}>
-              <Pressable
+              <TouchableOpacity
                 onPress={() => handleGenderInterestedSelection('male')}
-                style={tw`w-20 h-20 ${
-                  interestedIn == 'male' ? 'opacity-100' : 'opacity-50'
-                }`}>
+                style={tw`w-20 h-20 ${interestedIn == 'male' ? 'opacity-100' : 'opacity-50'
+                  }`}>
                 <Image
                   style={tw`w-full h-full`}
                   resizeMode="contain"
@@ -57,12 +56,11 @@ const GenderInterested = () => {
                     uri: 'https://cdn-icons-png.flaticon.com/512/4139/4139981.png',
                   }}
                 />
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => handleGenderInterestedSelection('female')}
-                style={tw`w-20 h-20 ${
-                  interestedIn == 'female' ? 'opacity-100' : 'opacity-50'
-                }`}>
+                style={tw`w-20 h-20 ${interestedIn == 'female' ? 'opacity-100' : 'opacity-50'
+                  }`}>
                 <Image
                   style={tw`w-full h-full`}
                   resizeMode="contain"
@@ -70,12 +68,11 @@ const GenderInterested = () => {
                     uri: 'https://cdn-icons-png.flaticon.com/512/4140/4140060.png',
                   }}
                 />
-              </Pressable>
-              <Pressable
+              </TouchableOpacity>
+              <TouchableOpacity
                 onPress={() => handleGenderInterestedSelection('everyone')}
-                style={tw`w-20 h-20 ${
-                  interestedIn == 'everyone' ? 'opacity-100' : 'opacity-50'
-                }`}>
+                style={tw`w-20 h-20 ${interestedIn == 'everyone' ? 'opacity-100' : 'opacity-50'
+                  }`}>
                 <Image
                   style={tw`w-full h-full`}
                   resizeMode="contain"
@@ -83,7 +80,7 @@ const GenderInterested = () => {
                     uri: 'https://cdn-icons-png.flaticon.com/512/3778/3778360.png',
                   }}
                 />
-              </Pressable>
+              </TouchableOpacity>
             </View>
           </View>
         </View>

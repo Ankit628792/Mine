@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import NetworkUnavailable from './components/NetworkNotAvailable';
 import ActivityLoader from './components/ActivityLoader';
 import LocationLayer from './LocationLayer';
+import Splash from './components/Splash';
 
 const NetworkLayer = () => {
   const [loading, setLoading] = useState(true);
@@ -18,17 +19,7 @@ const NetworkLayer = () => {
     };
   }, []);
 
-  return <NetworkRenderer loading={loading} isConnected={isConnected} />;
-};
-
-const NetworkRenderer = ({loading, isConnected}) => {
-  if (loading) {
-    return <ActivityLoader />;
-  } else if (isConnected) {
-    return <LocationLayer />;
-  } else {
-    return <NetworkUnavailable />;
-  }
+  return loading ? <Splash /> : isConnected ? <LocationLayer /> : <NetworkUnavailable />
 };
 
 export default NetworkLayer;

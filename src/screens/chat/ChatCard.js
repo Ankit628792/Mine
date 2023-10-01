@@ -15,9 +15,9 @@ const ChatCard = () => {
         style={tw`w-14 h-14 rounded-full mr-3`}
       />
       <View style={[tw`relative flex-grow`, { width: Dimensions.get('window').width - 140 }]}>
-        <Text style={[tw`absolute top-1 right-1`, { color: colors.darkGray }]}>3 days ago</Text>
+        <Text style={[tw`absolute top-1 right-1`, { color: colors.gray }]}>3 days ago</Text>
         <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Sanurita</Text>
-        <Text numberOfLines={1} style={[tw`text-sm`, { color: colors.darkGray, width: Dimensions.get('window').width - 180 }]}>Last Meesage with a long text written in the view</Text>
+        <Text numberOfLines={1} style={[tw`text-sm`, { color: colors.gray, width: Dimensions.get('window').width - 180 }]}>Last Meesage with a long text written in the view</Text>
       </View>
     </TouchableOpacity>
   )

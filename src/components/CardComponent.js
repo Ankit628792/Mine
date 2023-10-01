@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet, Dimensions, Image } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import tw from 'twrnc'
-import { colors } from '../../utils/colors';
+import { colors } from '../utils/colors';
 import { Path, Svg } from 'react-native-svg';
 
 const windowHeight = Dimensions.get('window').height;
