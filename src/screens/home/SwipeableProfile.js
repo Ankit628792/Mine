@@ -15,6 +15,7 @@ const swipeRef = React.createRef()
 const SwipeableProfile = ({ cards, navigator }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
 
+
   const onSwipeLeft = card => {
     setCurrentIndex(currentIndex + 1);
     SwipeService.leftSwipe(card);
@@ -30,12 +31,13 @@ const SwipeableProfile = ({ cards, navigator }) => {
   };
 
   const onSwipeUp = card => {
-    navigator.navigate('ViewProfile')
+    navigator.navigate('ViewProfile');
+    swipeRef.current.swipeBack()
   };
 
   const onSwipedAllCards = () => {
     console.log('onSwipedAllCards');
-    SwipeService.fetchCards();
+    // SwipeService.fetchCards();
   };
 
   return (
@@ -44,12 +46,16 @@ const SwipeableProfile = ({ cards, navigator }) => {
         ref={swipeRef}
         containerStyle={{
           marginTop: 10,
-          borderRadius: 40
+          borderRadius: 40,
+          backgroundColor: 'transparent',
+          height: windowHeight - 260
+
         }}
         onSwipedLeft={() => onSwipeLeft(cards[currentIndex])}
         onSwipedRight={() => onSwipeRight(cards[currentIndex])}
         onSwipedTop={() => onSwipeUp(cards[currentIndex])}
         onTapCard={() => navigator.navigate('Match')}
+        swipeBackCard={true}
         disableBottomSwipe={true}
         cards={cards}
         cardVerticalMargin={20}
@@ -59,6 +65,7 @@ const SwipeableProfile = ({ cards, navigator }) => {
         stackSeparation={12}
         animateOverlayLabelsOpacity
         animateCardOpacity
+        verticalThreshold={40}
         overlayLabels={{
           left: {
             element:

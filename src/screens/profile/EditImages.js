@@ -10,14 +10,22 @@ import PrimaryButton from '../../components/PrimaryButton'
 import Blur50 from '../../components/Blue50'
 import LinearGradient from 'react-native-linear-gradient'
 import BackButton from '../../components/BackButton'
+import { UserService } from '../../services/user.service'
+import { useQuery } from 'react-query'
+import { ActivityIndicator } from 'react-native'
 
 const cardWidth = (Dimensions.get('window').width - 90) / 3
 
 const EditImages = ({ navigation }) => {
+    const [popUp, setPopUp] = useState({ open: false });
+    const [loading, setLoading] = useState(false);
 
-    const [popUp, setPopUp] = useState({
-        open: false
+    const { data, isLoading } = useQuery('getImages', UserService.getImages, {
+        retry: false,
+        onSuccess: res => console.log(res)
     })
+    const userData = data?.data
+
     const [images, setImages] = useState([
         { id: 1, image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' },
         { id: 2, image: 'https://cdn-icons-png.flaticon.com/512/2202/2202112.png' },
@@ -36,7 +44,6 @@ const EditImages = ({ navigation }) => {
     };
 
     const editImage = async (image) => {
-        console.log('edit image')
         await handleImage();
         setPopUp({ open: false })
     }
@@ -52,10 +59,13 @@ const EditImages = ({ navigation }) => {
             <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
                 <View style={tw`p-5 flex-row items-center justify-between`}>
                     <BackButton />
-                    <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>Edit Pictures</Text>
+                    <Text style={[tw`text-2xl font-semibold text-white text-center`]}>Edit Pictures</Text>
                     <BackButton disabled={true} buttonClass='opacity-0' />
                 </View>
                 <View style={[tw`p-5 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
+                    {loading ? <View style={tw`absolute inset-0 bg-purple-500 bg-opacity-20 z-20 items-center justify-center`}>
+                        <ActivityIndicator size={50} color={colors.purple} />
+                    </View> : <></>}
                     <ScrollView style={tw`px-1 py-5`}>
                         <View style={tw`flex-row flex-wrap items-center justify-evenly gap-y-6`}>
                             {
@@ -86,56 +96,58 @@ const EditImages = ({ navigation }) => {
                             }
                         </View>
                     </ScrollView>
-                    <PrimaryButton text={'Back'} onPress={() => navigation.pop()} />
+                    <PrimaryButton text={'Back'} textClass='text-lg' onPress={() => navigation.pop()} />
                 </View>
-            </LinearGradient>
-            {popUp.open ? (
-                <View
-                    style={tw`flex-1 flex-row items-center justify-center rounded-lg px-5 py-32 absolute inset-0`}>
-                    <Blur50 onPress={() => setPopUp({ open: false })} />
+            </LinearGradient >
+            {
+                popUp.open ? (
                     <View
-                        nativeID=" jyg"
-                        style={tw`bg-gray-50 p-5 rounded-lg w-full relative`}>
-                        <TouchableOpacity onPress={() => setPopUp({ open: false })}>
-                            <Svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                strokeWidth={1.5}
-                                stroke="currentColor"
-                                style={tw`w-8 h-8 text-gray-800 ml-auto`}>
-                                <Path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    d="M6 18L18 6M6 6l12 12"
-                                />
-                            </Svg>
-                        </TouchableOpacity>
-                        <View style={tw`items-center justify-center p-5`}>
-                            {
-                                popUp.type == 'delete'
-                                    ?
-                                    <>
-                                        <Text style={[tw`text-xl text-center mb-10`, { color: colors.gray }]}>Are you sure, you want remove the image?</Text>
-                                        <PrimaryButton text={'Delete'} onPress={popUp.onClick} />
-                                    </>
-                                    :
-                                    popUp.type == 'edit'
+                        style={tw`flex-1 flex-row items-center justify-center rounded-lg px-5 py-32 absolute inset-0`}>
+                        <Blur50 onPress={() => setPopUp({ open: false })} />
+                        <View
+                            nativeID=" jyg"
+                            style={tw`bg-gray-50 p-5 rounded-lg w-full relative`}>
+                            <TouchableOpacity onPress={() => setPopUp({ open: false })}>
+                                <Svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    strokeWidth={1.5}
+                                    stroke="currentColor"
+                                    style={tw`w-8 h-8 text-gray-800 ml-auto`}>
+                                    <Path
+                                        strokeLinecap="round"
+                                        strokeLinejoin="round"
+                                        d="M6 18L18 6M6 6l12 12"
+                                    />
+                                </Svg>
+                            </TouchableOpacity>
+                            <View style={tw`items-center justify-center p-5`}>
+                                {
+                                    popUp.type == 'delete'
                                         ?
                                         <>
-                                            <Text style={[tw`text-xl text-center mb-10`, { color: colors.gray }]}>Uplaod new image</Text>
-                                            <PrimaryButton text={'Upload'} onPress={popUp.onClick} />
+                                            <Text style={[tw`text-xl text-center mb-10`, { color: colors.gray }]}>Are you sure, you want remove the image?</Text>
+                                            <PrimaryButton textClass='text-lg' text={'Delete'} onPress={popUp.onClick} />
                                         </>
                                         :
-                                        <></>
-                            }
-                        </View>
+                                        popUp.type == 'edit'
+                                            ?
+                                            <>
+                                                <Text style={[tw`text-xl text-center mb-10`, { color: colors.gray }]}>Uplaod new image</Text>
+                                                <PrimaryButton textClass='text-lg' text={'Upload'} onPress={popUp.onClick} />
+                                            </>
+                                            :
+                                            <></>
+                                }
+                            </View>
 
+                        </View>
                     </View>
-                </View>
-            ) : (
-                <></>
-            )}
+                ) : (
+                    <></>
+                )
+            }
         </>
     )
 }

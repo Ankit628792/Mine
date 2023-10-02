@@ -35,13 +35,13 @@ const Setting = () => {
     };
 
     return (
-        <LinearGradient style={tw`flex-1 justify-between p-5 pb-10 relative`} colors={gradient.white}>
-            <View style={tw`flex-row items-center justify-between relative z-20 pb-5`}>
-                <BackButton />
+        <LinearGradient style={tw`flex-1 justify-between relative`} colors={gradient.white}>
+            <View style={tw`flex-row items-center justify-between relative z-20 p-5 bg-white`}>
+                <BackButton buttonClass='bg-gray-800' iconClass='text-gray-50' />
                 <Text style={tw`text-2xl font-medium text-gray-800`}>Settings</Text>
                 <BackButton buttonClass='relative opacity-0' disabled={true} />
             </View>
-            <View style={tw`flex-grow`}>
+            <View style={tw`flex-grow p-5`}>
                 <List onPress={() => navigator.navigate("Subscription")}>Subscription</List>
                 <List onPress={() => navigator.navigate("PrivacyPolicy")}>Privacy Policy</List>
                 <List onPress={() => navigator.navigate("TermsAndConditions")}>Terms And Conditions</List>
@@ -50,7 +50,7 @@ const Setting = () => {
                     <Text style={tw`text-base text-sky-500`}>support@delanki.com</Text>
                 </TouchableOpacity>
             </View>
-            <View style={tw`px-5`}>
+            <View style={tw`p-5`}>
                 <View style={tw`items-center py-5`}>
                     <Text style={tw`text-gray-700 text-base`}>Version</Text>
                     <Text style={tw`text-gray-600`}>1.0.0</Text>

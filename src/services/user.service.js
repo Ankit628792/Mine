@@ -9,6 +9,11 @@ const updateProfile = data => {
     return HttpService.patch(endpoints.profile, data);
 };
 
+const getProfile = () => HttpService.get(endpoints.profile);
+const getImages = () => HttpService.get(endpoints.images);
+
+const deleteImage = (id) => HttpService.delete(endpoints.images + "/" + id);
+
 export const uploadImage = async (data) => {
     const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY)
     return axios.post(`${API_URL}${API_BASE_PATH}/images`, data, {
@@ -37,7 +42,9 @@ export const updateImage = async (data) => {
     })
 }
 
-
 export const UserService = {
-    updateProfile
+    updateProfile,
+    getProfile,
+    getImages,
+    deleteImage
 };

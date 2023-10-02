@@ -1,11 +1,11 @@
 import React from 'react';
-import {useColorScheme} from 'react-native';
+import { useColorScheme } from 'react-native';
 import {
   DarkTheme,
   DefaultTheme,
   NavigationContainer,
 } from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Intro from './screens/onboarding/Intro';
 import Name from './screens/onboarding/Name';
 import DOB from './screens/onboarding/DOB';
@@ -23,7 +23,7 @@ import PersonalChat from './screens/chat/PersonalChat';
 import Login from './screens/auth/Login';
 import VerifyOTP from './screens/auth/VerifyOTP';
 import Profile from './screens/profile/Profile';
-import {ROUTES} from './utils/routes';
+import { ROUTES } from './utils/routes';
 // import HomeScreen from './screens/home/HomeScreen';
 import NavigatorTab from './components/BottomTabs/NavigatorTab';
 import LikedChats from './screens/chat/LikedChats';
@@ -33,10 +33,12 @@ import Setting from './screens/settings/Setting';
 import ViewProfile from './screens/profile/ViewProfile';
 import Match from './screens/home/Match';
 import EditImages from './screens/profile/EditImages';
+import TermsAndConditions from './screens/settings/TermsAndConditions';
+import PrivacyPolicy from './screens/settings/PrivacyPolicy';
 
 const Stack = createNativeStackNavigator();
 
-const NavigationLayer = ({user}) => {
+const NavigationLayer = ({ user }) => {
   const theme = useColorScheme();
   const initialRouteName = user
     ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
@@ -46,7 +48,7 @@ const NavigationLayer = ({user}) => {
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
         initialRouteName={initialRouteName}
-        screenOptions={{headerShown: false}}>
+        screenOptions={{ headerShown: false }}>
         <Stack.Screen name="Intro" component={Intro} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
@@ -69,6 +71,8 @@ const NavigationLayer = ({user}) => {
         <Stack.Screen name="EditProfile" component={EditProfile} />
         <Stack.Screen name="EditImages" component={EditImages} />
         <Stack.Screen name="ViewProfile" component={ViewProfile} />
+        <Stack.Screen name="TermsAndConditions" component={TermsAndConditions} />
+        <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
         <Stack.Screen name="Match" component={Match} />
         <Stack.Screen name="Setting" component={Setting} />
         <Stack.Screen name="Main" component={NavigatorTab} />

@@ -8,8 +8,8 @@ import MatchCard from '../../components/MatchCard'
 const Matches = () => {
     return (
         <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
-            <View style={tw`p-5 pb-2`}>
-                <Text style={[tw`text-2xl font-semibold mb-3 ml-3 text-white text-center`]}>Matches</Text>
+            <View style={tw`p-5`}>
+                <Text style={[tw`text-2xl font-semibold text-white text-center`]}>Matches</Text>
             </View>
             <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
                 {/* <NoMatch /> */}

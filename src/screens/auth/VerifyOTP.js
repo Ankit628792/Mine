@@ -6,20 +6,20 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
 } from 'react-native';
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 import LinearGradient from 'react-native-linear-gradient';
 import OTPInputView from '../../components/OTPInputView';
 import BackButton from '../../components/BackButton';
-import {useSendOtp, useVerifyOtp} from '../../hooks';
+import { useSendOtp, useVerifyOtp } from '../../hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {useNavigation} from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 
 import PrimaryButton from '../../components/PrimaryButton';
 import { colors, gradient } from '../../utils/colors';
 
 
-const VerifyOTP = ({route}) => {
+const VerifyOTP = ({ route }) => {
   const navigation = useNavigation();
   const [isVisible, setIsVisible] = useState(true);
 
@@ -39,7 +39,7 @@ const VerifyOTP = ({route}) => {
     isError,
     error: err,
   } = useVerifyOtp(() => setOtp(''));
-  let {mutate: sendOtp} = useSendOtp();
+  let { mutate: sendOtp } = useSendOtp();
 
   const checkOtp = async () => {
     if (otp?.length == 6) {
@@ -62,20 +62,20 @@ const VerifyOTP = ({route}) => {
         <View
           style={[
             tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-3xl`,
-            {backgroundColor: colors.white},
+            { backgroundColor: colors.white },
           ]}>
           <View style={tw`flex-col items-center justify-center mb-10`}>
             <Text
               style={[
                 tw`text-3xl font-medium my-1 text-center`,
-                {color: colors.black},
+                { color: colors.black },
               ]}>
               Verification Code
             </Text>
             <Text
               style={[
                 tw`text-base text-center px-5`,
-                {color: colors.darkGray},
+                { color: colors.darkGray },
               ]}>
               We have sent the verification code to {route.params?.mobile}
             </Text>
@@ -94,7 +94,7 @@ const VerifyOTP = ({route}) => {
             </View>
             <View
               style={tw`flex-row items-center ${isVisible ? '' : 'opacity-0'}`}>
-              <Text style={[tw`text-sm mr-1`, {color: colors.darkGray}]}>
+              <Text style={[tw`text-sm mr-1`, { color: colors.darkGray }]}>
                 Didn't received the code?
               </Text>
               <TouchableOpacity
@@ -105,7 +105,7 @@ const VerifyOTP = ({route}) => {
                     countryCode: route.params?.countryCode,
                   })
                 }>
-                <Text style={tw`font-medium text-purple-400`}>Send Again</Text>
+                <Text style={[tw`font-medium`, { color: colors.purple }]}>Send Again</Text>
               </TouchableOpacity>
             </View>
           </View>

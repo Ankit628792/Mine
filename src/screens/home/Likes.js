@@ -13,8 +13,8 @@ const Likes = () => {
 
   return (
     <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
-      <View style={tw`p-5 pb-2`}>
-        <Text style={[tw`text-2xl font-semibold mb-3 ml-3 text-white text-center`]}>Your Likes</Text>
+      <View style={tw`p-5`}>
+        <Text style={[tw`text-2xl font-semibold text-white text-center`]}>Your Likes</Text>
       </View>
       <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
         {/* <NoLike /> */}
