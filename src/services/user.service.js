@@ -32,9 +32,9 @@ export const uploadProfileImage = async (data) => {
         }
     })
 }
-export const updateImage = async (data) => {
+export const updateImage = async (id, data) => {
     const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY)
-    return axios.patch(`${API_URL}${API_BASE_PATH}/image/${data.id}`, data, {
+    return axios.patch(`${API_URL}${API_BASE_PATH}/images/${id}`, data, {
         headers: {
             'Content-Type': 'multipart/form-data',
             [TOKEN_PAYLOAD_KEY]: `Bearer ${jwtToken}`

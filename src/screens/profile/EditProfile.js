@@ -28,14 +28,18 @@ import { useUpdateProfile } from '../../hooks'
 import { showToast } from '../../utils/FunctionHelper'
 import { useQueryClient } from 'react-query'
 import ActivityLoader from '../../components/ActivityLoader'
+import { setIntoUser, setUser } from '../../redux/user/user-slice'
+import { useDispatch } from 'react-redux'
 
 const EditProfile = ({ route }) => {
     const queryClient = useQueryClient()
+    const dispatch = useDispatch()
     const [userData, setUserData] = useState(route.params.userData)
     const [loading, setLoading] = useState(false);
     const [showPicker, setShowPicker] = useState(false);
     const [modalVisible, setModalVisible] = useState('');
     const [sheet, setSheet] = useState('');
+    // console.log(userData)
 
     const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
         queryClient.invalidateQueries('getProfile');
@@ -75,16 +79,20 @@ const EditProfile = ({ route }) => {
                         ? 'image/png'
                         : 'image/jpeg';
 
-                let formdata = new FormData();
-                formdata.append('profile_pic', {
+                let formData = new FormData();
+                formData.append('profile_pic', {
                     type: type,
                     uri: profile,
                     name: nameImg,
                 });
-                let res = await uploadProfileImage(formdata);
+                let res = await uploadProfileImage(formData);
+                // let res = await updateImage(edit, formData);
 
-                if (res.data.status) {
-
+                if (res.data?.data?.url) {
+                    setUserData({ ...userData, profileImage: res.data?.data?.url })
+                    dispatch(setIntoUser({ profileImage: res.data?.data?.url }));
+                    queryClient.invalidateQueries('getProfile');
+                    showToast("Profile Updated Successfully!");
                 }
                 setLoading(false)
             }
@@ -133,7 +141,7 @@ const EditProfile = ({ route }) => {
                                                 loading ?
                                                     <ActivityIndicator size={30} color={colors.purple} />
                                                     :
-                                                    <Image source={{ uri: userData?.profileImage || 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} />
+                                                    <Image style={tw`h-full w-full rounded-xl bg-white`} resizeMode='cover' source={{ uri: userData ? `https://mine-blob-storage.s3.us-east-2.amazonaws.com/${userData?.profileImage}` : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} />
                                             }
                                         </TouchableOpacity>
                                         <View style={tw`w-full`}>

@@ -72,7 +72,7 @@ const Profile = () => {
                   </Svg>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 rounded-md shadow-lg shadow-gray-300`}>
+                <TouchableOpacity onPress={() => navigator.navigate('Setting')} style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 rounded-md shadow-lg shadow-gray-300`}>
                   <Text style={tw`text-base text-gray-700`}>Settings</Text>
                   <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={tw`text-gray-700 w-7 h-7`}>
                     <Path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

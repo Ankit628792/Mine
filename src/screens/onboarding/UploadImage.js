@@ -86,13 +86,13 @@ const UploadImage = () => {
             ? 'image/png'
             : 'image/jpeg';
 
-        let formdata = new FormData();
-        formdata.append('image', {
+        let formData = new FormData();
+        formData.append('image', {
           type: type,
           uri: img.image,
           name: nameImg,
         });
-        let res = await uploadImage(formdata);
+        let res = await uploadImage(formData);
         // console.log(res.data)
         if (res.data?.data) {
           serveImages.push(res.data?.data?.url);

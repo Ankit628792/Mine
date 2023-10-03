@@ -49,13 +49,13 @@ const ProfileImage = ({route}) => {
         ? 'image/png'
         : 'image/jpeg';
 
-    let formdata = new FormData();
-    formdata.append('profile_pic', {
+    let formData = new FormData();
+    formData.append('profile_pic', {
       type: type,
       uri: profile,
       name: nameImg,
     });
-    let res = await uploadProfileImage(formdata);
+    let res = await uploadProfileImage(formData);
 
     if (res.data.status) {
       dispatch(setIntoUser({profileImage: profile}));
