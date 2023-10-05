@@ -75,6 +75,7 @@ const PersonalChat = ({ route }) => {
   let conversationId = route?.params?._id;
   const navigator = useNavigation();
   const [isLoading, setIsLoading] = useState(false);
+  const [menu, setMenu] = useState(false)
 
   const flatListRef = useRef(null);
   const user = {
@@ -209,7 +210,11 @@ const PersonalChat = ({ route }) => {
         <View style={tw`p-5 flex-row items-center justify-between`}>
           <BackButton />
           <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>Person Name</Text>
-          <BackButton disabled={true} buttonClass='opacity-0' />
+          <TouchableOpacity style={tw`w-12 h-12 items-center justify-center`} onPress={() => setMenu(true)}>
+            <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={tw`w-9 h-9 text-gray-50`}>
+              <Path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clipRule="evenodd" />
+            </Svg>
+          </TouchableOpacity>
         </View>
         <View style={[tw`p-5 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
           {isLoading ? (
@@ -271,6 +276,25 @@ const PersonalChat = ({ route }) => {
           </View>
         </View>
       </LinearGradient>
+      {menu && <View style={[tw`absolute flex-1 z-20 inset-0`,]}>
+        <TouchableHighlight style={tw`flex-1 bg-black bg-opacity-40`} activeOpacity={1} underlayColor='none' onPress={() => setMenu(false)}>
+          <></>
+        </TouchableHighlight>
+        <View style={tw`p-3 rounded-lg bg-white absolute top-16 right-10`}>
+          <TouchableOpacity style={tw`p-2`} onPress={() => { setMenu(false) }}>
+            <Text style={tw`text-gray-800`}>Clear Chat</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={tw`p-2`} onPress={() => { setMenu(false) }}>
+            <Text style={tw`text-gray-800`}>Un-Match</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={tw`p-2`} onPress={() => { navigator.navigate("Report", { userId: receiver?.id }); setMenu(false) }}>
+            <Text style={tw`text-gray-800`}>Report User</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={tw`p-2`} onPress={() => { navigator.navigate("Block", { userId: receiver?.id }); setMenu(false) }}>
+            <Text style={tw`text-rose-500`}>Block User</Text>
+          </TouchableOpacity>
+        </View>
+      </View>}
     </>
   );
 };

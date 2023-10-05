@@ -8,7 +8,7 @@ import { Path, Svg } from 'react-native-svg';
 const windowHeight = Dimensions.get('window').height;
 
 const CardComponent = ({ cardData }) => {
-  const cardHeight = windowHeight - 340;
+  const cardHeight = windowHeight - 320;
 
   return (
     <View
