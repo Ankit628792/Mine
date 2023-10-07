@@ -6,34 +6,43 @@ import { colors } from '../../utils/colors';
 import { useNavigation } from '@react-navigation/native'
 import ActivityLoader from '../../components/ActivityLoader'
 import BackButton from '../../components/BackButton'
+import { useUpdateFilter } from '../../hooks';
+import { useDispatch } from 'react-redux';
 
-const DEFAULTDISTANCE = 1000
-const DEFAULTAGEVALUES = [20, 60]
+const DEFAULT_DISTANCE = 1000
+const DEFAULT_AGE_VALUES = [20, 60]
 const WIDTH = Dimensions.get('window').width
 
 const Filter = () => {
     const navigator = useNavigation();
-    const [loading, setLoading] = useState(true)
-    const [distance, setDistance] = useState(DEFAULTDISTANCE)
-    const [ageValues, setAgeValues] = useState(DEFAULTAGEVALUES)
+    const dispatch = useDispatch();
+    const [distance, setDistance] = useState(DEFAULT_DISTANCE)
+    const [ageValues, setAgeValues] = useState(DEFAULT_AGE_VALUES)
 
     // use query to get initial filters and on success set corresponding states
+
+    const { mutate: updateFilter, isLoading } = useUpdateFilter(() => { navigator.goBack(); dispatch({ distance, ageValues }); })
 
     const handleDistance = (value) => {
         setDistance(value[0])
     }
 
-    const multisliderValueChange = (values) => {
+    const multiSliderValueChange = (values) => {
         setAgeValues(values)
     }
 
 
     const updatingFilter = async () => {
-        // pass the filters to backend and hit get all profile callback
+        // pass the filters to backend and hit get all profile callback;
+        updateFilter({
+            distance,
+            maxAge: ageValues[1],
+            minAge: ageValues[0]
+        })
     }
 
     const handleBackButton = () => {
-        updatingFilter()
+        updatingFilter();
     }
 
     return (
@@ -41,12 +50,12 @@ const Filter = () => {
             <View style={tw`flex-row justify-between p-5`}>
                 <BackButton />
                 <Text style={tw`text-gray-900 font-bold text-2xl`}>Filter</Text>
-                <TouchableOpacity onPress={handleBackButton}>
+                <TouchableOpacity disabled={isLoading} onPress={handleBackButton}>
                     <Text style={[tw`text-lg font-medium`, { color: colors.purple }]}>Apply</Text>
                 </TouchableOpacity>
             </View>
             {
-                !loading ?
+                !isLoading ?
                     <View style={tw`flex-1 justify-center`}>
                         <ActivityLoader />
                     </View>
@@ -64,7 +73,7 @@ const Filter = () => {
                                         containerStyle={[tw`flex-row justify-center`]}
                                         values={ageValues}
                                         sliderLength={WIDTH > 360 ? 300 : 280}
-                                        onValuesChange={multisliderValueChange}
+                                        onValuesChange={multiSliderValueChange}
                                         min={22}
                                         max={60}
                                         step={1}

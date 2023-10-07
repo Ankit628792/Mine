@@ -8,6 +8,7 @@ import { AuthService } from "../services/auth.service"
 import { UserService } from "../services/user.service"
 import { ROUTES } from "../utils/routes"
 import { setUser } from "../redux/user/user-slice"
+import { SwipeService } from "../services/swipe.service"
 
 export const useSendOtp = (callback) => {
     return useMutation(AuthService.sendOtp, {
@@ -104,6 +105,61 @@ export const useUpdateProfile = callback => {
         onError: e => {
             showToast('Oops! Unable to Update profile');
             console.error('Oops! Unable to Update profile');
+        },
+    });
+};
+
+export const useUpdateFilter = callback => {
+    return useMutation(UserService.updateFilter, {
+        onSuccess: response => {
+            if (response.status === true) {
+                showToast("Filter Applied Successfully!")
+                if (typeof callback == 'function') {
+                    callback();
+                }
+            } else {
+                showToast(response.message);
+            }
+        },
+        onError: e => {
+            showToast('Oops! Unable to Update filter');
+            console.error('Oops! Unable to Update filter');
+        },
+    });
+};
+
+export const useAcceptLike = callback => {
+    return useMutation(SwipeService.acceptLike, {
+        onSuccess: response => {
+            if (response.status === true) {
+                showToast("Request Accepted!")
+                if (typeof callback == 'function') {
+                    callback();
+                }
+            } else {
+                showToast(response.message);
+            }
+        },
+        onError: e => {
+            showToast('Oops! Unable to accept request');
+            console.error('Oops! Unable to accept request');
+        },
+    });
+};
+
+export const useProfileAction = callback => {
+    return useMutation(SwipeService.profileAction, {
+        onSuccess: response => {
+            if (response.status === true) {
+                if (typeof callback == 'function') {
+                    callback();
+                }
+            } else {
+                showToast(response.message);
+            }
+        },
+        onError: e => {
+            console.error('Oops! Unable to like profile');
         },
     });
 };

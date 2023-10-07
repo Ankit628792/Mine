@@ -1,30 +1,19 @@
 import HttpService from '../utils/axios-interceptor';
+import { endpoints } from './config';
 
-const rightSwipe = data => {
-  //   HttpService.post('/swipe', data);
-  console.log('rightSwipe', data);
+const fetchAllProfiles = (page) => HttpService.get(endpoints.allProfile + `?pageNumber=${page || 0}`);
+const getAllLikes = () => HttpService.get(endpoints.likes);
+const getAllUserMatch = () => HttpService.get(endpoints.match + endpoints.match + 'es');
+const getAllChats = () => HttpService.get(endpoints.match + '/chated');
+
+const profileAction = (data) => HttpService.post('/doaction', data);
+const acceptLike = (data) => HttpService.post('/acceptUser', data);
+
+export const SwipeService = {
+  fetchAllProfiles,
+  getAllLikes,
+  getAllUserMatch,
+  getAllChats,
+  profileAction,
+  acceptLike
 };
-
-const leftSwipe = data => {
-  // HttpService.post('/swipe', data);
-  console.log('leftSwipe', data);
-};
-
-const upSwipe = data => {
-  //   HttpService.post('/swipe', data);
-  console.log('upSwipe', data);
-};
-
-const fetchCards = () => {
-  //   HttpService.get('/swipe');
-  console.log('fetchCards');
-};
-
-const SwipeService = {
-  rightSwipe,
-  leftSwipe,
-  upSwipe,
-  fetchCards,
-};
-
-export default SwipeService;

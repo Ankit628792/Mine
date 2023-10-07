@@ -8,7 +8,8 @@ export const colors = {
   gray: '#B2BEB5',
   blue: '#0072ff',
   orange: '#FF5F6D',
-  purple: 'rgba(128,102,255,1)'
+  purple: 'rgba(128,102,255,1)',
+  red: '#FF416C'
 };
 
 export const gradient = {

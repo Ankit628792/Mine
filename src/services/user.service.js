@@ -5,14 +5,16 @@ import { AUTH_TOKEN_KEY, TOKEN_PAYLOAD_KEY } from "../utils/constants"
 
 import HttpService from '../utils/axios-interceptor';
 
-const updateProfile = data => {
-    return HttpService.patch(endpoints.profile, data);
-};
+const updateFilter = data => HttpService.patch(endpoints.filter, data);
+const getFilters = () => HttpService.get(endpoints.filter);
+
+const updateProfile = data => HttpService.patch(endpoints.profile, data);
 
 const getProfile = () => HttpService.get(endpoints.profile);
 const getImages = () => HttpService.get(endpoints.images);
 
 const deleteImage = (id) => HttpService.delete(endpoints.images + "/" + id);
+
 
 export const uploadImage = async (data) => {
     const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY)
@@ -46,5 +48,7 @@ export const UserService = {
     updateProfile,
     getProfile,
     getImages,
-    deleteImage
+    deleteImage,    
+    updateFilter,
+    getFilters
 };

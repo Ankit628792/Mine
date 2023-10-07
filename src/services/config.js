@@ -14,4 +14,8 @@ export const endpoints = {
   profilePic: '/ProfilePic',
   image: '/image',
   images: '/images',
+  allProfile: '/allProfile',
+  likes: '/likes',
+  match: '/match',
+  filter: '/filter'
 };

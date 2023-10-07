@@ -6,11 +6,18 @@ import tw from 'twrnc'
 import LinearGradient from 'react-native-linear-gradient';
 import { useNavigation } from '@react-navigation/native';
 import { SwipeListView } from 'react-native-swipe-list-view'
+import { useQuery } from 'react-query';
+import { SwipeService } from '../../services/swipe.service';
 
 
 const Chat = () => {
   const navigator = useNavigation();
   const [openRows, setOpenRows] = useState({});
+
+  // const { data } = useQuery('getAllChats', SwipeService.getAllChats, {
+  //   retry: false,
+  //   onSuccess: res => console.log(res)
+  // })
 
   const isListItemOpen = (rowKey) => {
     return openRows[rowKey] === true;

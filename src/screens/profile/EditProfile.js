@@ -44,10 +44,11 @@ const EditProfile = ({ route }) => {
     const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
         queryClient.invalidateQueries('getProfile');
         showToast("Profile Updated Successfully!");
+        dispatch(setIntoUser({ profileImages: userData?.profileImage, username: userData?.fullName }))
     });
 
     const handleSave = () => {
-        updateProfile({ ...userData, dob: moment(userData?.dob).format('yyyy-DD-MM') });
+        updateProfile({ ...userData, dob: moment(userData?.dob).format('yyyy-DD-MM'), userName: userData?.fullName?.trim(), fullName: userData?.fullName?.trim() });
     }
 
     const handleGenderInterestedSelection = selectedGender => setUserData({ ...userData, genderInterest: selectedGender });

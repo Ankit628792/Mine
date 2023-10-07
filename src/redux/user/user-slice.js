@@ -4,6 +4,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
   isAuth: false,
   userInfo: null,
+  profileFilter: {
+
+  }
 }
 
 export const userSlice = createSlice({
@@ -25,14 +28,19 @@ export const userSlice = createSlice({
     setIntoUser: (state, action) => {
       if (action.payload)
         state.userInfo = { ...state.userInfo, ...action.payload }
-    }
+    },
 
+    setProfileFilter: (state, action) => {
+      if (action.payload)
+        state.profileFilter = action.payload
+    },
   },
 });
 
-export const { setAuth, setUser, setIntoUser } = userSlice.actions;
+export const { setAuth, setUser, setIntoUser, setProfileFilter } = userSlice.actions;
 
 export const selectUser = state => state.user.userInfo
+export const selectFilter = state => state.user.profileFilter
 
 export default userSlice.reducer
 
