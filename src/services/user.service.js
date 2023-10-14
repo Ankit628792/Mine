@@ -13,8 +13,9 @@ const updateProfile = data => HttpService.patch(endpoints.profile, data);
 const getProfile = () => HttpService.get(endpoints.profile);
 const getImages = () => HttpService.get(endpoints.images);
 
-const deleteImage = (id) => HttpService.delete(endpoints.images + "/" + id);
+const fetchProfileById = (id) => id ? HttpService.get(endpoints.profile + '/' + id) : {}
 
+const deleteImage = (id) => HttpService.delete(endpoints.images + "/" + id);
 
 export const uploadImage = async (data) => {
     const jwtToken = await GetLocalStorage(AUTH_TOKEN_KEY)
@@ -48,7 +49,8 @@ export const UserService = {
     updateProfile,
     getProfile,
     getImages,
-    deleteImage,    
+    deleteImage,
     updateFilter,
-    getFilters
+    getFilters,
+    fetchProfileById
 };

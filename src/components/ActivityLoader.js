@@ -5,7 +5,7 @@ import { colors } from '../utils/colors';
 
 const ActivityLoader = () => {
   return (
-    <View style={tw`flex-1 justify-center items-center`}>
+    <View style={[tw`flex-1 justify-center items-center`]}>
       <Loader size={50} color={colors.purple} />
     </View>
   );

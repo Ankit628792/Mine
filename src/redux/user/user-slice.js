@@ -5,7 +5,9 @@ const initialState = {
   isAuth: false,
   userInfo: null,
   profileFilter: {
-
+    distance: 1000,
+    maxAge: 60,
+    minAge: 18
   }
 }
 

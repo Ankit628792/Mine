@@ -8,20 +8,21 @@ import ActivityLoader from '../../components/ActivityLoader'
 import BackButton from '../../components/BackButton'
 import { useUpdateFilter } from '../../hooks';
 import { useDispatch } from 'react-redux';
+import { setProfileFilter } from '../../redux/user/user-slice';
 
 const DEFAULT_DISTANCE = 1000
 const DEFAULT_AGE_VALUES = [20, 60]
 const WIDTH = Dimensions.get('window').width
 
-const Filter = () => {
+const Filter = ({ route }) => {
     const navigator = useNavigation();
     const dispatch = useDispatch();
-    const [distance, setDistance] = useState(DEFAULT_DISTANCE)
-    const [ageValues, setAgeValues] = useState(DEFAULT_AGE_VALUES)
+    const [distance, setDistance] = useState(route.params.filter?.distance || DEFAULT_DISTANCE)
+    const [ageValues, setAgeValues] = useState([route.params.filter?.minAge || 20, route.params.filter?.maxAge || 60])
 
     // use query to get initial filters and on success set corresponding states
 
-    const { mutate: updateFilter, isLoading } = useUpdateFilter(() => { navigator.goBack(); dispatch({ distance, ageValues }); })
+    const { mutate: updateFilter, isLoading } = useUpdateFilter(() => { navigator.goBack(); dispatch(setProfileFilter({ distance, maxAge: ageValues[1], minAge: ageValues[0] })); })
 
     const handleDistance = (value) => {
         setDistance(value[0])
@@ -33,12 +34,16 @@ const Filter = () => {
 
 
     const updatingFilter = async () => {
-        // pass the filters to backend and hit get all profile callback;
-        updateFilter({
-            distance,
-            maxAge: ageValues[1],
-            minAge: ageValues[0]
-        })
+
+        if (distance == route.params.filter?.distance && route.params.filter?.minAge == ageValues[0] && route.params.filter?.maxAge == ageValues[1]) {
+            navigator.goBack();
+        }
+        else
+            updateFilter({
+                distance,
+                maxAge: ageValues[1],
+                minAge: ageValues[0]
+            })
     }
 
     const handleBackButton = () => {
@@ -55,7 +60,7 @@ const Filter = () => {
                 </TouchableOpacity>
             </View>
             {
-                !isLoading ?
+                isLoading ?
                     <View style={tw`flex-1 justify-center`}>
                         <ActivityLoader />
                     </View>

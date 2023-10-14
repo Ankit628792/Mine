@@ -122,6 +122,7 @@ export const useUpdateFilter = callback => {
             }
         },
         onError: e => {
+            console.log(e)
             showToast('Oops! Unable to Update filter');
             console.error('Oops! Unable to Update filter');
         },
@@ -129,10 +130,11 @@ export const useUpdateFilter = callback => {
 };
 
 export const useAcceptLike = callback => {
+    const queryClient = useQueryClient()
     return useMutation(SwipeService.acceptLike, {
         onSuccess: response => {
             if (response.status === true) {
-                showToast("Request Accepted!")
+                queryClient.invalidateQueries('getAllLikes')
                 if (typeof callback == 'function') {
                     callback();
                 }
@@ -150,15 +152,17 @@ export const useAcceptLike = callback => {
 export const useProfileAction = callback => {
     return useMutation(SwipeService.profileAction, {
         onSuccess: response => {
+            console.log("useProfileAction", response)
             if (response.status === true) {
                 if (typeof callback == 'function') {
-                    callback();
+                    callback(response?.data);
                 }
             } else {
                 showToast(response.message);
             }
         },
         onError: e => {
+            console.log(e)
             console.error('Oops! Unable to like profile');
         },
     });

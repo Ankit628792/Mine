@@ -1,13 +1,13 @@
-import { View, Text, ScrollView, Image } from 'react-native'
+import { View, Text, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native'
 import React from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import tw from 'twrnc'
-import MatchCard from '../../components/MatchCard'
 import { useQuery } from 'react-query'
 import { SwipeService } from '../../services/swipe.service'
 import ActivityLoader from '../../components/ActivityLoader'
 import { useNavigation } from '@react-navigation/native'
+import moment from 'moment'
 
 const Matches = () => {
     const navigator = useNavigation()
@@ -49,5 +49,23 @@ const NoMatch = () => {
             <Image source={require('../../assets/images/match.png')} style={tw`w-28 h-28`} />
             <Text style={[tw`text-xl mt-4`, { color: colors.gray }]}>No Match Yet</Text>
         </View>
+    )
+}
+
+
+export const MatchCard = ({ item, navigator }) => {
+
+    return (
+        <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { profile: { id: item?.id } })} style={tw`flex-row items-center py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
+            <Image
+                source={{
+                    uri: ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + item?.profileImage),
+                }}
+                style={tw`w-14 h-14 rounded-full mr-3`}
+            />
+            <View style={[tw`relative flex-grow`, { width: Dimensions.get('window').width - 140 }]}>
+                <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>{item?.userName}</Text>
+            </View>
+        </TouchableOpacity>
     )
 }

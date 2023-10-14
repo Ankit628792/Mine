@@ -14,27 +14,16 @@ import ActivityLoader from '../../components/ActivityLoader'
 import Blur50 from '../../components/Blue50'
 import PrimaryButton from '../../components/PrimaryButton'
 import moment from 'moment'
+import MatchCard from '../../components/MatchCard'
+import LikeCard from '../../components/LikeCard'
 
 const Likes = () => {
   const navigator = useNavigation();
   const [popUp, setPopUp] = useState(false)
-  const { data, isLoading } = useQuery('getAllLikes', SwipeService.getAllLikes, {
+  const { data: likeData, isLoading } = useQuery('getAllLikes', SwipeService.getAllLikes, {
     retry: false,
-    onSuccess: res => console.log(res)
+    // onSuccess: res => console.log(res)
   })
-
-  const { mutate: handleLike, isLoading: updating } = useAcceptLike(() => { })
-
-  const handleRequest = ({ type, id }) => {
-    setPopUp({
-      type,
-      onClick: () => handleLike({
-        acceptUserId: id,
-        matchStatus: type?.toUpperCase()
-      })
-    })
-
-  }
 
   return (
     <>
@@ -46,11 +35,11 @@ const Likes = () => {
           {
             isLoading ? <ActivityLoader />
               :
-              data?.length ?
+              likeData?.data?.length ?
                 <ScrollView showsVerticalScrollIndicator={false} style={tw`pt-5`}>
                   <View style={tw`flex-row flex-wrap justify-center gap-4`}>
                     {
-                      data?.map((item, i) => (<LikeCard item={item} navigator={navigator} handleRequest={handleRequest} key={i} />))
+                      likeData?.data?.map((item, i) => (<LikeCard item={item} navigator={navigator} key={i} />))
                     }
                   </View>
                   <View style={tw`h-32`}></View>
@@ -87,37 +76,6 @@ const Likes = () => {
 }
 
 export default Likes
-
-export const LikeCard = ({ item, navigator, handleRequest }) => {
-
-  return (
-    <TouchableOpacity onPress={() => navigator.navigate('ViewProfile')} style={tw`flex-row py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
-      <Image
-        source={{
-          uri: item?.profileImage,
-        }}
-        style={tw`w-14 h-14 rounded-full mr-3`}
-      />
-      <View style={[tw`relative flex-grow`, { width: Dimensions.get('window').width - 140 }]}>
-        <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>{item?.userName}</Text>
-        <Text numberOfLines={1} style={[tw`text-sm`, { color: colors.gray, width: Dimensions.get('window').width - 180 }]}>Liked you {moment(item?.createdAt).fromNow()}</Text>
-        <View style={tw`flex-row items-center gap-4 absolute top-4 right-2`}>
-          <TouchableOpacity onPress={() => handleRequest({ type: 'reject', id: 'jjv' })}>
-            <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={[tw`w-6 h-6`, { color: colors.red }]}>
-              <Path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </Svg>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleRequest({ type: 'accept', id: 'fvghjb' })}>
-            <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={[tw`w-6 h-6`, { color: colors.purple }]}>
-              <Path d="M11.645 20.91l-.007-.003-.022-.012a15.247 15.247 0 01-.383-.218 25.18 25.18 0 01-4.244-3.17C4.688 15.36 2.25 12.174 2.25 8.25 2.25 5.322 4.714 3 7.688 3A5.5 5.5 0 0112 5.052 5.5 5.5 0 0116.313 3c2.973 0 5.437 2.322 5.437 5.25 0 3.925-2.438 7.111-4.739 9.256a25.175 25.175 0 01-4.244 3.17 15.247 15.247 0 01-.383.219l-.022.012-.007.004-.003.001a.752.752 0 01-.704 0l-.003-.001z" />
-            </Svg>
-          </TouchableOpacity>
-        </View>
-
-      </View>
-    </TouchableOpacity>
-  )
-}
 
 
 const NoLike = () => {

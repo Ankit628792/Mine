@@ -30,7 +30,7 @@ const Chat = () => {
     return (
       isOpen
         ?
-        <TouchableOpacity style={[tw`flex-1 justify-center items-end pt-4`]}>
+        <TouchableOpacity style={[tw`flex-1 justify-center items-end py-4`]}>
           <View style={tw`bg-red-500 h-full rounded-xl px-4 items-center justify-center min-w-[100px]`}>
             {
               false ?
@@ -64,7 +64,6 @@ const Chat = () => {
       </View>
       <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
         {/* <NoChat /> */}
-        {/* <ScrollView style={tw`pt-5`} showsVerticalScrollIndicator={false}> */}
         <SwipeListView
           showsVerticalScrollIndicator={false}
           onRowOpen={onRowOpen}
@@ -77,11 +76,6 @@ const Chat = () => {
           swipeToOpenPercent={0.2}
           style={{ gap: 10 }}
         />
-
-        {
-          // Array(50).fill(1).map((item, i) => (<ChatCard key={i} navigator={navigator} item={item} />))
-        }
-        {/* </ScrollView> */}
       </View>
     </LinearGradient>
   );
