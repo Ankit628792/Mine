@@ -26,12 +26,21 @@ const Home = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0)
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [cards, setCards] = useState([])
+  const [cards, setCards] = useState([]);
+  const [loading, setLoading] = useState(true)
 
   const { data, refetch, isFetching } = useQuery('fetchAllProfiles', () => SwipeService.fetchAllProfiles(page), {
     retry: false,
-    onSuccess: res => Array.isArray(res) ? setCards(res) : console.log(res)
-  })
+    onSuccess: res => {
+      if (res) {
+        setCards(res)
+      } else {
+        console.log(res)
+      }
+      setLoading(false)
+    }
+  });
+
   useQuery('getFilters', UserService.getFilters, {
     retry: false,
     onSuccess: res => res?.data ? dispatch(setProfileFilter(res.data)) : {}
@@ -51,24 +60,29 @@ const Home = () => {
     }
   })
 
-  const onSwipeLeft = card => {
+  const onSwipeLeft = i => {
 
   };
 
-  const onSwipeRight = card => {
+  const onSwipeRight = i => {
     profileAction({
       action: "LIKED",
-      receiverId: card?.userId
+      receiverId: cards[i]?.userId
     })
   };
 
-  const onSwipeUp = card => {
-    navigator.navigate('ViewProfile', { profile: { ...card, id: card?.userId, from: 'home' } });
+  const onSwipeUp = i => {
+    navigator.navigate('ViewProfile', { profile: { ...cards[i], id: cards[i]?.userId, from: 'home' } });
     swipeRef.current.swipeBack()
+  };
+  const onTapCard = i => {
+    navigator.navigate('ViewProfile', { profile: { ...cards[i], id: cards[i]?.userId, from: 'home' } });
   };
 
   const onSwipedAllCards = () => {
-    setPage(page + 1)
+    setLoading(true);
+    setPage(page + 1);
+    setCards([]);
   };
 
   return (
@@ -85,7 +99,7 @@ const Home = () => {
       </View>
       <View style={[tw`flex-1 rounded-t-[40px] relative`, { backgroundColor: colors.white }]}>
         {
-          isFetching ?
+          (isFetching || loading) ?
             <ActivityLoader />
             :
             cards?.length ?
@@ -99,10 +113,10 @@ const Home = () => {
                     height: windowHeight - 240
 
                   }}
-                  onSwipedLeft={() => onSwipeLeft(cards[0])}
-                  onSwipedRight={() => onSwipeRight(cards[0])}
-                  onSwipedTop={() => onSwipeUp(cards[0])}
-                  onTapCard={() => onSwipeUp(cards[0])}
+                  onSwipedLeft={onSwipeLeft}
+                  onSwipedRight={onSwipeRight}
+                  onSwipedTop={onSwipeUp}
+                  onTapCard={onTapCard}
                   swipeBackCard={true}
                   disableBottomSwipe={true}
                   cards={cards}
