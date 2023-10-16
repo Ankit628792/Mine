@@ -27,7 +27,7 @@ const ViewProfile = ({ navigation, route }) => {
     const [profileData, setProfileData] = useState();
     const [loading, setLoading] = useState(true);
 
-    const { refetch, isLoading } = useQuery('fetchProfileById', () => UserService.fetchProfileById(route.params?.profile?.id), {
+    const { refetch, isLoading } = useQuery('fetchProfileById', () => UserService.fetchProfileById(route.params?.id), {
         retry: false,
         enabled: false,
         onSuccess: res => { setProfileData(res.data); setLoading(false) }
@@ -44,33 +44,33 @@ const ViewProfile = ({ navigation, route }) => {
     })
 
     useEffect(() => {
-        if (route.params.profile?.fullName) {
-            setProfileData(route.params.profile);
+        if (route.params?.fullName) {
+            setProfileData(route.params);
             setLoading(false)
         }
         else {
             refetch()
         }
-    }, [route.params.profile])
+    }, [route.params])
 
     const { mutate: handleLike, isLoading: updating } = useAcceptLike(() => { navigation.pop() })
 
     const handleRequest = ({ type }) => {
-        if (route.params.profile?.from == 'likes') {
+        if (route.params?.from == 'likes') {
             handleLike({
-                acceptUserId: route.params?.profile?.id,
+                acceptUserId: route.params?.id,
                 matchStatus: type?.toUpperCase()
             });
             showToast(type == 'accept' ? "Request Accepted!" : type == 'reject' ? "Request Rejected!" : '')
         }
-        else if (route.params.profile?.from == 'home') {
+        else if (route.params?.from == 'home') {
             if (type == 'reject') {
                 navigation.pop();
             }
             else if (type == 'accept') {
                 profileAction({
                     action: "LIKED",
-                    receiverId: route.params?.profile?.id
+                    receiverId: route.params?.id
                 })
             }
         }
@@ -85,11 +85,11 @@ const ViewProfile = ({ navigation, route }) => {
             <>
                 <BackButton buttonClass='absolute top-5 left-5 z-10' />
                 <View style={[tw`w-full absolute left-0 top-0 right-0`, { height: 400, backgroundColor: colors.purple }]}>
-                    <Image source={{ uri: profileData?.images?.length ? ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + profileData?.images[0]?.url) || '' : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg' }} style={tw`w-full h-full`} resizeMode='cover' />
+                    <Image source={{ uri: profileData?.images?.length ? ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + profileData?.images[0]?.url) || '' : profileData?.profileImage ? ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + profileData?.profileImage) : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg' }} style={tw`w-full h-full`} resizeMode='cover' />
                 </View>
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                     <View style={[tw`flex-1 bg-white pt-10 pb-5 px-7 rounded-t-[40px] gap-4 items-center`, { marginTop: 375 }]}>
-                        {route.params.profile?.from ? <View style={tw`absolute -top-8 flex-row items-center justify-center gap-20 w-full`}>
+                        {route.params?.from ? <View style={tw`absolute -top-8 flex-row items-center justify-center gap-20 w-full`}>
                             <TouchableOpacity disabled={updating} onPress={() => handleRequest({ type: 'reject' })} style={tw`w-14 h-14 rounded-full bg-white shadow-lg shadow-gray-400 items-center justify-center`}>
                                 <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" style={tw`w-8 h-8 text-sky-500`}>
                                     <Path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />

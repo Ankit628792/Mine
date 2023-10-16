@@ -72,11 +72,11 @@ const Home = () => {
   };
 
   const onSwipeUp = i => {
-    navigator.navigate('ViewProfile', { profile: { ...cards[i], id: cards[i]?.userId, from: 'home' } });
+    navigator.navigate('ViewProfile', { ...cards[i], id: cards[i]?.userId, from: 'home' });
     swipeRef.current.swipeBack()
   };
   const onTapCard = i => {
-    navigator.navigate('ViewProfile', { profile: { ...cards[i], id: cards[i]?.userId, from: 'home' } });
+    navigator.navigate('ViewProfile', { ...cards[i], id: cards[i]?.userId, from: 'home' });
   };
 
   const onSwipedAllCards = () => {

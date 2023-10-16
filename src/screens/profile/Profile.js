@@ -58,7 +58,7 @@ const Profile = () => {
                 <Text style={[tw`text-2xl font-medium mt-2 text-center`, { color: colors.black }]}>{userData?.fullName}</Text>
                 <Text style={[tw`text-lg mt-1 text-center`, { color: colors.gray }]}>+91 {userData?.phoneNumber}</Text>
 
-                <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { userData })} style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 mt-10 rounded-md shadow-lg shadow-gray-300`}>
+                <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { ...userData })} style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 mt-10 rounded-md shadow-lg shadow-gray-300`}>
                   <Text style={tw`text-base text-gray-700`}>View Profile</Text>
                   <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={tw`text-gray-700 w-7 h-7`}>
                     <Path strokeLinecap="round" strokeLinejoin="round" d="M8.25 4.5l7.5 7.5-7.5 7.5" />

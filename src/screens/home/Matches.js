@@ -56,7 +56,7 @@ const NoMatch = () => {
 export const MatchCard = ({ item, navigator }) => {
 
     return (
-        <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { profile: { id: item?.id } })} style={tw`flex-row items-center py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
+        <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { id: item?.id })} style={tw`flex-row items-center py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
             <Image
                 source={{
                     uri: ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + item?.profileImage),

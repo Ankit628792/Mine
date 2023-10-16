@@ -59,7 +59,7 @@ const EditProfile = ({ route }) => {
     }
 
     const handleDateChange = (event, selectedDate) => {
-        const currentDate = selectedDate || userData?.dob;
+        const currentDate = moment(selectedDate || userData?.dob);
         setUserData({ ...userData, dob: currentDate });
         setShowPicker(false);
     };
@@ -67,6 +67,8 @@ const EditProfile = ({ route }) => {
     const showDatePicker = () => {
         setShowPicker(true);
     };
+
+    console.log(userData?.dob)
 
     const handleImage = async i => {
         try {
@@ -302,7 +304,7 @@ const EditProfile = ({ route }) => {
 
             {showPicker && (
                 <DateTimePicker
-                    value={moment(userData?.dob)}
+                    value={moment(userData?.dob).toDate()}
                     maximumDate={new Date(moment().subtract(16, 'years'))}
                     mode="date"
                     display="default"

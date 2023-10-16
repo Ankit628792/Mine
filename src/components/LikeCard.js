@@ -7,7 +7,7 @@ import { colors } from "../utils/colors"
 
 const LikeCard = ({ item, navigator }) => {
     return (
-        <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { profile: { id: item?.id, from: 'likes' } })} style={[tw`items-center justify-center bg-white h-40 rounded-2xl overflow-hidden relative`, { width: (Dimensions.get('window').width - 100) / 2 }]}>
+        <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { id: item?.id, from: 'likes' })} style={[tw`items-center justify-center bg-white h-40 rounded-2xl overflow-hidden relative`, { width: (Dimensions.get('window').width - 100) / 2 }]}>
             <Image
                 source={{
                     uri: ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + item?.profileImage),
