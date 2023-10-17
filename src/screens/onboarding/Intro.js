@@ -37,13 +37,13 @@ const Intro = () => {
             </View>
             <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
-                Connect with your
+                Discover the
               </Text>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
-                Ideal Matches
+                Magic of Love
               </Text>
               <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing.
+                Find your perfect match by exploring the diverse community.
               </Text>
             </View>
           </View>
@@ -60,13 +60,13 @@ const Intro = () => {
             </View>
             <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
-                Meet New People
+                Connect with
               </Text>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
-                Nearby You
+                Like-minded People
               </Text>
               <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing.
+                Connect with people having similar interests and values.
               </Text>
             </View>
           </View>
@@ -83,13 +83,13 @@ const Intro = () => {
             </View>
             <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
-                Engage and Connect
+                Create Lasting
               </Text>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
-                With your love
+                Meaningful Relationships
               </Text>
               <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
-                Lorem ipsum dolor sit amet, consectetur adipisicing.
+                Create lasting relationships with like-minded individuals.
               </Text>
             </View>
           </View>

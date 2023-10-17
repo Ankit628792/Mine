@@ -8,7 +8,8 @@ const initialState = {
     distance: 1000,
     maxAge: 60,
     minAge: 18
-  }
+  },
+  userLocation: null
 }
 
 export const userSlice = createSlice({
@@ -36,13 +37,17 @@ export const userSlice = createSlice({
       if (action.payload)
         state.profileFilter = action.payload
     },
+    setUserLocation: (state, action) => {
+      state.userLocation = action.payload
+    },
   },
 });
 
-export const { setAuth, setUser, setIntoUser, setProfileFilter } = userSlice.actions;
+export const { setAuth, setUser, setIntoUser, setProfileFilter, setUserLocation } = userSlice.actions;
 
 export const selectUser = state => state.user.userInfo
 export const selectFilter = state => state.user.profileFilter
+export const selectUserLocation = state => state.user.userLocation
 
 export default userSlice.reducer
 

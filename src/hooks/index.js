@@ -134,7 +134,7 @@ export const useAcceptLike = callback => {
     return useMutation(SwipeService.acceptLike, {
         onSuccess: response => {
             if (response.status === true) {
-                queryClient.invalidateQueries('getAllLikes')
+                queryClient.invalidateQueries('getAllUserMatch')
                 if (typeof callback == 'function') {
                     callback();
                 }

@@ -68,8 +68,6 @@ const EditProfile = ({ route }) => {
         setShowPicker(true);
     };
 
-    console.log(userData?.dob)
-
     const handleImage = async i => {
         try {
             const profile = await ImageSelector('single');

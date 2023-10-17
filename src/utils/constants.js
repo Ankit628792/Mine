@@ -66,3 +66,50 @@ export const religions = [
     'Jain',
     'Other',
 ];
+
+export const interests = [
+    'Hiking',
+    'Cooking',
+    'Traveling',
+    'Reading',
+    'Swimming',
+    'Playing musical instruments',
+    'Watching movies',
+    'Playing sports',
+    'Photography',
+    'Volunteering',
+    'Yoga',
+    'Painting',
+    'Dancing',
+    'Playing video games',
+    'Meditation',
+    'Writing',
+    'Gardening',
+    'Cycling',
+    'Collecting art',
+    'Playing board games'
+  ];
+  
+  export const nonInterests = [
+    'Smoking',
+    'Excessive drinking',
+    'Partying',
+    'Gambling',
+    'Watching sports',
+    'Hunting',
+    'Clubbing',
+    'Reality TV',
+    'Fast food',
+    'Loud music',
+    'Drugs',
+    'Violent movies',
+    'Overly competitive activities',
+    'Heavy metal music',
+    'Speed dating',
+    'Laziness',
+    'Materialism',
+    'Being indoors all the time',
+    'Constant arguing',
+    'Overuse of social media'
+  ];
+  
