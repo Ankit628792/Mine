@@ -1,20 +1,20 @@
 import { View, Text, ScrollView, Image, TouchableOpacity, Dimensions } from 'react-native'
-import React from 'react'
+import React, { useEffect } from 'react'
 import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import tw from 'twrnc'
 import { useQuery } from 'react-query'
 import { SwipeService } from '../../services/swipe.service'
-import ActivityLoader from '../../components/ActivityLoader'
 import { useNavigation } from '@react-navigation/native'
-import moment from 'moment'
+import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 
 const Matches = () => {
     const navigator = useNavigation()
-    const { data, isLoading } = useQuery('getAllUserMatch', SwipeService.getAllUserMatch, {
-        retry: false,
-        onSuccess: res => console.log(res)
+    const { data, isLoading, refetch } = useQuery('getAllUserMatch', SwipeService.getAllUserMatch, {
+        retry: false
     })
+
+    useEffect(() => { refetch() }, [])
 
     return (
         <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
@@ -23,7 +23,7 @@ const Matches = () => {
             </View>
             <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
                 {
-                    isLoading ? <ActivityLoader /> :
+                    isLoading ? <ActivityLoaderRound image={require('../../assets/images/loading.png')} /> :
                         data?.length ?
                             <ScrollView showsVerticalScrollIndicator={false} style={tw`pt-5`}>
                                 <View style={tw`flex-row flex-wrap justify-center gap-5`}>
@@ -59,7 +59,7 @@ export const MatchCard = ({ item, navigator }) => {
         <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { id: item?.id })} style={tw`flex-row items-center py-3 px-4 bg-white rounded-2xl shadow-lg shadow-gray-300`}>
             <Image
                 source={{
-                    uri: ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + item?.profileImage),
+                    uri: item?.profileImage,
                 }}
                 style={tw`w-14 h-14 rounded-full mr-3`}
             />

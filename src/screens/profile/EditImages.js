@@ -13,9 +13,8 @@ import BackButton from '../../components/BackButton'
 import { UserService, updateImage, uploadImage } from '../../services/user.service'
 import { useQuery } from 'react-query'
 import { ActivityIndicator } from 'react-native'
-import userSlice from '../../redux/user/user-slice'
-import ActivityLoader from '../../components/ActivityLoader'
 import { showToast } from '../../utils/FunctionHelper'
+import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 
 const cardWidth = (Dimensions.get('window').width - 90) / 3
 
@@ -107,7 +106,7 @@ const EditImages = ({ navigation }) => {
                     <BackButton disabled={true} buttonClass='opacity-0' />
                 </View>
                 {
-                    isLoading ? <ActivityLoader />
+                    isLoading ? <ActivityLoaderRound image={require('../../assets/images/loading.png')} />
                         :
                         <View style={[tw`p-5 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
                             {loading ? <View style={tw`absolute inset-0 bg-purple-500 bg-opacity-20 z-20 items-center justify-center`}>
@@ -117,7 +116,7 @@ const EditImages = ({ navigation }) => {
                                 <View style={tw`flex-row flex-wrap items-center justify-evenly gap-y-6`}>
                                     {
                                         images?.map((image, i) => <View style={[tw`h-34 bg-white border border-gray-100 rounded-xl items-center justify-center`, { width: cardWidth - 2 }]} key={i}>
-                                            <Image source={{ uri: 'https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + image.url }} resizeMode='cover' style={tw`w-full h-full rounded-xl`} />
+                                            <Image source={{ uri: image.url }} resizeMode='cover' style={tw`w-full h-full rounded-xl`} />
                                             {images?.length > 2 ? <TouchableOpacity onPress={() => setPopUp({ open: true, type: 'delete', onClick: () => deleteImage(image) })} style={tw`p-1 bg-white rounded-full absolute -bottom-2 -left-2 w-7 h-7 items-center justify-center`}>
                                                 <Svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" style={tw`w-5 h-5 text-rose-500`}>
                                                     <Path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />

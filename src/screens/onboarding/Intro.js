@@ -30,8 +30,8 @@ const Intro = () => {
             style={tw`flex-1 items-center justify-between bg-white`}>
             <View style={[tw`flex-grow rounded-b-full overflow-hidden`, { transform: [{ scaleX: 1 }], backgroundColor: colors.white, height: height - 300, width: 1000 }]}>
               <Image
-                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/2508/2508651.png' }}
-                style={[tw`mx-auto h-full mt-20`, { width: width - 50 }]}
+                source={require('../../assets/images/o1.png')}
+                style={[tw`mx-auto h-full mt-28`, { width: width - 70 }]}
                 resizeMode='contain'
               />
             </View>
@@ -53,8 +53,8 @@ const Intro = () => {
             style={tw`flex-1 items-center justify-between bg-white`}>
             <View style={[tw`flex-grow rounded-b-full overflow-hidden`, { transform: [{ scaleX: 1 }], backgroundColor: colors.white, height: height - 300, width: 1000 }]}>
               <Image
-                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/11728/11728513.png' }}
-                style={[tw`mx-auto h-full mt-10`, { width: width - 50 }]}
+                source={require('../../assets/images/o2.png')}
+                style={[tw`mx-auto h-full mt-14`, { width: width - 70 }]}
                 resizeMode='contain'
               />
             </View>
@@ -76,17 +76,17 @@ const Intro = () => {
             style={tw`flex-1 items-center justify-between bg-white`}>
             <View style={[tw`flex-grow rounded-b-full overflow-hidden`, { transform: [{ scaleX: 1 }], backgroundColor: colors.white, height: height - 300, width: 1000 }]}>
               <Image
-                source={{ uri: 'https://cdn-icons-png.flaticon.com/512/9770/9770584.png' }}
-                style={[tw`mx-auto h-full mt-20`, { width: width - 50 }]}
+                source={require('../../assets/images/o3.png')}
+                style={[tw`mx-auto h-full mt-14`, { width: width - 70 }]}
                 resizeMode='contain'
               />
             </View>
             <View style={[tw`w-full bg-white items-center justify-end px-10 pb-5`, { minHeight: 200 }]}>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.black }]}>
-                Create Lasting
+                Meaningful
               </Text>
               <Text style={[tw`text-3xl font-semibold text-center`, { color: colors.purple }]}>
-                Meaningful Relationships
+                Relationships
               </Text>
               <Text style={[tw`text-lg text-center mt-3`, { color: colors.gray }]}>
                 Create lasting relationships with like-minded individuals.
@@ -113,7 +113,7 @@ const Intro = () => {
               tw`text-lg py-2 px-5 rounded-xl`,
               { color: colors.white, backgroundColor: colors.purple },
             ]}>
-            Get Started
+            Skip & Continue
           </Text>
         </TouchableOpacity>
       </View>

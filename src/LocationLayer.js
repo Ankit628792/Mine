@@ -156,6 +156,7 @@ const LocationLayer = () => {
 
   useEffect(() => {
     if (userLocation) {
+      setLoading(false);
       clearInterval(intervalId)
     }
   }, [userLocation])

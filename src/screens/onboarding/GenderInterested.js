@@ -44,6 +44,9 @@ const GenderInterested = () => {
               ]}>
               Who would you like to date?
             </Text>
+            <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+              You can change this later
+            </Text>
             <View style={tw`flex-row items-center justify-evenly mt-10`}>
               <TouchableOpacity
                 onPress={() => handleGenderInterestedSelection('male')}

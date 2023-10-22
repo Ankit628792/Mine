@@ -35,6 +35,8 @@ import Match from './screens/home/Match';
 import EditImages from './screens/profile/EditImages';
 import TermsAndConditions from './screens/settings/TermsAndConditions';
 import PrivacyPolicy from './screens/settings/PrivacyPolicy';
+import Welcome from './screens/onboarding/Welcome';
+import Instruction from './screens/onboarding/Instruction';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,16 +44,52 @@ const NavigationLayer = ({ user }) => {
   const theme = useColorScheme();
   const initialRouteName = user
     ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
-    : 'Intro';
+    : 'Welcome';
+
+  // const initialRouteName = "Instruction"
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack.Navigator
         initialRouteName={initialRouteName}
         screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="Welcome" component={Welcome} />
         <Stack.Screen name="Intro" component={Intro} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="VerifyOTP" component={VerifyOTP} />
+        <Stack.Screen name="Instruction" component={Instruction} />
+        <Stack.Screen screenOptions={{
+          headerShown: false,
+          cardStyleInterpolator: ({ current, layouts }) => {
+            return {
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                ],
+              },
+            };
+          },
+        }} name="Login" component={Login} />
+        <Stack.Screen screenOptions={{
+          headerShown: false,
+          cardStyleInterpolator: ({ current, layouts }) => {
+            return {
+              cardStyle: {
+                transform: [
+                  {
+                    translateX: current.progress.interpolate({
+                      inputRange: [0, 1],
+                      outputRange: [layouts.screen.width, 0],
+                    }),
+                  },
+                ],
+              },
+            };
+          },
+        }} name="VerifyOTP" component={VerifyOTP} />
         <Stack.Screen name="Name" component={Name} />
         <Stack.Screen name="DOB" component={DOB} />
         <Stack.Screen name="Gender" component={Gender} />

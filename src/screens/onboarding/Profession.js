@@ -56,13 +56,15 @@ const Profession = () => {
               ]}>
               Your Profession
             </Text>
-            {/* On press add a modal to choose profession  */}
+            <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+              Want a partner from particular profession? You're at right place
+            </Text>
             <Pressable
               onPress={() => setModalVisible(true)}
               style={[
-                tw`border border-gray-50 p-2 rounded-lg mt-5 bg-white`,
+                tw`border border-gray-50 p-3 rounded-lg mt-5 bg-white`,
               ]}>
-              <Text style={[tw`text-lg text-center`, { color: colors.black }]}>
+              <Text style={[tw`text-xl text-center`, { color: colors.black }]}>
                 {selectedValue || 'Select Profession'}
               </Text>
             </Pressable>

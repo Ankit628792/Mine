@@ -8,6 +8,7 @@ import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
 import { useUpdateProfile } from '../../hooks';
 import { useNavigation } from '@react-navigation/native';
+import { interests } from '../../utils/constants';
 
 const UserInterest = () => {
   const [data, setData] = useState([]);
@@ -49,29 +50,32 @@ const UserInterest = () => {
           ]}>
           Select Your Interest
         </Text>
+        <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+          Discover meaningful connections by selecting your interests
+        </Text>
         <ScrollView style={tw`flex-grow mb-4 mt-6`} showsVerticalScrollIndicator={false}>
           <View style={tw`flex-row items-center flex-wrap`}>
-            {[...Array(50).fill(1).keys()].map(index => (
+            {interests.map((item, index) => (
               <TouchableOpacity
                 key={index}
                 style={[
                   tw`w-auto py-2 px-4 rounded-full m-2`,
                   {
-                    backgroundColor: data.includes(`Interest ${index + 1}`)
+                    backgroundColor: data.includes(item)
                       ? colors.purple
                       : '#fff',
                   },
                 ]}
-                onPress={() => handleSelect(`Interest ${index + 1}`)}>
+                onPress={() => handleSelect(item)}>
                 <Text
                   style={[
                     {
-                      color: data.includes(`Interest ${index + 1}`)
+                      color: data.includes(item)
                         ? '#fff'
                         : colors.black,
                     },
                   ]}>
-                  Interest {index + 1}
+                  {item}
                 </Text>
               </TouchableOpacity>
             ))}

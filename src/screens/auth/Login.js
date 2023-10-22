@@ -18,6 +18,7 @@ import Blur50 from '../../components/Blue50';
 import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../components/PrimaryButton';
 import { colors, gradient } from '../../utils/colors';
+import { Dimensions } from 'react-native';
 
 
 const Login = () => {
@@ -72,9 +73,12 @@ const Login = () => {
       <LinearGradient
         style={tw`flex-1 flex-col justify-between relative`}
         colors={gradient.purple}>
+        <View style={[tw`absolute top-0 h-96 flex-col items-center justify-end`, { width: Dimensions.get('screen').width }]}>
+          <Image source={require('../../assets/images/lo.png')} style={tw`w-60 h-60`} resizeMode='contain' />
+        </View>
         <View
           style={[
-            tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-3xl`,
+            tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-[40px]`,
             { backgroundColor: colors.white },
           ]}>
           <View style={tw`w-full p-5`}>
@@ -83,7 +87,7 @@ const Login = () => {
                 tw`font-bold text-3xl text-center`,
                 { color: colors.black },
               ]}>
-              Enter your mobile number
+              Login with mobile number
             </Text>
             <View style={tw`flex-row items-center w-full my-4`}>
               <TouchableOpacity
@@ -98,7 +102,7 @@ const Login = () => {
               </TouchableOpacity>
               <TextInput
                 keyboardType="number-pad"
-                maxLength={15}
+                maxLength={10}
                 value={mobile}
                 onChangeText={txt => {
                   setMobile(txt);
@@ -134,7 +138,7 @@ const Login = () => {
             </View>
             <PrimaryButton
               text={'Next'}
-              disabled={isLoading || mobile?.length < 8}
+              disabled={isLoading || mobile?.length < 10}
               isLoading={isLoading}
               onPress={handleNext}
             />

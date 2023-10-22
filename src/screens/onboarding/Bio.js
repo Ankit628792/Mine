@@ -43,7 +43,10 @@ const Bio = () => {
               tw`text-3xl font-medium text-center`,
               { color: colors.black },
             ]}>
-            Tell us about yourself
+            Describe the real you
+          </Text>
+          <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+            This will helps the other what kind of person you are
           </Text>
           <View style={tw`py-5 px-3`}>
             <TextInput

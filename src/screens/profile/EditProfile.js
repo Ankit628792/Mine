@@ -13,7 +13,7 @@ import { TextInput } from 'react-native'
 import moment from 'moment'
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { FlatList } from 'react-native'
-import { professions, religions } from '../../utils/constants'
+import { interests, nonInterests, professions, religions } from '../../utils/constants'
 import Blur50 from '../../components/Blue50'
 import { Path, Svg } from 'react-native-svg'
 import {
@@ -30,6 +30,7 @@ import { useQueryClient } from 'react-query'
 import ActivityLoader from '../../components/ActivityLoader'
 import { setIntoUser, setUser } from '../../redux/user/user-slice'
 import { useDispatch } from 'react-redux'
+import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 
 const EditProfile = ({ route }) => {
     const queryClient = useQueryClient()
@@ -39,7 +40,6 @@ const EditProfile = ({ route }) => {
     const [showPicker, setShowPicker] = useState(false);
     const [modalVisible, setModalVisible] = useState('');
     const [sheet, setSheet] = useState('');
-    // console.log(userData)
 
     const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
         queryClient.invalidateQueries('getProfile');
@@ -48,7 +48,7 @@ const EditProfile = ({ route }) => {
     });
 
     const handleSave = () => {
-        updateProfile({ ...userData, dob: moment(userData?.dob).format('yyyy-DD-MM'), userName: userData?.fullName?.trim(), fullName: userData?.fullName?.trim() });
+        updateProfile({ ...userData, dob: moment(userData?.dob).format('yyyy-DD-MM'), userName: userData?.fullName?.trim(), fullName: userData?.fullName?.trim(), bio: userData?.bio?.trim() });
     }
 
     const handleGenderInterestedSelection = selectedGender => setUserData({ ...userData, genderInterest: selectedGender });
@@ -119,6 +119,33 @@ const EditProfile = ({ route }) => {
         setSheet('')
     };
 
+    const handleSelect = (value) => {
+        if (sheet == 'notInterest') {
+            let idx = userData?.notInterest?.findIndex(item => item == value);
+            let arr = [...userData?.notInterest];
+            if (idx > -1) {
+                arr.splice(idx, 1);
+                setUserData({ ...userData, notInterest: arr })
+            } else {
+                arr.push(value);
+                setUserData({ ...userData, notInterest: arr })
+
+            }
+        }
+        else if (sheet == 'interest') {
+            let idx = userData?.interest?.findIndex(item => item == value);
+            let arr = [...userData?.interest];
+            if (idx > -1) {
+                arr.splice(idx, 1);
+                setUserData({ ...userData, interest: arr })
+            } else {
+                arr.push(value);
+                setUserData({ ...userData, interest: arr })
+
+            }
+        }
+    }
+
 
     return (
         <>
@@ -133,16 +160,16 @@ const EditProfile = ({ route }) => {
                     </View>
                     <View style={[tw`p-5 pb-0 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
                         {
-                            isLoading ? <ActivityLoader />
+                            isLoading ? <ActivityLoaderRound image={require('../../assets/images/loading.png')} />
                                 :
-                                <ScrollView style={tw`py-8`}>
+                                <ScrollView style={tw`py-8`} showsVerticalScrollIndicator={false}>
                                     <View style={tw`items-center gap-5 w-full px-2`}>
                                         <TouchableOpacity onPress={handleImage} style={tw`w-32 h-32 border border-gray-100 rounded-xl bg-white items-center justify-center`}>
                                             {
                                                 loading ?
                                                     <ActivityIndicator size={30} color={colors.purple} />
                                                     :
-                                                    <Image style={tw`h-full w-full rounded-xl bg-white`} resizeMode='cover' source={{ uri: userData ? `https://mine-blob-storage.s3.us-east-2.amazonaws.com/${userData?.profileImage}` : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} />
+                                                    <Image style={tw`h-full w-full rounded-xl bg-white`} resizeMode='cover' source={{ uri: userData ? userData?.profileImage : 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png' }} />
                                             }
                                         </TouchableOpacity>
                                         <View style={tw`w-full`}>
@@ -245,7 +272,7 @@ const EditProfile = ({ route }) => {
                                             </View>
                                             <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
                                                 {
-                                                    userData?.interest.map((interest, i) => <Interest key={i} interest={interest} />)
+                                                    userData?.interest.map((interest, i) => <Interest key={i} interest={interest} color={colors.purple} />)
                                                 }
                                             </View>
                                         </View>
@@ -258,7 +285,7 @@ const EditProfile = ({ route }) => {
                                             </View>
                                             <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
                                                 {
-                                                    userData?.notInterest.map((interest, i) => <Interest key={i} interest={interest} />)
+                                                    userData?.notInterest.map((interest, i) => <Interest key={i} interest={interest} color={colors.red} />)
                                                 }
                                             </View>
                                         </View>
@@ -285,10 +312,13 @@ const EditProfile = ({ route }) => {
                     style={[tw``]}
                 >
                     <View style={tw`p-5`}>
-                        <ScrollView>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <View style={tw`flex-row gap-2 items-center flex-wrap py-2`}>
                                 {
-                                    Array(10).fill(1).map((interest, i) => <Interest key={i} interest={interest} />)
+                                    sheet == 'nonInterest' ? nonInterests.map((interest, i) => <Interest key={i} interest={interest} selected={userData?.notInterest?.includes(interest)} handleSelect={handleSelect} />)
+                                        :
+                                        sheet == 'interest' ? interests.map((interest, i) => <Interest key={i} interest={interest} selected={userData?.interest?.includes(interest)} handleSelect={handleSelect} />)
+                                            : <></>
                                 }
                             </View>
                             <View style={tw`h-32 w-full`}></View>
@@ -357,17 +387,24 @@ const EditProfile = ({ route }) => {
 export default EditProfile
 
 
-const Interest = ({ interest }) => (
+const Interest = ({ interest, selected, handleSelect, color }) => (
     <TouchableOpacity
+        onPress={() => handleSelect(interest)}
         style={[
             tw`w-auto py-2 px-4 rounded-full`,
             {
-                backgroundColor: colors.purple,
-            },
+                backgroundColor: color ? color : selected
+                    ? colors.purple
+                    : '#fff',
+            }
         ]}
     >
         <Text
-            style={tw`text-white`}>
+            style={{
+                color: (color || selected)
+                    ? '#fff'
+                    : colors.black,
+            }}>
             {interest}
         </Text>
     </TouchableOpacity>

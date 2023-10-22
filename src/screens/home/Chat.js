@@ -63,8 +63,8 @@ const Chat = () => {
         <Text style={[tw`text-2xl font-semibold text-white text-center`]}>Your Chats</Text>
       </View>
       <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
-        {/* <NoChat /> */}
-        <SwipeListView
+        <NoChat />
+        {/* <SwipeListView
           showsVerticalScrollIndicator={false}
           onRowOpen={onRowOpen}
           onRowClose={onRowClose}
@@ -75,7 +75,7 @@ const Chat = () => {
           rightOpenValue={-100}
           swipeToOpenPercent={0.2}
           style={{ gap: 10 }}
-        />
+        /> */}
       </View>
     </LinearGradient>
   );

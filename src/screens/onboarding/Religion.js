@@ -23,7 +23,7 @@ const Religion = () => {
   const navigator = useNavigation();
   const [selectedReligion, setSelectedReligion] = useState('');
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   const handleReligionSelect = religion => {
     setSelectedReligion(religion);
     setModalVisible(false);
@@ -54,13 +54,15 @@ const Religion = () => {
             ]}>
             Your Religion
           </Text>
-
+          <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+            This will help you to personalize app experience
+          </Text>
           <Pressable
             onPress={() => setModalVisible(true)}
             style={[
-              tw`border border-gray-50 p-2 rounded-lg mt-5 bg-white`,
+              tw`border border-gray-50 p-3 rounded-lg mt-5 bg-white`,
             ]}>
-            <Text style={[tw`text-lg text-center`, { color: colors.black }]}>
+            <Text style={[tw`text-xl text-center`, { color: colors.black }]}>
               {selectedReligion || 'Select Religion'}
             </Text>
           </Pressable>

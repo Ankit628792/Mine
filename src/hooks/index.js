@@ -35,7 +35,6 @@ export const useLogout = (callback) => {
     return useMutation(AuthService.logOut, {
         onSuccess: (response) => {
             if (response.success === true) {
-                socketServices.disconnect();
                 if (typeof callback == 'function') {
                     callback();
                 }
@@ -134,6 +133,7 @@ export const useAcceptLike = callback => {
     return useMutation(SwipeService.acceptLike, {
         onSuccess: response => {
             if (response.status === true) {
+                queryClient.invalidateQueries('getAllLikes')
                 queryClient.invalidateQueries('getAllUserMatch')
                 if (typeof callback == 'function') {
                     callback();
@@ -152,7 +152,6 @@ export const useAcceptLike = callback => {
 export const useProfileAction = callback => {
     return useMutation(SwipeService.profileAction, {
         onSuccess: response => {
-            console.log("useProfileAction", response)
             if (response.status === true) {
                 if (typeof callback == 'function') {
                     callback(response?.data);

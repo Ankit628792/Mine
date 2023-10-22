@@ -13,7 +13,7 @@ import { Path, Svg } from 'react-native-svg';
 import { useNavigation } from '@react-navigation/native';
 import { useQuery } from 'react-query';
 import { UserService } from '../../services/user.service';
-import ActivityLoader from '../../components/ActivityLoader';
+import ActivityLoaderRound from '../../components/ActivityLoaderRound';
 
 const Profile = () => {
   const navigator = useNavigation()
@@ -35,7 +35,7 @@ const Profile = () => {
       </TouchableOpacity>
       <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
         {
-          isLoading ? <ActivityLoader /> :
+          isLoading ? <ActivityLoaderRound image={require('../../assets/images/loading.png')} /> :
 
             <ScrollView showsVerticalScrollIndicator={false} style={tw`p-2`}>
               <View
@@ -44,8 +44,8 @@ const Profile = () => {
                   <Image
                     style={tw`h-full w-full rounded-full bg-white`}
                     source={{
-                      uri: userData
-                        ? `https://mine-blob-storage.s3.us-east-2.amazonaws.com/${userData?.profileImage}`
+                      uri: userData?.profileImage
+                        ? userData?.profileImage
                         : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg',
                     }}
                   />

@@ -17,6 +17,7 @@ import { useNavigation } from '@react-navigation/native';
 
 import PrimaryButton from '../../components/PrimaryButton';
 import { colors, gradient } from '../../utils/colors';
+import { Dimensions } from 'react-native';
 
 
 const VerifyOTP = ({ route }) => {
@@ -59,6 +60,9 @@ const VerifyOTP = ({ route }) => {
         colors={gradient.purple}>
         <BackButton />
         <View></View>
+        <View style={[tw`absolute top-0 h-96 flex-col items-center justify-end`, { width: Dimensions.get('screen').width }]}>
+          <Image source={require('../../assets/images/ve.png')} style={tw`w-60 h-60`} resizeMode='contain' />
+        </View>
         <View
           style={[
             tw`p-5 absolute bottom-0 left-0 right-0 rounded-t-3xl`,

@@ -62,7 +62,7 @@ const Filter = ({ route }) => {
             {
                 isLoading ?
                     <View style={tw`flex-1 justify-center`}>
-                        <ActivityLoader />
+                        <ActivityLoader image={require('../../assets/images/loading.png')} />
                     </View>
                     :
                     <View style={tw`px-5 flex-1`}>

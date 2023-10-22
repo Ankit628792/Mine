@@ -20,7 +20,9 @@ import ImageSelector from '../../components/ImageSelector';
 import { useNavigation } from '@react-navigation/native';
 import DragSortableView from '../../components/DragSortableView';
 import Bar from '../../components/Bar';
-import { uploadImage } from '../../services/user.service';
+import { UserService, uploadImage } from '../../services/user.service';
+import { useQuery } from 'react-query';
+import { useUpdateProfile } from '../../hooks';
 
 const { width, height } = Dimensions.get('window');
 const parentWidth = width - 20;
@@ -40,6 +42,15 @@ const UploadImage = () => {
   const [uploadError, setUploadError] = useState('');
   const [deleteStatus, setDeleteStatus] = useState(0);
 
+  const { isLoading } = useQuery('getImages', UserService.getImages, {
+    retry: false,
+    onSuccess: res => {
+      if (res.data) {
+        setImageUrl([...res?.data.map(item => ({ image: item?.url, saved: true })), ...Array.from({ length: (6 - (res.data?.length || 0)) }, () => ({ image: '' }))])
+      }
+    }
+  })
+
   const handleImage = async i => {
     try {
       const image = await ImageSelector('multiple');
@@ -56,23 +67,25 @@ const UploadImage = () => {
   };
 
   const handleNext = async () => {
-    let imageData = imageUrl.filter(item => item.image !== '');
-    if (imageData.length < 2) {
-      Alert.alert('Please Upload At Least Two Image');
-    } else {
-      Alert.alert(
-        '',
-        "Kindly ensure it's your actual picture preferably a formal one, for better curation.",
-        [
-          { text: 'Next', onPress: () => handleImageSending(imageData) },
-          { text: 'Cancel' },
-        ],
-        {
-          cancelable: true,
-        },
-      );
-    }
+    let imageData = imageUrl.filter(item => item.image !== '' && (!item?.saved));
+    Alert.alert(
+      '',
+      "Kindly ensure it's your actual picture preferably a formal one, for better curation.",
+      [
+        { text: 'Next', onPress: () => handleImageSending(imageData) },
+        { text: 'Cancel' },
+      ],
+      {
+        cancelable: true,
+      },
+    );
+    // if (imageData.length < 2) {
+    //   Alert.alert('Please Upload At Least Two Image');
+    // } else {
+    // }
   };
+
+  const { mutate: updateProfile } = useUpdateProfile();
 
   const handleImageSending = async imageData => {
     const serveImages = [];
@@ -100,9 +113,8 @@ const UploadImage = () => {
         // upload image and handle error
       }),
     );
-    if (serveImages.length) {
-      navigator.navigate('ProfileImage', { images: serveImages });
-    }
+    navigator.navigate('ProfileImage', { images: serveImages });
+    updateProfile({ onBoardingProcess: 9 })
     setLoading(false);
   };
 
@@ -182,9 +194,7 @@ const UploadImage = () => {
   return (
     <>
       <RenderDeleteView />
-      <View style={[tw`px-7`, { backgroundColor: colors.white }]}>
-        <Bar value={10} />
-      </View>
+      <Bar value={10} />
       <LinearGradient
         colors={gradient.white}
         style={tw`flex-1 p-5 flex-col justify-between`}>
@@ -194,9 +204,12 @@ const UploadImage = () => {
               tw`text-3xl font-medium text-center`,
               { color: colors.black },
             ]}>
-            Upload Your Images
+            Upload Your Photos
           </Text>
-          {loading ? (
+          <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+            To boost your daily match potential, include at least 2 photos
+          </Text>
+          {(loading || isLoading) ? (
             <ActivityIndicator
               size="large"
               color={colors.purple}
@@ -257,8 +270,8 @@ const UploadImage = () => {
         </View>
         <PrimaryButton
           text={'Continue'}
-          disabled={false}
-          isLoading={false}
+          disabled={imageUrl?.filter(el => el.image)?.length < 2}
+          isLoading={loading}
           onPress={() => handleNext()}
         />
       </LinearGradient>

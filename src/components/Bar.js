@@ -6,8 +6,8 @@ import BackButton from './BackButton';
 
 const Bar = ({ value = 1 }) => {
   return (
-    <View style={[tw`flex-row items-center justify-center gap-4 p-5 relative`, { backgroundColor: colors.white, width: Dimensions.get('window').width }]}>
-      <Text style={tw`absolute text-lg text-gray-800 z-10 top-10 font-medium`}>{Math.round((100 * value) / 12)}%</Text>
+    <View style={[tw`flex-row items-center justify-center gap-4 p-5 relative`, { backgroundColor: colors.white, width: Dimensions.get('window').width - (value == 11 ? 40 : 0) }]}>
+      <Text style={tw`absolute text-lg text-gray-800 z-10 top-11 font-medium`}>{Math.round((100 * value) / 12)}%</Text>
       <BackButton />
       <View style={[tw`h-2 relative flex-row flex-grow bg-white rounded-full`]}>
         <View
@@ -16,7 +16,7 @@ const Bar = ({ value = 1 }) => {
             { backgroundColor: colors.purple, width: `${(100 * value) / 12}%` },
           ]}></View>
       </View>
-      <BackButton buttonClass='opacity-0' disabled={true} />
+      {/* <BackButton buttonClass='opacity-0' disabled={true} /> */}
     </View>
   );
 };

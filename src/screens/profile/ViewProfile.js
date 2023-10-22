@@ -17,6 +17,7 @@ import { useAcceptLike, useProfileAction } from '../../hooks'
 import { showToast } from '../../utils/FunctionHelper'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../redux/user/user-slice'
+import { ActivityIndicator } from 'react-native'
 
 const height = Dimensions.get('window').height
 
@@ -33,13 +34,16 @@ const ViewProfile = ({ navigation, route }) => {
         onSuccess: res => { setProfileData(res.data); setLoading(false) }
     })
 
-    const { mutate: profileAction } = useProfileAction(() => {
+    const { mutate: profileAction, isLoading: sending } = useProfileAction((data) => {
         if (data?.isMatch) {
             navigator.navigate("Match", {
-                sender: { name: user?.username, image: 'https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + user?.profileImage },
-                receiver: { name: data?.name, image: 'https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + data?.profilePic },
+                sender: { name: user?.username, image: user?.profileImage },
+                receiver: { name: data?.name, image: data?.profilePic },
                 chatId: data?.chatId
             })
+        }
+        else {
+            navigation.pop();
         }
     })
 
@@ -76,16 +80,18 @@ const ViewProfile = ({ navigation, route }) => {
         }
     }
 
-
     return (
         (loading || isLoading)
             ?
-            <ActivityLoader />
+            <ActivityLoader image={require('../../assets/images/loading.png')} containerClass='bg-white' />
             :
             <>
+                {(updating || sending) ? <View style={tw`absolute inset-0 bg-purple-500 bg-opacity-20 z-20 items-center justify-center`}>
+                    <ActivityIndicator size={50} color={colors.purple} />
+                </View> : <></>}
                 <BackButton buttonClass='absolute top-5 left-5 z-10' />
                 <View style={[tw`w-full absolute left-0 top-0 right-0`, { height: 400, backgroundColor: colors.purple }]}>
-                    <Image source={{ uri: profileData?.images?.length ? ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + profileData?.images[0]?.url) || '' : profileData?.profileImage ? ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + profileData?.profileImage) : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg' }} style={tw`w-full h-full`} resizeMode='cover' />
+                    <Image source={{ uri: profileData?.images?.length ? profileData?.images[0]?.url : profileData?.profileImage ? profileData?.profileImage : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg' }} style={tw`w-full h-full`} resizeMode='cover' />
                 </View>
                 <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
                     <View style={[tw`flex-1 bg-white pt-10 pb-5 px-7 rounded-t-[40px] gap-4 items-center`, { marginTop: 375 }]}>
@@ -137,7 +143,7 @@ const ViewProfile = ({ navigation, route }) => {
                             <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Interested</Text>
                             <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
                                 {
-                                    profileData?.interest?.map((interest, i) => <Interest key={i} interest={interest} />)
+                                    profileData?.interest?.map((interest, i) => <Interest key={i} interest={interest} color={colors.purple} />)
                                 }
                             </View>
                         </View>
@@ -145,7 +151,7 @@ const ViewProfile = ({ navigation, route }) => {
                             <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>Not Interested</Text>
                             <View style={tw`flex-row items-center flex-wrap gap-2 py-2`}>
                                 {
-                                    profileData?.notInterest?.map((interest, i) => <Interest key={i} interest={interest} />)
+                                    profileData?.notInterest?.map((interest, i) => <Interest key={i} interest={interest} color={colors.red} />)
                                 }
                             </View>
                         </View>
@@ -158,8 +164,8 @@ const ViewProfile = ({ navigation, route }) => {
 
 export default ViewProfile
 
-const Interest = ({ interest }) => (
-    <TouchableOpacity style={[tw`w-auto py-2 px-4 rounded-full`, { backgroundColor: colors.purple }]}>
+const Interest = ({ interest, color }) => (
+    <TouchableOpacity style={[tw`w-auto py-2 px-4 rounded-full`, { backgroundColor: color }]}>
         <Text style={[{ color: colors.white, textTransform: 'capitalize' }]}>
             {interest}
         </Text>

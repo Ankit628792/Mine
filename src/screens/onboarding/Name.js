@@ -23,10 +23,10 @@ const Name = () => {
   const validateName = () => {
     if (name.trim() === '') {
       Alert.alert('Validation Error', 'Please enter a valid name.');
-    } else if (!/^[a-zA-Z]+(\s[a-zA-Z]+)*$/.test(name)) {
+    } else if (!/^[a-zA-Z\s]+$/.test(name)) {
       Alert.alert(
         'Validation Error',
-        'Name should not start or end with a space.',
+        'Name should contain only alphabets.',
       );
     } else {
       updateProfile({
@@ -47,7 +47,10 @@ const Name = () => {
               tw`text-3xl font-medium text-center`,
               { color: colors.black },
             ]}>
-            Enter Your Name
+            What's your name?
+          </Text>
+          <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+            This is how you'll appear on Mine
           </Text>
           <View style={tw`p-5`}>
             <TextInput

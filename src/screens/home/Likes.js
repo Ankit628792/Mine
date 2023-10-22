@@ -7,15 +7,13 @@ import { ScrollView } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
 import { useQuery } from 'react-query'
 import { SwipeService } from '../../services/swipe.service'
-import ActivityLoader from '../../components/ActivityLoader'
 import LikeCard from '../../components/LikeCard'
+import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 
 const Likes = () => {
   const navigator = useNavigation();
   const { data: likeData, isLoading, refetch } = useQuery('getAllLikes', SwipeService.getAllLikes, {
     retry: false,
-    enabled: false
-    // onSuccess: res => console.log(res)
   })
 
   useEffect(() => { refetch() }, [])
@@ -28,7 +26,7 @@ const Likes = () => {
         </View>
         <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
           {
-            isLoading ? <ActivityLoader />
+            isLoading ? <ActivityLoaderRound image={require('../../assets/images/loading.png')} />
               :
               likeData?.data?.length ?
                 <ScrollView showsVerticalScrollIndicator={false} style={tw`pt-5`}>

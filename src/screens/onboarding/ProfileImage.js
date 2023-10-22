@@ -7,27 +7,29 @@ import {
   Dimensions,
   Image,
 } from 'react-native';
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
-import {useNavigation} from '@react-navigation/native';
+import { colors, gradient } from '../../utils/colors';
+import { useNavigation } from '@react-navigation/native';
 import Bar from '../../components/Bar';
-import {useUpdateProfile} from '../../hooks';
-import {useDispatch} from 'react-redux';
-import {setIntoUser} from '../../redux/user/user-slice';
+import { useUpdateProfile } from '../../hooks';
+import { useDispatch } from 'react-redux';
+import { setIntoUser } from '../../redux/user/user-slice';
 import BackButton from '../../components/BackButton';
 import ImageSelector from '../../components/ImageSelector';
-import {uploadProfileImage} from '../../services/user.service';
+import { uploadProfileImage } from '../../services/user.service';
 
 const width = Dimensions.get('screen').width;
 
-const ProfileImage = ({route}) => {
+const ProfileImage = ({ route }) => {
   const dispatch = useDispatch();
   const navigator = useNavigation();
   const [profile, setProfile] = useState();
   const [loading, setLoading] = useState(false);
+
+  const { mutate: updateProfile } = useUpdateProfile();
 
   const handleImage = async i => {
     try {
@@ -58,7 +60,8 @@ const ProfileImage = ({route}) => {
     let res = await uploadProfileImage(formData);
 
     if (res.data.status) {
-      dispatch(setIntoUser({profileImage: profile}));
+      dispatch(setIntoUser({ profileImage: profile }));
+      updateProfile({ onBoardingProcess: 10 })
       navigator.navigate('UserInterest');
     }
     setLoading(false);
@@ -66,26 +69,31 @@ const ProfileImage = ({route}) => {
 
   return (
     <>
-      <Bar value={11} />
+      <View style={[tw`px-5`, { backgroundColor: colors.white }]}>
+        <Bar value={11} />
+      </View>
       <LinearGradient colors={gradient.white} style={tw`flex-1 p-5`}>
         <Text
           style={[
             tw`text-3xl font-medium text-center pt-5`,
-            {color: colors.black},
+            { color: colors.black },
           ]}>
-          Your Profile Picture
+          Picture Time
+        </Text>
+        <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+          We need a photo to use as a profile picture in Mine
         </Text>
         <View
           style={tw`flex-grow flex-row flex-wrap py-10 items-center justify-center`}>
           <Pressable
             onPress={() => handleImage()}
             style={[
-              tw`w-40 h-40 m-2 rounded-xl overflow-hidden relative bg-white items-center justify-center`,
-              {zIndex: 10000},
+              tw`w-40 h-40 m-2 rounded-xl overflow-hidden relative bg-white items-center justify-center bg-white`,
+              { zIndex: 10000 },
             ]}>
             {profile ? (
               <Image
-                source={{uri: profile}}
+                source={{ uri: profile }}
                 resizeMode="cover"
                 style={tw`h-full w-full`}
               />

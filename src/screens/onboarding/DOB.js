@@ -1,40 +1,28 @@
-import {View, Text, TextInput, Pressable} from 'react-native';
-import React, {useState} from 'react';
+import { View, Text, TextInput, Pressable } from 'react-native';
+import React, { useState } from 'react';
 import tw from 'twrnc';
 import PrimaryButton from '../../components/PrimaryButton';
 import LinearGradient from 'react-native-linear-gradient';
-import {colors, gradient} from '../../utils/colors';
+import { colors, gradient } from '../../utils/colors';
 import moment from 'moment';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import BackButton from '../../components/BackButton';
 import Bar from '../../components/Bar';
-import {useNavigation} from '@react-navigation/native';
-import {useUpdateProfile} from '../../hooks';
+import { useNavigation } from '@react-navigation/native';
+import { useUpdateProfile } from '../../hooks';
+import { DatePicker } from 'react-native-wheel-pick';
 
 const DOB = () => {
   const navigator = useNavigation();
-  const [date, setDate] = useState(new Date(moment().subtract(18, 'years')));
-  const [showPicker, setShowPicker] = useState(false);
+  const [date, setDate] = useState(new Date(moment().subtract(18, 'years').toISOString()));
 
-  const {mutate: updateProfile, isLoading} = useUpdateProfile(() => {
+  const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
     navigator.navigate('Gender');
   });
-
-  const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShowPicker(false);
-    setDate(currentDate);
-  };
 
   const onSelectDate = () => {
     updateProfile({
       dob: moment(date).format('yyyy-DD-MM'),
       onBoardingProcess: 3,
     });
-  };
-
-  const showDatePicker = () => {
-    setShowPicker(true);
   };
 
   return (
@@ -46,22 +34,29 @@ const DOB = () => {
             <Text
               style={[
                 tw`text-3xl font-medium text-center`,
-                {color: colors.black},
+                { color: colors.black },
               ]}>
-              {' '}
-              Your Date of Birth
+              When's your Birthday?
             </Text>
-            <View style={tw`p-5`}>
-              <Pressable
-                onPress={showDatePicker}
-                style={[
-                  tw`border border-gray-50 p-2 rounded-lg mt-1 bg-white`,
-                ]}>
-                <Text
-                  style={[tw` text-base text-center text-lg`, {color: colors.black}]}>
-                  {date ? moment(date)?.format('DD MMM YYYY') : 'Select Date'}
-                </Text>
-              </Pressable>
+            <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
+              We need to make sure you are 18+ years old
+            </Text>
+            <View style={tw`py-5`}>
+              <View style={tw`relative items-center justify-center w-full mt-10`}>
+                <View style={tw`absolute w-full h-12 bg-white`} />
+                <DatePicker
+                  date={date}
+                  style={{ backgroundColor: 'transparent', height: 240 }}
+                  selectTextColor={colors.purple}
+                  textSize={24}
+                  selectBackgroundColor='#ffffff1A'
+                  onDateChange={date => setDate(date)}
+                  order='D-M-Y'
+                  selectLineSize={1}
+                  minimumDate={new Date(moment().subtract(60, 'years').toISOString())}
+                  maximumDate={new Date(moment().subtract(18, 'years').toISOString())}
+                />
+              </View>
             </View>
           </View>
         </View>
@@ -70,15 +65,6 @@ const DOB = () => {
           isLoading={isLoading}
           onPress={onSelectDate}
         />
-        {showPicker && (
-          <DateTimePicker
-            value={date}
-            maximumDate={new Date(moment().subtract(16, 'years'))}
-            mode="date"
-            display="default"
-            onChange={handleDateChange}
-          />
-        )}
       </LinearGradient>
     </>
   );

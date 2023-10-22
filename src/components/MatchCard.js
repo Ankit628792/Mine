@@ -10,7 +10,7 @@ const MatchCard = ({ item, navigator }) => {
         <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { id: item?.id })} style={[tw`items-center justify-center bg-white h-40 rounded-2xl overflow-hidden relative`, { width: (Dimensions.get('window').width - 100) / 2 }]}>
             <Image
                 source={{
-                    uri: ('https://mine-blob-storage.s3.us-east-2.amazonaws.com/' + item?.profileImage),
+                    uri: item?.profileImage,
                 }}
                 style={tw`w-full h-full rounded-lg`}
             />
