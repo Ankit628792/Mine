@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { SafeAreaView, StatusBar } from 'react-native';
 import NetworkLayer from './src/NetworkLayer';
 import { store } from './src/redux/store';
@@ -8,12 +8,18 @@ import NetworkUtil from './src/utils/NetworkUtil';
 import HttpService from './src/utils/axios-interceptor';
 import ErrorBoundary from './src/components/ErrorBoundary';
 import { colors } from './src/utils/colors';
+import { requestNotificationPermission } from './src/services/notificationService';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   NetworkUtil.subscribeToNetworkChanges();
   HttpService.configure();
+
+  useEffect(() => {
+    requestNotificationPermission();
+
+  },[])
 
   return (
     // <ErrorBoundary>

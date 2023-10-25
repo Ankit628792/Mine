@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "814310704696",
+    "project_id": "mine-v1",
+    "storage_bucket": "mine-v1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:814310704696:android:1c2a09d788df5a70fa48cd",
+        "android_client_info": {
+          "package_name": "com.mine"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCPVPPU-BtSBvAT9o_M7wKd8zbM7K5gl00"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

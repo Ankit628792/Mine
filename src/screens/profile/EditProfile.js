@@ -43,6 +43,7 @@ const EditProfile = ({ route }) => {
 
     const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
         queryClient.invalidateQueries('getProfile');
+        queryClient.invalidateQueries('fetchAllProfiles');
         showToast("Profile Updated Successfully!");
         dispatch(setIntoUser({ profileImages: userData?.profileImage, username: userData?.fullName }))
     });

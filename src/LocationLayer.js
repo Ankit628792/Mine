@@ -142,7 +142,13 @@ const LocationLayer = () => {
 
 
   useEffect(() => {
-    requestLocationPermission()
+    // setTimeout(() => sendChatMessage({
+    //   title: 'jgvgv',
+    //   body: 'jkhhbbgvg  jh bn nb b b vb',
+    //   token: 'cjHBOZYUSgW62Tx0Yqis1w:APA91bGOTk7W-WFv_ZhTE1unFYQEVQzm2oBTlB2lSyQm6IFh9XRVgZGzuISLVQKKeqb4W7du1frTldouAtj2lZ9TnONhLCo_bIqLxs8aW2OietwdBhkHJ9M2Ij4uw4k0HivIIltoZeDx',
+    //   data: {}
+    // }), 5000)
+    requestLocationPermission();
   }, []);
 
   useEffect(() => {
