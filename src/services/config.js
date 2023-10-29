@@ -1,4 +1,4 @@
-// export const API_URL = 'http://10.0.2.2:9090';
+// export const API_URL = 'https://d177-103-165-28-233.ngrok-free.app';
 export const API_URL = 'http://3.137.159.219';
 
 const SWAGGER = 'http://3.137.159.219/swagger-ui.html';
@@ -17,5 +17,7 @@ export const endpoints = {
   allProfile: '/allProfile',
   likes: '/likes',
   match: '/match',
-  filter: '/filter'
+  filter: '/filter',
+  chats: '/chats',
+  message:'/message'
 };

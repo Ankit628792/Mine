@@ -22,13 +22,16 @@ import { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMessages, selectUser, setMessage, setMessages } from '../../redux/user/user-slice';
+import { SwipeService } from '../../services/swipe.service';
+import { useQuery } from 'react-query';
+import WebSocketService from '../../services/socketService';
 
 const ChatItem = React.memo(({ item, mine, last, next }) => {
   const { image, message, createdAt } = item;
 
-  return item?.last ? (
-    <View style={tw`w-full h-5 mt-8`}></View>
-  ) : (
+  return (
     <TouchableHighlight
       activeOpacity={1}
       underlayColor="none"
@@ -68,108 +71,44 @@ const ChatItem = React.memo(({ item, mine, last, next }) => {
   );
 });
 
-// let tempMessage = []
 
 const PersonalChat = ({ route }) => {
   let receiver = route?.params?.receiver;
-  let conversationId = route?.params?._id;
+  let chatId = route?.params?.chatId;
   const navigator = useNavigation();
-  const [isLoading, setIsLoading] = useState(false);
-  const [menu, setMenu] = useState(false)
+  const dispatch = useDispatch()
+  const [isLoading, setIsLoading] = useState(true);
+  const [menu, setMenu] = useState(false);
+  const user = useSelector(selectUser)
+  const messages = useSelector(selectMessages)
+  const { sendMessage } = WebSocketService(chatId)
 
   const flatListRef = useRef(null);
-  const user = {
-    _id: '789',
-    name: 'Ankit',
-    image: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png',
-  };
   const [text, setText] = useState('');
-  const [messages, setMessages] = useState([
-    {
-      _id: Math.random()?.toString(),
-      sender: '123456',
-      receiver: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'Hi',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      sender: '123456',
-      receiver: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'How are you doing?',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      sender: '123456',
-      receiver: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'Hi',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      receiver: '123456',
-      sender: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'How are you doing?',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      receiver: '123456',
-      sender: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'Hi',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      receiver: '123456',
-      sender: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'How are you doing?',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      sender: '123456',
-      receiver: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'Hi',
-      createdAt: new Date().toISOString(),
-    },
-    {
-      _id: Math.random()?.toString(),
-      sender: '123456',
-      receiver: '789',
-      image: 'https://cdn-icons-png.flaticon.com/128/3135/3135789.png',
-      message: 'How are you doing?',
-      createdAt: new Date().toISOString(),
-    },
 
-  ]);
+  const { refetch: getAllMessage } = useQuery('getAllMessages', () => SwipeService.getAllMessages(chatId), {
+    retry: false,
+    enabled: false,
+    onSuccess: res => { dispatch(setMessages(res)); setIsLoading(false) }
+  })
 
   useEffect(() => {
-    if (conversationId) {
-      // get messages
+    if (chatId) {
+      getAllMessage()
     }
-  }, [conversationId]);
+  }, [chatId]);
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        // setKeyboardShow(true);
         flatListRef.current?.scrollToEnd({ animated: true });
       },
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
-        // setKeyboardShow(false);
+        flatListRef.current?.scrollToEnd({ animated: true });
       },
     );
 
@@ -189,18 +128,12 @@ const PersonalChat = ({ route }) => {
 
   const handleSendMessage = async text => {
     if (text) {
-      setMessages([
-        ...messages,
-        {
-          _id: Math.random()?.toString(),
-          sender: user?._id,
-          receiver: receiver?._id,
-          image: user?.image,
-          message: text,
-          createdAt: new Date().toISOString(),
-        },
-      ]);
       setText('');
+      dispatch(setMessage({
+        "content": text,
+        "createdTym": new Date().toISOString(),
+        userId: user?.id
+      }))
     }
   };
 
@@ -228,13 +161,13 @@ const PersonalChat = ({ route }) => {
                   <ChatItem
                     key={index}
                     item={{
-                      ...item,
-                      image:
-                        item?.sender == user?._id ? user?.image : item.image,
+                      image: item?.userId != user?.id ? receiver?.image : user?.profileImage,
+                      message: item?.content,
+                      createdAt: item?.createdTym
                     }}
-                    mine={item?.sender == user?._id}
-                    last={messages[index - 1]?.sender == messages[index]?.sender}
-                    next={messages[index + 1]?.sender != messages[index]?.sender}
+                    mine={item?.userId == user?.id}
+                    last={messages[index - 1]?.userId == messages[index]?.userId}
+                    next={messages[index + 1]?.userId != messages[index]?.userId}
                   />
                 ))}
                 <View style={tw`w-full h-5 mt-8`}></View>

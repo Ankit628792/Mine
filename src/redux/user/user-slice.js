@@ -9,7 +9,8 @@ const initialState = {
     maxAge: 60,
     minAge: 18
   },
-  userLocation: null
+  userLocation: null,
+  messages: []
 }
 
 export const userSlice = createSlice({
@@ -20,12 +21,8 @@ export const userSlice = createSlice({
       state.isAuth = !state.isAuth;
     },
     setUser: (state, action) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      if (action.payload?._id)
-        AsyncStorage.setItem("user", action.payload?._id);
+      if (action.payload?.id)
+        AsyncStorage.setItem("user", action.payload?.id);
       state.userInfo = action.payload || null
     },
     setIntoUser: (state, action) => {
@@ -40,14 +37,26 @@ export const userSlice = createSlice({
     setUserLocation: (state, action) => {
       state.userLocation = action.payload
     },
+    setMessages: (state, action) => {
+      if (action.payload) {
+        state.messages = [...action.payload]
+      }
+    },
+    setMessage: (state, action) => {
+      if (action.payload) {
+        console.log(action.payload)
+        state.messages.push(action.payload)
+      }
+    },
   },
 });
 
-export const { setAuth, setUser, setIntoUser, setProfileFilter, setUserLocation } = userSlice.actions;
+export const { setAuth, setUser, setIntoUser, setProfileFilter, setUserLocation, setMessage, setMessages } = userSlice.actions;
 
 export const selectUser = state => state.user.userInfo
 export const selectFilter = state => state.user.profileFilter
 export const selectUserLocation = state => state.user.userLocation
+export const selectMessages = state => state.user.messages
 
 export default userSlice.reducer
 

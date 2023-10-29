@@ -8,16 +8,17 @@ import { useNavigation } from '@react-navigation/native';
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { useQuery } from 'react-query';
 import { SwipeService } from '../../services/swipe.service';
+import ActivityLoaderRound from '../../components/ActivityLoaderRound';
 
 
 const Chat = () => {
   const navigator = useNavigation();
   const [openRows, setOpenRows] = useState({});
 
-  // const { data } = useQuery('getAllChats', SwipeService.getAllChats, {
-  //   retry: false,
-  //   onSuccess: res => console.log(res)
-  // })
+  const { data: ChatRes, isLoading } = useQuery('getAllChats', SwipeService.getAllChats, {
+    retry: false,
+    // onSuccess: res => console.log(res)
+  })
 
   const isListItemOpen = (rowKey) => {
     return openRows[rowKey] === true;
@@ -63,19 +64,26 @@ const Chat = () => {
         <Text style={[tw`text-2xl font-semibold text-white text-center`]}>Your Chats</Text>
       </View>
       <View style={[tw`p-5 flex-1`, { borderRadius: 40, backgroundColor: colors.white }]}>
-        <NoChat />
-        {/* <SwipeListView
-          showsVerticalScrollIndicator={false}
-          onRowOpen={onRowOpen}
-          onRowClose={onRowClose}
-          data={[...Array(50).fill(1), { id: -10, last: true }]}
-          renderItem={({ item }, i) => <ChatCard key={i} navigator={navigator} item={item} />}
-          renderHiddenItem={renderHiddenItem}
-          disableRightSwipe={true}
-          rightOpenValue={-100}
-          swipeToOpenPercent={0.2}
-          style={{ gap: 10 }}
-        /> */}
+        {
+
+          isLoading ? <ActivityLoaderRound image={require('../../assets/images/loading.png')} />
+            :
+            ChatRes?.data?.length ?
+              <SwipeListView
+                showsVerticalScrollIndicator={false}
+                onRowOpen={onRowOpen}
+                onRowClose={onRowClose}
+                data={[...ChatRes?.data, { id: -10, last: true }]}
+                renderItem={({ item }, i) => <ChatCard key={i} navigator={navigator} item={item} />}
+                renderHiddenItem={renderHiddenItem}
+                disableRightSwipe={true}
+                rightOpenValue={-100}
+                swipeToOpenPercent={0.2}
+                style={{ gap: 10 }}
+              />
+              :
+              <NoChat />
+        }
       </View>
     </LinearGradient>
   );

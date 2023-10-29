@@ -112,7 +112,7 @@ const LocationLayer = () => {
         Geolocation.requestAuthorization(() => { result = RESULTS.GRANTED }, () => { result = RESULTS.DENIED })
       }
       else {
-        result = await PermissionsAndroid.request('android.permission.ACCESS_COARSE_LOCATION', {
+        result = await PermissionsAndroid.request('android.permission.ACCESS_FINE_LOCATION', {
           title: 'Location is required',
           message: 'Please provide location access to get the profiles nearby you',
           buttonPositive: 'Ok',
