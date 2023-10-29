@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Client } from '@stomp/stompjs';
 import { useDispatch } from 'react-redux';
 import { TextEncoder, TextDecoder } from 'text-encoding';
+import { setMessage } from '../redux/user/user-slice';
+import { SOCKET_URL } from './config';
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
@@ -14,14 +16,14 @@ const WebSocketService = (chatId) => {
         const client = new Client();
 
         client.configure({
-            brokerURL: 'ws://3.137.159.219/ichat',
+            brokerURL: SOCKET_URL + '/ichat',
             connectionTimeout: 10000,
             debug: e => console.log("debug ", e),
             onConnect: () => {
                 console.log('Connected to the WebSocket');
-                const subscription = client.subscribe(`ws://3.137.159.219/channel/chat/${chatId}`, (message) => {
+                const subscription = client.subscribe(SOCKET_URL + `/channel/chat/${chatId}`, (message) => {
                     const receivedMessage = JSON.parse(message.body);
-                    console.log(receivedMessage);
+                    dispatch(setMessage(receivedMessage))
                 });
                 setStompClient({ client, subscription });
             },
@@ -48,7 +50,7 @@ const WebSocketService = (chatId) => {
     const sendMessage = (message) => {
         if (stompClient && stompClient.client && stompClient.client.connected) {
             stompClient.client.publish({
-                destination: `ws://3.137.159.219/app/messages/${chatId}`,
+                destination: SOCKET_URL + `/app/messages/${chatId}`,
                 body: JSON.stringify(message),
             });
         } else {

@@ -19,7 +19,6 @@ const windowHeight = Dimensions.get('window').height;
 const swipeRef = React.createRef()
 
 const Home = () => {
-  // const { cardsData: cards } = useSelector(state => state.cardsData);
   const filter = useSelector(selectFilter);
   const user = useSelector(selectUser);
   const navigator = useNavigation();
@@ -53,7 +52,7 @@ const Home = () => {
     if (data?.isMatch) {
       navigator.navigate("Match", {
         sender: { name: user?.username, image: user?.profileImage },
-        receiver: { name: data?.name, image: data?.profilePic },
+        receiver: { name: data?.name, image: data?.profilePic, id: data?.userId },
         chatId: data?.chatId
       })
     }

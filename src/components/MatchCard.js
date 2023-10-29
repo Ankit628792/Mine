@@ -6,8 +6,13 @@ import tw from 'twrnc'
 import { colors } from "../utils/colors"
 
 const MatchCard = ({ item, navigator }) => {
+    let receiver = {
+        id: item?.id,
+        image: item?.profileImage,
+        name: item?.userName,
+    }
     return (
-        <TouchableOpacity onPress={() => navigator.navigate('ViewProfile', { id: item?.id })} style={[tw`items-center justify-center bg-white h-40 rounded-2xl overflow-hidden relative`, { width: (Dimensions.get('window').width - 100) / 2 }]}>
+        <TouchableOpacity onPress={() => navigator.navigate('PersonalChat', { chatId: item?.chatId, receiver })} style={[tw`items-center justify-center bg-white h-40 rounded-2xl overflow-hidden relative`, { width: (Dimensions.get('window').width - 100) / 2 }]}>
             <Image
                 source={{
                     uri: item?.profileImage,

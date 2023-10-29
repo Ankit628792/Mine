@@ -145,14 +145,15 @@ const PersonalChat = ({ route }) => {
   return (
     <>
       <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
-        <View style={tw`p-5 flex-row items-center justify-between`}>
+        <View style={tw`p-5 flex-row items-center justify-between gap-2`}>
           <BackButton />
-          <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>Person Name</Text>
-          <TouchableOpacity style={tw`w-12 h-12 items-center justify-center`} onPress={() => setMenu(true)}>
+          <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>{receiver?.name}</Text>
+          <BackButton disabled={true} buttonClass='opacity-0' />
+          {/* <TouchableOpacity style={tw`w-12 h-12 items-center justify-center`} onPress={() => setMenu(true)}>
             <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={tw`w-9 h-9 text-gray-50`}>
               <Path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clipRule="evenodd" />
             </Svg>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
         <View style={[tw`p-5 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
           {isLoading ? (
