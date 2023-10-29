@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { GiftedChat } from 'react-native-gifted-chat';
 import { Client } from '@stomp/stompjs';
 import { useDispatch } from 'react-redux';
 import { TextEncoder, TextDecoder } from 'text-encoding';
@@ -8,19 +7,26 @@ global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
 const WebSocketService = (chatId) => {
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
     const [stompClient, setStompClient] = useState(null);
 
     const connect = () => {
         const client = new Client();
+
         client.configure({
-            brokerURL: 'ws://3.137.159.219',
+            brokerURL: 'ws://3.137.159.219/ichat',
+            connectionTimeout: 10000,
+            debug: e => console.log("debug ", e),
             onConnect: () => {
                 console.log('Connected to the WebSocket');
-                client.subscribe(`/channel/chat/${chatId}`, (message) => {
+                const subscription = client.subscribe(`ws://3.137.159.219/channel/chat/${chatId}`, (message) => {
                     const receivedMessage = JSON.parse(message.body);
-                    console.log(receivedMessage)
+                    console.log(receivedMessage);
                 });
+                setStompClient({ client, subscription });
+            },
+            onChangeState: (e) => {
+                console.log(e)
             },
             onStompError: (frame) => {
                 console.error('STOMP error:', frame);
@@ -32,14 +38,17 @@ const WebSocketService = (chatId) => {
                 console.error('WebSocket error:', event);
             },
         });
-        client.activate();
-        setStompClient(client);
+        try {
+            client.activate();
+        } catch (error) {
+            console.log(error)
+        }
     };
 
     const sendMessage = (message) => {
-        if (stompClient && stompClient.connected) {
-            stompClient.publish({
-                destination: '/app/messages',
+        if (stompClient && stompClient.client && stompClient.client.connected) {
+            stompClient.client.publish({
+                destination: `ws://3.137.159.219/app/messages/${chatId}`,
                 body: JSON.stringify(message),
             });
         } else {
@@ -48,21 +57,23 @@ const WebSocketService = (chatId) => {
     };
 
     const disconnect = () => {
-        stompClient.unsubscribe();
-    }
+        if (stompClient && stompClient.subscription) {
+            stompClient.subscription.unsubscribe();
+        }
+    };
 
     useEffect(() => {
         connect();
         return () => {
-            if (stompClient) {
-                stompClient.deactivate();
+            if (stompClient && stompClient.client) {
+                stompClient.client.deactivate();
             }
         };
     }, []);
 
     return {
         sendMessage,
-        disconnect
+        disconnect,
     };
 };
 

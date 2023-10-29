@@ -129,6 +129,11 @@ const PersonalChat = ({ route }) => {
   const handleSendMessage = async text => {
     if (text) {
       setText('');
+      sendMessage({
+        "content": text,
+        "createdTym": new Date().toISOString(),
+        userId: user?.id
+      })
       dispatch(setMessage({
         "content": text,
         "createdTym": new Date().toISOString(),

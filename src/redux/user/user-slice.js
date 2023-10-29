@@ -44,7 +44,6 @@ export const userSlice = createSlice({
     },
     setMessage: (state, action) => {
       if (action.payload) {
-        console.log(action.payload)
         state.messages.push(action.payload)
       }
     },
