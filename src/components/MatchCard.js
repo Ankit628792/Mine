@@ -10,6 +10,7 @@ const MatchCard = ({ item, navigator }) => {
         id: item?.id,
         image: item?.profileImage,
         name: item?.userName,
+        deviceToken: item?.deviceToken
     }
     return (
         <TouchableOpacity onPress={() => navigator.navigate('PersonalChat', { chatId: item?.chatId, receiver })} style={[tw`items-center justify-center bg-white h-40 rounded-2xl overflow-hidden relative`, { width: (Dimensions.get('window').width - 100) / 2 }]}>

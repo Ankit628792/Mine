@@ -21,8 +21,6 @@ import { ActivityIndicator } from 'react-native'
 
 const height = Dimensions.get('window').height
 
-// const profileData = { "age": 23, "bio": "I am coder", "distance": 3, "dob": "1999-12-14", "fullName": "Nitesh Kumar", "gender": "MALE", "images": [], "interest": ["coding", "riding", "school"], "notInterest": ["love", "world", "smoking"], "profession": "ENGINEER", "religion": "HINDU", "userId": "9a6e9cdc-acd5-449d-aa2a-5c2550fafb94" }
-
 const ViewProfile = ({ navigation, route }) => {
     const user = useSelector(selectUser)
     const [profileData, setProfileData] = useState();
@@ -38,7 +36,7 @@ const ViewProfile = ({ navigation, route }) => {
         if (data?.isMatch) {
             navigator.navigate("Match", {
                 sender: { name: user?.username, image: user?.profileImage },
-                receiver: { name: data?.name, image: data?.profilePic },
+                receiver: { name: data?.name, image: data?.profilePic, id: data?.userId, deviceToken: data?.deviceToken },
                 chatId: data?.chatId
             })
         }

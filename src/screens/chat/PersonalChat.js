@@ -27,6 +27,7 @@ import { selectMessages, selectUser, setMessage, setMessages } from '../../redux
 import { SwipeService } from '../../services/swipe.service';
 import { useQuery } from 'react-query';
 import WebSocketService from '../../services/socketService';
+import { sendChatNotification } from '../../services/notificationService';
 
 const ChatItem = React.memo(({ item, mine, last, next }) => {
   const { image, message, createdAt } = item;
@@ -139,6 +140,11 @@ const PersonalChat = ({ route }) => {
         "createdTym": new Date().toISOString(),
         userId: user?.id
       }))
+      if (receiver?.deviceToken) {
+        sendChatNotification({
+          title: receiver?.name, body: text, token: receiver?.deviceToken, data: { chatId, receiver }
+        })
+      }
     }
   };
 

@@ -11,6 +11,7 @@ const ChatCard = ({ navigator, item }) => {
     id: item?.user?.userId,
     image: item?.user?.profileImage,
     name: item?.user?.userName,
+    deviceToken: item?.user?.deviceToken
   }
 
   return (

@@ -52,7 +52,7 @@ const Home = () => {
     if (data?.isMatch) {
       navigator.navigate("Match", {
         sender: { name: user?.username, image: user?.profileImage },
-        receiver: { name: data?.name, image: data?.profilePic, id: data?.userId },
+        receiver: { name: data?.name, image: data?.profilePic, id: data?.userId, deviceToken: data?.deviceToken },
         chatId: data?.chatId
       })
     }

@@ -42,16 +42,14 @@ export const notificationListener = async () => {
             remoteMessage,
         );
         let data = {
-            _id: remoteMessage.data.conversationId,
+            chatId: remoteMessage.data.chatId,
             receiver: JSON.parse(remoteMessage.data.receiver)
         }
         navigator.navigate("PersonalChat", data)
-        // navigation.navigate(remoteMessage.data.type);
     });
 
     messaging().onMessage(async remoteMessage => {
         console.log('notification in foreground', remoteMessage)
-        // PushNotification.localNotification({ channelId: 'heart_channel', title: remoteMessage.notification?.title, message: remoteMessage.notification?.body })
     })
 
     // Check whether an initial notification is available
@@ -70,7 +68,7 @@ export const notificationListener = async () => {
 }
 
 
-export const sendChatMessage = async ({ title, body, token, data }) => {
+export const sendChatNotification = async ({ title, body, token, data }) => {
     const message = {
         "to": token,
         "notification": {
@@ -94,7 +92,7 @@ export const sendChatMessage = async ({ title, body, token, data }) => {
             },
             body: JSON.stringify(message),
         })
-        const data = await res.json();
+        // const data = await res.json();
     } catch (error) {
         console.log('message error    ', error)
     }
