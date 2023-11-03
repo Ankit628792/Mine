@@ -10,7 +10,8 @@ const initialState = {
     minAge: 18
   },
   userLocation: null,
-  messages: []
+  messages: [],
+  stompClient: null
 }
 
 export const userSlice = createSlice({
@@ -47,15 +48,21 @@ export const userSlice = createSlice({
         state.messages.push(action.payload)
       }
     },
+    setStompClient: (state, action) => {
+      if (action.payload) {
+        state.stompClient = action.payload.client
+      }
+    },
   },
 });
 
-export const { setAuth, setUser, setIntoUser, setProfileFilter, setUserLocation, setMessage, setMessages } = userSlice.actions;
+export const { setAuth, setUser, setIntoUser, setProfileFilter, setUserLocation, setMessage, setMessages, setStompClient } = userSlice.actions;
 
 export const selectUser = state => state.user.userInfo
 export const selectFilter = state => state.user.profileFilter
 export const selectUserLocation = state => state.user.userLocation
 export const selectMessages = state => state.user.messages
+export const selectStompClient = state => state.user.stompClient
 
 export default userSlice.reducer
 

@@ -1,6 +1,7 @@
-// export const API_URL = 'https://e477-103-165-28-233.ngrok-free.app';
+// export const API_URL = 'https://8ae3-103-165-28-24.ngrok-free.app';
 export const API_URL = 'http://3.137.159.219';
 
+// export const SOCKET_URL = 'ws://68be-2401-4900-5fc3-c502-2450-6a93-b968-a8b0.ngrok-free.app' 
 export const SOCKET_URL = 'ws://3.137.159.219' 
 
 const SWAGGER = 'http://3.137.159.219/swagger-ui.html';

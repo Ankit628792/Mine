@@ -8,7 +8,7 @@ import { API_URL, SOCKET_URL } from './config';
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-const WebSocketService = () => {
+const WebSocketService = (chatId) => {
     const dispatch = useDispatch();
     const [stompClient, setStompClient] = useState(null);
 
@@ -26,6 +26,15 @@ const WebSocketService = () => {
             onConnect: () => {
                 console.log('Connected to the WebSocket');
                 setStompClient({ client });
+                if (chatId) {
+                    const subscription = client.subscribe(`/channel/chat/${chatId}`, (message) => {
+                        const receivedMessage = JSON.parse(message.body);
+
+                        console.log("receivedMessage", receivedMessage);
+                        dispatch(setMessage(receivedMessage))
+                    });
+                    setStompClient({ client, subscription });
+                }
             },
             onChangeState: (e) => {
                 console.log(e)
@@ -51,8 +60,7 @@ const WebSocketService = () => {
 
     const subscribe = (chatId) => {
         if (stompClient && stompClient.client && stompClient.client.connected) {
-
-            const subscription = stompClient.client.subscribe(SOCKET_URL + `/channel/chat/${chatId}`, (message) => {
+            const subscription = stompClient.client.subscribe(`/channel/chat/${chatId}`, (message) => {
                 const receivedMessage = JSON.parse(message.body);
 
                 console.log("receivedMessage", receivedMessage);
@@ -67,7 +75,7 @@ const WebSocketService = () => {
     const sendMessage = (message) => {
         if (stompClient && stompClient.client && stompClient.client.connected) {
             stompClient.client.publish({
-                destination: API_URL + `/app/messages`,
+                destination: `/app/message`,
                 body: JSON.stringify(message),
             });
         } else {

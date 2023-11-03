@@ -22,7 +22,7 @@ import { useNavigation } from '@react-navigation/native';
 import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMessages, selectUser, setMessage, setMessages } from '../../redux/user/user-slice';
+import { selectMessages, selectStompClient, selectUser, setMessage, setMessages } from '../../redux/user/user-slice';
 import { SwipeService } from '../../services/swipe.service';
 import { useQuery } from 'react-query';
 import WebSocketService from '../../services/socketService';
@@ -80,8 +80,9 @@ const PersonalChat = ({ route }) => {
   const [isLoading, setIsLoading] = useState(true);
   const [menu, setMenu] = useState(false);
   const user = useSelector(selectUser)
-  const messages = useSelector(selectMessages)
-  const { sendMessage, disconnect, subscribe } = WebSocketService()
+  const messages = useSelector(selectMessages);
+
+  const { sendMessage, disconnect, subscribe } = WebSocketService(chatId)
 
   const flatListRef = useRef(null);
   const [text, setText] = useState('');
@@ -94,10 +95,11 @@ const PersonalChat = ({ route }) => {
 
   useEffect(() => {
     if (chatId) {
-      subscribe(chatId)
+      // subscribe(chatId)
       getAllMessage()
     }
   }, [chatId]);
+
 
   useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
@@ -136,11 +138,11 @@ const PersonalChat = ({ route }) => {
         userId: user?.id,
         chatId
       })
-      dispatch(setMessage({
-        "content": text,
-        "createdTym": new Date().toISOString(),
-        userId: user?.id
-      }))
+      // dispatch(setMessage({
+      //   "content": text,
+      //   "createdTym": new Date().toISOString(),
+      //   userId: user?.id
+      // }))
       if (receiver?.deviceToken) {
         sendChatNotification({
           title: receiver?.name, body: text, token: receiver?.deviceToken, data: { chatId, receiver }
