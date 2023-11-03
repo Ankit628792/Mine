@@ -167,23 +167,25 @@ const LocationLayer = () => {
     }
   }, [userLocation])
 
+  // return <NavigationLayer user={res?.data ? res?.data : null} authenticated={!isError} />
+
   return (
     <>
       {(primaryLoading || isFetching) ?
         <Splash />
         :
-        (!locationPermissionDenied && !Boolean(userLocation)) ?
-          <LocationNotAvailable />
-          :
-          (res ? loading : false) ?
-            <Splash />
-            :
-            (userLocation) ?
+        // (!locationPermissionDenied && !Boolean(userLocation)) ?
+        //   <LocationNotAvailable />
+        //   :
+        //   (res ? loading : false) ?
+        //     <Splash />
+        //     :
+        //     (userLocation) ?
               (
                 <NavigationLayer user={res?.data ? res?.data : null} authenticated={!isError} />
               )
-              :
-              <LocationNotAvailable />
+              // :
+              // <LocationNotAvailable />
       }
     </>
   );

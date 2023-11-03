@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ScrollView, View, Text, Image, ActivityIndicator, TouchableOpacity } from 'react-native';
 import { colors, gradient } from '../../utils/colors';
 import ChatCard from '../chat/ChatCard';
@@ -9,9 +9,12 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 import { useQuery } from 'react-query';
 import { SwipeService } from '../../services/swipe.service';
 import ActivityLoaderRound from '../../components/ActivityLoaderRound';
+import WebSocketService from '../../services/socketService';
 
 
 const Chat = () => {
+  WebSocketService();
+
   const navigator = useNavigation();
   const [openRows, setOpenRows] = useState({});
 

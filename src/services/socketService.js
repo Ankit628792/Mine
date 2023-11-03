@@ -1,31 +1,31 @@
 import React, { useState, useEffect } from 'react';
-import { Client } from '@stomp/stompjs';
 import { useDispatch } from 'react-redux';
 import { TextEncoder, TextDecoder } from 'text-encoding';
 import { setMessage } from '../redux/user/user-slice';
-import { SOCKET_URL } from './config';
+import { Client } from '@stomp/stompjs';
+import { API_URL, SOCKET_URL } from './config';
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-const WebSocketService = (chatId) => {
+const WebSocketService = () => {
     const dispatch = useDispatch();
     const [stompClient, setStompClient] = useState(null);
 
     const connect = () => {
-        const client = new Client();
 
-        client.configure({
-            brokerURL: SOCKET_URL + '/ichat',
-            connectionTimeout: 10000,
-            debug: e => console.log("debug ", e),
+        let client = new Client({
+            brokerURL: `${SOCKET_URL}/ichat`,
+            debug: (str) => { console.log("#### DEBUG STOMP: #####", str); },
+            reconnectDelay: 5000,
+            heartbeatIncoming: 4000,
+            heartbeatOutgoing: 4000,
+            forceBinaryWSFrames: true,
+            appendMissingNULLonIncoming: true,
+            logRawCommunication: true,
             onConnect: () => {
                 console.log('Connected to the WebSocket');
-                const subscription = client.subscribe(SOCKET_URL + `/channel/chat/${chatId}`, (message) => {
-                    const receivedMessage = JSON.parse(message.body);
-                    dispatch(setMessage(receivedMessage))
-                });
-                setStompClient({ client, subscription });
+                setStompClient({ client });
             },
             onChangeState: (e) => {
                 console.log(e)
@@ -39,18 +39,35 @@ const WebSocketService = (chatId) => {
             onWebSocketError: (event) => {
                 console.error('WebSocket error:', event);
             },
-        });
+        })
+
         try {
-            client.activate();
+            client.activate()
         } catch (error) {
             console.log(error)
         }
+
     };
+
+    const subscribe = (chatId) => {
+        if (stompClient && stompClient.client && stompClient.client.connected) {
+
+            const subscription = stompClient.client.subscribe(SOCKET_URL + `/channel/chat/${chatId}`, (message) => {
+                const receivedMessage = JSON.parse(message.body);
+
+                console.log("receivedMessage", receivedMessage);
+                dispatch(setMessage(receivedMessage))
+            });
+            setStompClient({ ...stompClient, subscription });
+        } else {
+            console.log('WebSocket is not connected');
+        }
+    }
 
     const sendMessage = (message) => {
         if (stompClient && stompClient.client && stompClient.client.connected) {
             stompClient.client.publish({
-                destination: SOCKET_URL + `/app/messages/${chatId}`,
+                destination: API_URL + `/app/messages`,
                 body: JSON.stringify(message),
             });
         } else {
@@ -74,6 +91,7 @@ const WebSocketService = (chatId) => {
     }, []);
 
     return {
+        subscribe,
         sendMessage,
         disconnect,
     };

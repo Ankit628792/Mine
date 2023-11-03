@@ -5,7 +5,6 @@ import {
   Dimensions,
   TouchableOpacity,
   TextInput,
-  FlatList,
   TouchableHighlight,
   ScrollView,
   Keyboard,
@@ -82,7 +81,7 @@ const PersonalChat = ({ route }) => {
   const [menu, setMenu] = useState(false);
   const user = useSelector(selectUser)
   const messages = useSelector(selectMessages)
-  const { sendMessage } = WebSocketService(chatId)
+  const { sendMessage, disconnect, subscribe } = WebSocketService()
 
   const flatListRef = useRef(null);
   const [text, setText] = useState('');
@@ -95,6 +94,7 @@ const PersonalChat = ({ route }) => {
 
   useEffect(() => {
     if (chatId) {
+      subscribe(chatId)
       getAllMessage()
     }
   }, [chatId]);
@@ -133,7 +133,8 @@ const PersonalChat = ({ route }) => {
       sendMessage({
         "content": text,
         "createdTym": new Date().toISOString(),
-        userId: user?.id
+        userId: user?.id,
+        chatId
       })
       dispatch(setMessage({
         "content": text,
@@ -152,7 +153,7 @@ const PersonalChat = ({ route }) => {
     <>
       <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
         <View style={tw`p-5 flex-row items-center justify-between gap-2`}>
-          <BackButton />
+          <BackButton onPress={() => { disconnect(); navigator.goBack(); }} />
           <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>{receiver?.name}</Text>
           <BackButton disabled={true} buttonClass='opacity-0' />
           {/* <TouchableOpacity style={tw`w-12 h-12 items-center justify-center`} onPress={() => setMenu(true)}>
