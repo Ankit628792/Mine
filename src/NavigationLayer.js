@@ -37,6 +37,7 @@ import TermsAndConditions from './screens/settings/TermsAndConditions';
 import PrivacyPolicy from './screens/settings/PrivacyPolicy';
 import Welcome from './screens/onboarding/Welcome';
 import Instruction from './screens/onboarding/Instruction';
+import Block from './screens/chat/Block';
 
 const Stack = createNativeStackNavigator();
 
@@ -46,7 +47,7 @@ const NavigationLayer = ({ user }) => {
     ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
     : 'Welcome';
 
-  // const initialRouteName = "Instruction"
+  // const initialRouteName = "Block"
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>
@@ -113,6 +114,7 @@ const NavigationLayer = ({ user }) => {
         <Stack.Screen name="PrivacyPolicy" component={PrivacyPolicy} />
         <Stack.Screen name="Match" component={Match} />
         <Stack.Screen name="Setting" component={Setting} />
+        <Stack.Screen name="Block" component={Block} />
         <Stack.Screen name="Main" component={NavigatorTab} />
       </Stack.Navigator>
     </NavigationContainer>

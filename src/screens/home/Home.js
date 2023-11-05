@@ -5,7 +5,7 @@ import { colors, gradient } from '../../utils/colors';
 import tw from 'twrnc';
 import { useDispatch, useSelector } from 'react-redux';
 import { Path, Svg } from 'react-native-svg';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { selectFilter, selectUser, setProfileFilter } from '../../redux/user/user-slice';
 import { useQuery } from 'react-query';
 import { UserService } from '../../services/user.service';
@@ -25,7 +25,8 @@ const Home = () => {
   const dispatch = useDispatch();
   const [page, setPage] = useState(0)
   const [cards, setCards] = useState([]);
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(true);
+  const focus = useIsFocused()
 
   const { data, refetch, isLoading: isFetching } = useQuery('fetchAllProfiles', () => SwipeService.fetchAllProfiles(page), {
     retry: false,
@@ -45,8 +46,9 @@ const Home = () => {
   })
 
   useEffect(() => {
+    setLoading(true);
     refetch();
-  }, [filter, page])
+  }, [filter, page, focus])
 
   const { mutate: profileAction } = useProfileAction((data) => {
     if (data?.isMatch) {
@@ -78,7 +80,7 @@ const Home = () => {
   };
 
   const onSwipedAllCards = () => {
-    setLoading(true);
+    // setLoading(true);
     setPage(page + 1);
     setCards([]);
   };

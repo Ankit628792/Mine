@@ -18,11 +18,13 @@ import { showToast } from '../../utils/FunctionHelper'
 import { useSelector } from 'react-redux'
 import { selectUser } from '../../redux/user/user-slice'
 import { ActivityIndicator } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 
 const height = Dimensions.get('window').height
 
-const ViewProfile = ({ navigation, route }) => {
+const ViewProfile = ({ route }) => {
     const user = useSelector(selectUser)
+    const navigator = useNavigation();
     const [profileData, setProfileData] = useState();
     const [loading, setLoading] = useState(true);
 
@@ -41,7 +43,7 @@ const ViewProfile = ({ navigation, route }) => {
             })
         }
         else {
-            navigation.pop();
+            navigator.pop();
         }
     })
 
@@ -55,7 +57,7 @@ const ViewProfile = ({ navigation, route }) => {
         }
     }, [route.params])
 
-    const { mutate: handleLike, isLoading: updating } = useAcceptLike(() => { navigation.pop() })
+    const { mutate: handleLike, isLoading: updating } = useAcceptLike(() => { navigator.pop() })
 
     const handleRequest = ({ type }) => {
         if (route.params?.from == 'likes') {
@@ -67,7 +69,7 @@ const ViewProfile = ({ navigation, route }) => {
         }
         else if (route.params?.from == 'home') {
             if (type == 'reject') {
-                navigation.pop();
+                navigator.pop();
             }
             else if (type == 'accept') {
                 profileAction({
@@ -91,7 +93,11 @@ const ViewProfile = ({ navigation, route }) => {
                 <View style={[tw`w-full absolute left-0 top-0 right-0`, { height: 400, backgroundColor: colors.purple }]}>
                     <Image source={{ uri: profileData?.images?.length ? profileData?.images[0]?.url : profileData?.profileImage ? profileData?.profileImage : 'https://w0.peakpx.com/wallpaper/470/485/HD-wallpaper-the-batman-robert-pattinson-the-batman-batman-superheroes-movies-2021-movies-robert-pattinson.jpg' }} style={tw`w-full h-full`} resizeMode='cover' />
                 </View>
-                <ScrollView style={tw`flex-1`} showsVerticalScrollIndicator={false}>
+                <ScrollView style={tw`flex-1 relative`} showsVerticalScrollIndicator={false}>
+                    {user?.phoneNumber === '9999999994' ? <View style={tw`absolute top-5 right-5 gap-4`}>
+                        <TouchableOpacity style={tw`py-2 px-10 rounded-xl bg-red-500`} onPress={() => navigator.navigate('Block', { type: 'report', userId: route.params?.id })}><Text style={tw`text-white font-medium text-lg`}>Report</Text></TouchableOpacity>
+                        <TouchableOpacity style={tw`py-2 px-10 rounded-xl bg-red-500`} onPress={() => navigator.navigate('Block', { type: 'block', userId: route.params?.id })}><Text style={tw`text-white font-medium text-lg`}>Block</Text></TouchableOpacity>
+                    </View> : <></>}
                     <View style={[tw`flex-1 bg-white pt-10 pb-5 px-7 rounded-t-[40px] gap-4 items-center`, { marginTop: 375 }]}>
                         {route.params?.from ? <View style={tw`absolute -top-8 flex-row items-center justify-center gap-20 w-full`}>
                             <TouchableOpacity disabled={updating} onPress={() => handleRequest({ type: 'reject' })} style={tw`w-14 h-14 rounded-full bg-white shadow-lg shadow-gray-400 items-center justify-center`}>
@@ -107,12 +113,12 @@ const ViewProfile = ({ navigation, route }) => {
                         </View> : <></>}
                         <View style={tw`w-full`}>
                             <Text style={[tw`text-2xl font-semibold`, { color: colors.black }]}>{profileData?.fullName}, {profileData?.age}</Text>
-                            <View style={[tw`py-1 flex-row items-center gap-1`]}>
+                            {profileData?.distance ? <View style={[tw`py-1 flex-row items-center gap-1`]}>
                                 <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={[tw`w-6 h-6`, { color: colors.purple }]}>
                                     <Path fillRule="evenodd" d="M11.54 22.351l.07.04.028.016a.76.76 0 00.723 0l.028-.015.071-.041a16.975 16.975 0 001.144-.742 19.58 19.58 0 002.683-2.282c1.944-1.99 3.963-4.98 3.963-8.827a8.25 8.25 0 00-16.5 0c0 3.846 2.02 6.837 3.963 8.827a19.58 19.58 0 002.682 2.282 16.975 16.975 0 001.145.742zM12 13.5a3 3 0 100-6 3 3 0 000 6z" clipRule="evenodd" />
                                 </Svg>
                                 <Text style={[tw`text-base font-medium tracking-tight`, { color: colors.purple }]}>{profileData?.distance} Km away</Text>
-                            </View>
+                            </View> : <></>}
                         </View>
                         <View style={tw`w-full`}>
                             <Text style={[tw`text-xl font-medium`, { color: colors.black }]}>About</Text>

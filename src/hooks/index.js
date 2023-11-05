@@ -13,14 +13,14 @@ import { SwipeService } from "../services/swipe.service"
 export const useSendOtp = (callback) => {
     return useMutation(AuthService.sendOtp, {
         onSuccess: (response) => {
-            if (response.status) {
+            if (response?.status) {
                 console.log("OTP sent successfully!!")
                 showToast("OTP sent successfully!!")
                 if (typeof callback == 'function') {
-                    callback({ initialOtp: response.data.actualOtp })
+                    callback({ initialOtp: response?.data?.actualOtp })
                 }
             } else {
-                console.error(response.message)
+                console.error(response?.message || 'Unable to send otp')
             }
         },
         onError: (e) => {
@@ -64,7 +64,7 @@ export const useVerifyOtp = (callback) => {
     })
     return useMutation(AuthService.verifyOtp, {
         onSuccess: async (response) => {
-            if (response.data.jwtToken) {
+            if (response?.data?.jwtToken) {
                 showToast("OTP Verified successfully!!")
                 if (typeof callback == 'function') {
                     callback()
@@ -78,7 +78,8 @@ export const useVerifyOtp = (callback) => {
                     navigator.navigate("Name")
                 }
             } else {
-                showToast(response.message)
+                console.log("response", response)
+                showToast(response?.message || response?.description)
             }
         },
         onError: (e) => {
@@ -163,6 +164,24 @@ export const useProfileAction = callback => {
         onError: e => {
             console.log(e)
             console.error('Oops! Unable to like profile');
+        },
+    });
+};
+
+export const useReportProfile = callback => {
+    return useMutation(UserService.reportProfile, {
+        onSuccess: response => {
+            if (response.status === true) {
+                if (typeof callback == 'function') {
+                    callback(response?.data);
+                }
+            } else {
+                showToast(response.message);
+            }
+        },
+        onError: e => {
+            console.log(e)
+            console.error('Oops! Something went wrong');
         },
     });
 };

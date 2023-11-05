@@ -17,7 +17,7 @@ export async function requestNotificationPermission() {
 
 
 const getFCMToken = async () => {
-    let checkToken = await AsyncStorage.getItem('fcmToken')
+    let checkToken = await AsyncStorage.getItem('fcmToken');
     if (!checkToken) {
         try {
             const fcmToken = await messaging().getToken();
@@ -74,8 +74,6 @@ export const sendChatNotification = async ({ title, body, token, data }) => {
         "notification": {
             "title": title,
             "body": body,
-            "sound": "chat",
-            "android_channel_id": "chat_channel"
         },
         "data": data,
         "content_available": true,
@@ -88,11 +86,12 @@ export const sendChatNotification = async ({ title, body, token, data }) => {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
-                "Authorization": "key=" + 'AAAAvZizRjg:APA91bFeJwQoSiaVklymN6nRxFdB-TeuZR55IuLV34rlvmieWSQYxkfo5CdeYRryGRM5YEK1vShg6_Unmne4C3U76ry1EkcQ3zsBaolamCyW5tAdf9tgEs1pneaodYtou29OZ9Tdh5RA'
+                "Authorization": "key=" + 'AAAAvZizRjg:APA91bEpAj2zMrtJNdNR7cnXlBwbfuGaaEtPOOKzImzP9dAeUUK1tdpshLt4mMQoJje_RcgAbbcNSZZQW21yBOTou97GsFE4KmdQTWVmLv3GZu-sjR2u1QWnFqMMFpszq0PnSc741zWX'
             },
             body: JSON.stringify(message),
         })
-        // const data = await res.json();
+        const data = await res.json();
+        console.log(data)
     } catch (error) {
         console.log('message error    ', error)
     }

@@ -3,7 +3,7 @@ import NavigationLayer from './NavigationLayer';
 import { useQuery } from 'react-query';
 import { useDispatch, useSelector } from 'react-redux';
 import ActivityLoader from './components/ActivityLoader';
-import { selectUserLocation, setUser, setUserLocation } from './redux/user/user-slice';
+import { selectUser, selectUserLocation, setUser, setUserLocation } from './redux/user/user-slice';
 import { AuthService } from './services/auth.service';
 import Splash from './components/Splash';
 import Geolocation from '@react-native-community/geolocation';
@@ -12,10 +12,11 @@ import { PermissionsAndroid, Platform, Alert, Linking } from 'react-native';
 import LocationNotAvailable from './components/LocationNotAvailable'
 import { useState, useEffect } from 'react';
 import { useUpdateProfile } from './hooks';
+import WebSocketService from './services/socketService';
 
 Geolocation.setRNConfiguration({
   skipPermissionRequests: false,
-  authorizationLevel: 'whenInUse',
+  authorizationLevel: 'auto',
   locationProvider: 'auto'
 })
 
@@ -25,8 +26,9 @@ const LocationLayer = () => {
   const [locationPermissionDenied, setLocationPermissionDenied] = useState(false);
   const [loading, setLoading] = useState(true);
   const userLocation = useSelector(selectUserLocation);
+  const user = useSelector(selectUser);
   const [intervalId, setIntervalId] = useState()
-
+  const { connect } = WebSocketService();
   const { isFetching, isError, data: res } = useQuery('validateToken', AuthService.auth, {
     retry: false,
     onSuccess: res => {
@@ -98,7 +100,13 @@ const LocationLayer = () => {
             ],
           );
         }
-      })
+      },
+        {
+          distanceFilter: 0.1,
+          interval: 7000,
+          fastestInterval: 5000,
+        }
+      )
     } catch (error) {
       setUserLocation(false)
     }
@@ -142,12 +150,6 @@ const LocationLayer = () => {
 
 
   useEffect(() => {
-    // setTimeout(() => sendChatMessage({
-    //   title: 'jgvgv',
-    //   body: 'jkhhbbgvg  jh bn nb b b vb',
-    //   token: 'cjHBOZYUSgW62Tx0Yqis1w:APA91bGOTk7W-WFv_ZhTE1unFYQEVQzm2oBTlB2lSyQm6IFh9XRVgZGzuISLVQKKeqb4W7du1frTldouAtj2lZ9TnONhLCo_bIqLxs8aW2OietwdBhkHJ9M2Ij4uw4k0HivIIltoZeDx',
-    //   data: {}
-    // }), 5000)
     requestLocationPermission();
   }, []);
 
@@ -167,25 +169,29 @@ const LocationLayer = () => {
     }
   }, [userLocation])
 
-  // return <NavigationLayer user={res?.data ? res?.data : null} authenticated={!isError} />
+  useEffect(() => {
+    if (res?.data || user) {
+      connect();
+    }
+  }, [res, user])
 
   return (
     <>
       {(primaryLoading || isFetching) ?
         <Splash />
         :
-        // (!locationPermissionDenied && !Boolean(userLocation)) ?
-        //   <LocationNotAvailable />
-        //   :
-        //   (res ? loading : false) ?
-        //     <Splash />
-        //     :
-        //     (userLocation) ?
+        (!locationPermissionDenied && !Boolean(userLocation)) ?
+          <LocationNotAvailable />
+          :
+          (res ? loading : false) ?
+            <Splash />
+            :
+            (userLocation) ?
               (
                 <NavigationLayer user={res?.data ? res?.data : null} authenticated={!isError} />
               )
-              // :
-              // <LocationNotAvailable />
+              :
+              <LocationNotAvailable />
       }
     </>
   );

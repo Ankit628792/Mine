@@ -26,27 +26,21 @@ const configure = () => {
     if (deviceToken) {
       config.headers[DEVICE_PAYLOAD_KEY] = deviceToken;
     }
-    if (!jwtToken && !config.headers[PUBLIC_REQUEST_KEY]) {
-      // navigate(ENTRY_ROUTE);
-    }
     return config;
   });
-  _axios.interceptors.response.use(
-    response => {
-      const data = response.data;
-      if (data?.message) {
-        // showToast(data.message);
-      }
-      return data;
-    },
-    error => {
-      const { data = {}, status, statusText } = error?.response || {};
-      data.description = data?.message || statusText;
-      data.message = data.error || statusText;
-      data.statusCode = data.statusCode || status;
-      return data;
-    },
-  );
+  _axios.interceptors.response.use((response) => {
+    if (response?.config) {
+      return response.data
+    }
+    return response;
+  }, (error) => {
+    const { data = {}, status, statusText } = error?.response || {};
+    data.description = data.message || statusText;
+    data.message = data.error || statusText;
+    data.statusCode = data.statusCode || status;
+
+    return Promise.reject(data);
+  });
 };
 
 const getAxiosClient = () => _axios;

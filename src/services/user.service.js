@@ -9,6 +9,8 @@ const updateFilter = data => HttpService.patch(endpoints.filter, data);
 const getFilters = () => HttpService.get(endpoints.filter);
 
 const updateProfile = data => HttpService.patch(endpoints.profile, data);
+const reportProfile = data => HttpService.post(endpoints.report, data);
+const checkBlocked = id => id ? HttpService.get('/isBlocked/' + id) : {};
 
 const getProfile = () => HttpService.get(endpoints.profile);
 const getImages = () => HttpService.get(endpoints.images);
@@ -52,5 +54,7 @@ export const UserService = {
     deleteImage,
     updateFilter,
     getFilters,
-    fetchProfileById
+    fetchProfileById,
+    reportProfile,
+    checkBlocked
 };

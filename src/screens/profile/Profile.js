@@ -40,7 +40,7 @@ const Profile = () => {
             <ScrollView showsVerticalScrollIndicator={false} style={tw`p-2`}>
               <View
                 style={tw`justify-center items-center`}>
-                <View style={tw`h-32 w-32 rounded-full border-2 border-white items-end justify-end`}>
+                <TouchableOpacity onPress={() => navigator.navigate('EditProfile', { userData })} style={tw`h-32 w-32 rounded-full border-2 border-white items-end justify-end`}>
                   <Image
                     style={tw`h-full w-full rounded-full bg-white`}
                     source={{
@@ -54,7 +54,7 @@ const Profile = () => {
                       <Path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
                     </Svg>
                   </TouchableOpacity>
-                </View>
+                </TouchableOpacity>
                 <Text style={[tw`text-2xl font-medium mt-2 text-center`, { color: colors.black }]}>{userData?.fullName}</Text>
                 <Text style={[tw`text-lg mt-1 text-center`, { color: colors.gray }]}>+91 {userData?.phoneNumber}</Text>
 

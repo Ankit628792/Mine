@@ -15,18 +15,19 @@ import tw from 'twrnc';
 import LinearGradient from 'react-native-linear-gradient';
 import { Path, Svg } from 'react-native-svg';
 import { useState } from 'react';
-import moment, { min } from 'moment';
+import moment from 'moment';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
 import { colors, gradient } from '../../utils/colors';
 import BackButton from '../../components/BackButton';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectMessages, selectStompClient, selectUser, setMessage, setMessages } from '../../redux/user/user-slice';
+import { selectMessages, selectUser, setMessage, setMessages } from '../../redux/user/user-slice';
 import { SwipeService } from '../../services/swipe.service';
 import { useQuery } from 'react-query';
 import WebSocketService from '../../services/socketService';
 import { sendChatNotification } from '../../services/notificationService';
+import { UserService } from '../../services/user.service';
 
 const ChatItem = React.memo(({ item, mine, last, next }) => {
   const { image, message, createdAt } = item;
@@ -81,21 +82,26 @@ const PersonalChat = ({ route }) => {
   const [menu, setMenu] = useState(false);
   const user = useSelector(selectUser)
   const messages = useSelector(selectMessages);
+  const [isBlocked, setIsBlocked] = useState(false);
 
-  const { sendMessage, disconnect, subscribe } = WebSocketService(chatId)
+  const { sendMessage, unsubscribe, subscribe } = WebSocketService(chatId)
 
   const flatListRef = useRef(null);
   const [text, setText] = useState('');
 
-  const { refetch: getAllMessage } = useQuery('getAllMessages', () => SwipeService.getAllMessages(chatId), {
+  const { refetch: getAllMessage, isFetched } = useQuery('getAllMessages', () => SwipeService.getAllMessages(chatId), {
     retry: false,
     enabled: false,
     onSuccess: res => { dispatch(setMessages(res)); setIsLoading(false) }
   })
+  const { isFetching: checkingBlock } = useQuery('checkBlocked', () => UserService.checkBlocked(receiver?.id), {
+    retry: false,
+    onSuccess: res => Boolean(res?.data?.isBlocked) ? setIsBlocked(res?.data?.whoBlocked || 'Blocked') : {}
+  })
 
   useEffect(() => {
     if (chatId) {
-      // subscribe(chatId)
+      subscribe(chatId)
       getAllMessage()
     }
   }, [chatId]);
@@ -123,7 +129,7 @@ const PersonalChat = ({ route }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, messages.length, isLoading]);
+  }, [messages, messages.length, isLoading, isFetched, isBlocked]);
 
   const scrollToBottom = () => {
     flatListRef.current?.scrollToEnd({ animated: true });
@@ -133,16 +139,17 @@ const PersonalChat = ({ route }) => {
     if (text) {
       setText('');
       sendMessage({
-        "content": text,
-        "createdTym": new Date().toISOString(),
+        content: text,
+        createdTstmp: new Date().toISOString(),
         userId: user?.id,
         chatId
       })
-      // dispatch(setMessage({
-      //   "content": text,
-      //   "createdTym": new Date().toISOString(),
-      //   userId: user?.id
-      // }))
+      dispatch(setMessage({
+        content: text,
+        createdTstmp: new Date().toISOString(),
+        userId: user?.id,
+        chatId
+      }))
       if (receiver?.deviceToken) {
         sendChatNotification({
           title: receiver?.name, body: text, token: receiver?.deviceToken, data: { chatId, receiver }
@@ -155,14 +162,19 @@ const PersonalChat = ({ route }) => {
     <>
       <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
         <View style={tw`p-5 flex-row items-center justify-between gap-2`}>
-          <BackButton onPress={() => { disconnect(); navigator.goBack(); }} />
+          <BackButton onPress={() => { unsubscribe(); navigator.goBack(); }} />
           <Text style={[tw`text-2xl font-semibold ml-3 text-white text-center`]}>{receiver?.name}</Text>
-          <BackButton disabled={true} buttonClass='opacity-0' />
-          {/* <TouchableOpacity style={tw`w-12 h-12 items-center justify-center`} onPress={() => setMenu(true)}>
-            <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={tw`w-9 h-9 text-gray-50`}>
-              <Path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clipRule="evenodd" />
-            </Svg>
-          </TouchableOpacity> */}
+          {
+            Boolean(isBlocked)
+              ?
+              <BackButton disabled={true} buttonClass='opacity-0' />
+              :
+              <TouchableOpacity style={tw`w-12 h-12 items-center justify-center`} onPress={() => setMenu(true)}>
+                <Svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" style={tw`w-9 h-9 text-gray-50`}>
+                  <Path fillRule="evenodd" d="M10.5 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0zm0 6a1.5 1.5 0 113 0 1.5 1.5 0 01-3 0z" clipRule="evenodd" />
+                </Svg>
+              </TouchableOpacity>
+          }
         </View>
         <View style={[tw`p-5 flex-1 rounded-t-[40px]`, { backgroundColor: colors.white }]}>
           {isLoading ? (
@@ -178,7 +190,7 @@ const PersonalChat = ({ route }) => {
                     item={{
                       image: item?.userId != user?.id ? receiver?.image : user?.profileImage,
                       message: item?.content,
-                      createdAt: item?.createdTym
+                      createdAt: item?.createdTstmp
                     }}
                     mine={item?.userId == user?.id}
                     last={messages[index - 1]?.userId == messages[index]?.userId}
@@ -196,32 +208,42 @@ const PersonalChat = ({ route }) => {
             </View>
           )}
 
-          <View
-            style={tw`bg-white rounded-full flex-row items-center justify-between px-2 mt-3`}>
-            <TextInput
-              returnKeyType={text ? 'send' : 'none'}
-              onSubmitEditing={({ nativeEvent: { text } }) => handleSendMessage(text)}
-              value={text}
-              onChangeText={setText}
-              style={tw`text-base text-gray-600 w-full ml-1 h-auto max-w-[${Dimensions.get('window').width - 110
-                }px]`}
-              placeholder="Type here..."
-              placeholderTextColor="#999"
-            />
-            <TouchableOpacity
-              disabled={!text?.length}
-              style={tw`w-11 h-11 p-2 ${text?.length ? 'opacity-100' : 'opacity-0'
-                }`}
-              onPress={() => handleSendMessage(text)}>
-              <Svg
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                style={{ color: colors.purple }}>
-                <Path d="M5.521,19.9h5.322l3.519,3.515a2.035,2.035,0,0,0,1.443.6,2.1,2.1,0,0,0,.523-.067,2.026,2.026,0,0,0,1.454-1.414L23.989,1.425Z" />
-                <Path d="M4.087,18.5,22.572.012,1.478,6.233a2.048,2.048,0,0,0-.886,3.42l3.495,3.492Z" />
-              </Svg>
-            </TouchableOpacity>
-          </View>
+          {
+            checkingBlock ?
+              <></>
+              :
+              Boolean(isBlocked) ?
+                <View style={tw`py-4`}>
+                  <Text style={tw`text-rose-500 text-center text-lg`}>{isBlocked}</Text>
+                </View>
+                :
+                <View
+                  style={tw`bg-white rounded-full flex-row items-center justify-between px-2 mt-3`}>
+                  <TextInput
+                    returnKeyType={text ? 'send' : 'none'}
+                    onSubmitEditing={({ nativeEvent: { text } }) => handleSendMessage(text)}
+                    value={text}
+                    onChangeText={setText}
+                    style={tw`text-base text-gray-600 w-full ml-1 h-auto max-w-[${Dimensions.get('window').width - 110
+                      }px]`}
+                    placeholder="Type here..."
+                    placeholderTextColor="#999"
+                  />
+                  <TouchableOpacity
+                    disabled={!text?.length}
+                    style={tw`w-11 h-11 p-2 ${text?.length ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    onPress={() => handleSendMessage(text)}>
+                    <Svg
+                      viewBox="0 0 24 24"
+                      fill="currentColor"
+                      style={{ color: colors.purple }}>
+                      <Path d="M5.521,19.9h5.322l3.519,3.515a2.035,2.035,0,0,0,1.443.6,2.1,2.1,0,0,0,.523-.067,2.026,2.026,0,0,0,1.454-1.414L23.989,1.425Z" />
+                      <Path d="M4.087,18.5,22.572.012,1.478,6.233a2.048,2.048,0,0,0-.886,3.42l3.495,3.492Z" />
+                    </Svg>
+                  </TouchableOpacity>
+                </View>
+          }
         </View>
       </LinearGradient>
       {menu && <View style={[tw`absolute flex-1 z-20 inset-0`,]}>
@@ -229,16 +251,13 @@ const PersonalChat = ({ route }) => {
           <></>
         </TouchableHighlight>
         <View style={tw`p-3 rounded-lg bg-white absolute top-16 right-10`}>
-          <TouchableOpacity style={tw`p-2`} onPress={() => { setMenu(false) }}>
+          {/* <TouchableOpacity style={tw`p-2`} onPress={() => { setMenu(false) }}>
             <Text style={tw`text-gray-800`}>Clear Chat</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={tw`p-2`} onPress={() => { setMenu(false) }}>
-            <Text style={tw`text-gray-800`}>Un-Match</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={tw`p-2`} onPress={() => { navigator.navigate("Report", { userId: receiver?.id }); setMenu(false) }}>
+          </TouchableOpacity> */}
+          <TouchableOpacity style={tw`p-2`} onPress={() => { navigator.navigate("Block", { type: 'report', userId: receiver?.id }); setMenu(false) }}>
             <Text style={tw`text-gray-800`}>Report User</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={tw`p-2`} onPress={() => { navigator.navigate("Block", { userId: receiver?.id }); setMenu(false) }}>
+          <TouchableOpacity style={tw`p-2`} onPress={() => { navigator.navigate("Block", { type: 'block', userId: receiver?.id }); setMenu(false) }}>
             <Text style={tw`text-rose-500`}>Block User</Text>
           </TouchableOpacity>
         </View>

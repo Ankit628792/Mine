@@ -1,4 +1,4 @@
-package com.mine;
+package com.delanki.mine;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

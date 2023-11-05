@@ -21,18 +21,18 @@ import { Dimensions } from 'react-native';
 
 
 const VerifyOTP = ({ route }) => {
-  const navigation = useNavigation();
+  const navigator = useNavigation();
   const [isVisible, setIsVisible] = useState(true);
 
   const [otp, setOtp] = useState('');
 
-  useEffect(() => {
-    if (route.params?.initialOtp) {
-      setOtp(route.params?.initialOtp?.toString());
-    }
-  }, [route.params?.initialOtp]);
+  // useEffect(() => {
+  //   if (route.params?.initialOtp) {
+  //     setOtp(route.params?.initialOtp?.toString());
+  //   }
+  // }, [route.params?.initialOtp]);
 
-  // useEffect(() => { setTimeout(() => setIsVisible(true), 30000) }, [])
+  useEffect(() => { if (!isVisible) { setTimeout(() => setIsVisible(true), 20000) } }, [isVisible])
 
   let {
     mutate: verifyOtp,
@@ -45,6 +45,7 @@ const VerifyOTP = ({ route }) => {
   const checkOtp = async () => {
     if (otp?.length == 6) {
       let token = await AsyncStorage.getItem('fcmToken');
+      Keyboard.dismiss();
       verifyOtp({
         phoneNumber: route.params?.mobile?.toString(),
         otp: otp,
@@ -103,12 +104,13 @@ const VerifyOTP = ({ route }) => {
               </Text>
               <TouchableOpacity
                 disabled={!isVisible}
-                onPress={() =>
+                onPress={() => {
+                  setIsVisible(false);
                   sendOtp({
                     mobile: route.params?.mobile,
                     countryCode: route.params?.countryCode,
                   })
-                }>
+                }}>
                 <Text style={[tw`font-medium`, { color: colors.purple }]}>Send Again</Text>
               </TouchableOpacity>
             </View>

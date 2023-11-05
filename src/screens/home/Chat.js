@@ -4,24 +4,26 @@ import { colors, gradient } from '../../utils/colors';
 import ChatCard from '../chat/ChatCard';
 import tw from 'twrnc'
 import LinearGradient from 'react-native-linear-gradient';
-import { useNavigation } from '@react-navigation/native';
+import { useIsFocused, useNavigation } from '@react-navigation/native';
 import { SwipeListView } from 'react-native-swipe-list-view'
 import { useQuery } from 'react-query';
 import { SwipeService } from '../../services/swipe.service';
 import ActivityLoaderRound from '../../components/ActivityLoaderRound';
-import WebSocketService from '../../services/socketService';
 
 
 const Chat = () => {
-  WebSocketService();
-
   const navigator = useNavigation();
   const [openRows, setOpenRows] = useState({});
+  const focus = useIsFocused();
 
-  const { data: ChatRes, isLoading } = useQuery('getAllChats', SwipeService.getAllChats, {
+  const { data: ChatRes, isLoading, refetch } = useQuery('getAllChats', SwipeService.getAllChats, {
     retry: false,
-    // onSuccess: res => console.log(res)
+    // onSuccess: res => {  }
   })
+
+  useEffect(() => {
+    refetch();
+  }, [focus])
 
   const isListItemOpen = (rowKey) => {
     return openRows[rowKey] === true;
@@ -80,6 +82,7 @@ const Chat = () => {
                 renderItem={({ item }, i) => <ChatCard key={i} navigator={navigator} item={item} />}
                 renderHiddenItem={renderHiddenItem}
                 disableRightSwipe={true}
+                disableLeftSwipe={true}
                 rightOpenValue={-100}
                 swipeToOpenPercent={0.2}
                 style={{ gap: 10 }}

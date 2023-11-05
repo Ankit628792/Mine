@@ -1,4 +1,4 @@
-package com.mine;
+package com.delanki.mine;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

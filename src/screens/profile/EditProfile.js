@@ -27,8 +27,7 @@ import PrimaryButton from '../../components/PrimaryButton'
 import { useUpdateProfile } from '../../hooks'
 import { showToast } from '../../utils/FunctionHelper'
 import { useQueryClient } from 'react-query'
-import ActivityLoader from '../../components/ActivityLoader'
-import { setIntoUser, setUser } from '../../redux/user/user-slice'
+import { setIntoUser } from '../../redux/user/user-slice'
 import { useDispatch } from 'react-redux'
 import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 
@@ -43,7 +42,6 @@ const EditProfile = ({ route }) => {
 
     const { mutate: updateProfile, isLoading } = useUpdateProfile(() => {
         queryClient.invalidateQueries('getProfile');
-        queryClient.invalidateQueries('fetchAllProfiles');
         showToast("Profile Updated Successfully!");
         dispatch(setIntoUser({ profileImages: userData?.profileImage, username: userData?.fullName }))
     });

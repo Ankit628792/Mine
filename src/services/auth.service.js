@@ -15,7 +15,7 @@ const sendOtp = data => {
 const verifyOtp = data => {
   return HttpService.post(
     endpoints.verifyOtp +
-      `?phoneNumber=${data.phoneNumber}&otp=${data.otp}&deviceToken=${data.fcmToken}`,
+      `?phoneNumber=${data.phoneNumber}&otp=${data.otp}&deviceToken=${data.deviceToken}`,
     data,
   );
 };

@@ -10,16 +10,18 @@ import BackButton from '../../components/BackButton';
 import tw from 'twrnc'
 import { Path, Svg } from 'react-native-svg';
 import { setUser } from '../../redux/user/user-slice';
+import WebSocketService from '../../services/socketService';
 
 const Setting = () => {
     const dispatch = useDispatch();
     const navigator = useNavigation();
-
+    const { disconnect } = WebSocketService()
 
     const _logout = async () => {
         const keys = [AUTH_TOKEN_KEY, "USER"]
         await AsyncStorage.multiRemove(keys)
         dispatch(setUser(null));
+        disconnect();
         try {
             navigator.dispatch(
                 CommonActions.reset({
@@ -42,7 +44,7 @@ const Setting = () => {
                 <BackButton buttonClass='relative opacity-0' disabled={true} />
             </View>
             <View style={tw`flex-grow p-5`}>
-                <List onPress={() => navigator.navigate("Subscription")}>Subscription</List>
+                {/* <List onPress={() => navigator.navigate("Subscription")}>Subscription</List> */}
                 <List onPress={() => navigator.navigate("PrivacyPolicy")}>Privacy Policy</List>
                 <List onPress={() => navigator.navigate("TermsAndConditions")}>Terms And Conditions</List>
                 <TouchableOpacity onPress={() => Linking.openURL(`mailto:support@delanki.com`)} style={tw`bg-white flex-row w-full items-center justify-between py-3 px-5 my-2 rounded-md shadow-lg shadow-gray-300`}>

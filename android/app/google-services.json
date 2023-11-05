@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:814310704696:android:1c2a09d788df5a70fa48cd",
+        "mobilesdk_app_id": "1:814310704696:android:a257301645d31809fa48cd",
         "android_client_info": {
-          "package_name": "com.mine"
+          "package_name": "com.delanki.mine"
         }
       },
       "oauth_client": [],

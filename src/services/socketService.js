@@ -1,22 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { TextEncoder, TextDecoder } from 'text-encoding';
-import { setMessage } from '../redux/user/user-slice';
+import { selectUser, setMessage } from '../redux/user/user-slice';
 import { Client } from '@stomp/stompjs';
 import { API_URL, SOCKET_URL } from './config';
 
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-const WebSocketService = (chatId) => {
+var stomp = null;
+const WebSocketService = () => {
     const dispatch = useDispatch();
+    const user = useSelector(selectUser)
     const [stompClient, setStompClient] = useState(null);
+    const [subscription, setSubscription] = useState(null)
 
     const connect = () => {
 
         let client = new Client({
             brokerURL: `${SOCKET_URL}/ichat`,
-            debug: (str) => { console.log("#### DEBUG STOMP: #####", str); },
+            // debug: (str) => { console.log("#### DEBUG STOMP: #####", str); },
             reconnectDelay: 5000,
             heartbeatIncoming: 4000,
             heartbeatOutgoing: 4000,
@@ -26,15 +29,7 @@ const WebSocketService = (chatId) => {
             onConnect: () => {
                 console.log('Connected to the WebSocket');
                 setStompClient({ client });
-                if (chatId) {
-                    const subscription = client.subscribe(`/channel/chat/${chatId}`, (message) => {
-                        const receivedMessage = JSON.parse(message.body);
-
-                        console.log("receivedMessage", receivedMessage);
-                        dispatch(setMessage(receivedMessage))
-                    });
-                    setStompClient({ client, subscription });
-                }
+                stomp = { client }
             },
             onChangeState: (e) => {
                 console.log(e)
@@ -58,23 +53,26 @@ const WebSocketService = (chatId) => {
 
     };
 
-    const subscribe = (chatId) => {
-        if (stompClient && stompClient.client && stompClient.client.connected) {
-            const subscription = stompClient.client.subscribe(`/channel/chat/${chatId}`, (message) => {
-                const receivedMessage = JSON.parse(message.body);
 
-                console.log("receivedMessage", receivedMessage);
-                dispatch(setMessage(receivedMessage))
+    const subscribe = (chatId) => {
+        if (stomp && stomp.client && stomp.client.connected) {
+            const subscribe = stomp.client.subscribe(`/channel/chat/${chatId}`, (message) => {
+                const receivedMessage = JSON.parse(message.body);
+                if (receivedMessage?.userId !== user?.id)
+                    dispatch(setMessage(receivedMessage))
             });
-            setStompClient({ ...stompClient, subscription });
+
+            setSubscription(subscribe)
+
+            setStompClient({ ...stompClient, subscription: subscribe });
         } else {
             console.log('WebSocket is not connected');
         }
     }
 
     const sendMessage = (message) => {
-        if (stompClient && stompClient.client && stompClient.client.connected) {
-            stompClient.client.publish({
+        if (stomp && stomp.client && stomp.client.connected) {
+            stomp.client.publish({
                 destination: `/app/message`,
                 body: JSON.stringify(message),
             });
@@ -83,23 +81,20 @@ const WebSocketService = (chatId) => {
         }
     };
 
-    const disconnect = () => {
-        if (stompClient && stompClient.subscription) {
-            stompClient.subscription.unsubscribe();
+    const unsubscribe = () => {
+        if (subscription && subscription.unsubscribe) {
+            subscription.unsubscribe();
         }
     };
 
-    useEffect(() => {
-        connect();
-        return () => {
-            if (stompClient && stompClient.client) {
-                stompClient.client.deactivate();
-            }
-        };
-    }, []);
+    const disconnect = () => {
+        stomp.client.deactivate();
+    }
 
     return {
+        connect,
         subscribe,
+        unsubscribe,
         sendMessage,
         disconnect,
     };
