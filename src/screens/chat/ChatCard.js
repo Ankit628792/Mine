@@ -7,7 +7,7 @@ import { Dimensions } from 'react-native'
 import moment from 'moment'
 
 const ChatCard = ({ navigator, item }) => {
-  console.log(item.deviceToken)
+
   let receiver = {
     id: item?.user?.userId,
     image: item?.user?.profileImage,

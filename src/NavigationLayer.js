@@ -47,7 +47,7 @@ const NavigationLayer = ({ user }) => {
     ? ROUTES[(user?.onBoardingProcess || 0) - 1]?.name || 'Name'
     : 'Welcome';
 
-  // const initialRouteName = "Block"
+  // const initialRouteName = "VerifyOTP"
 
   return (
     <NavigationContainer theme={theme === 'dark' ? DarkTheme : DefaultTheme}>

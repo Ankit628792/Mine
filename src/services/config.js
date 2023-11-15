@@ -1,8 +1,8 @@
-export const API_URL = 'http://3.137.159.219';
+export const API_URL = 'https://mine-api.delanki.com';
 
-export const SOCKET_URL = 'ws://3.137.159.219' 
+export const SOCKET_URL = 'wss://mine-api.delanki.com';
 
-const SWAGGER = 'http://3.137.159.219/swagger-ui.html';
+const SWAGGER = 'http://52.15.196.242/swagger-ui.html';
 
 export const API_BASE_PATH = '/api/v1';
 

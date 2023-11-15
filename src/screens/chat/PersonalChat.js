@@ -152,7 +152,7 @@ const PersonalChat = ({ route }) => {
       }))
       if (receiver?.deviceToken) {
         sendChatNotification({
-          title: receiver?.name, body: text, token: receiver?.deviceToken, data: { chatId, receiver }
+          title: user?.username, body: text, token: receiver?.deviceToken, data: { chatId, receiver }
         })
       }
     }

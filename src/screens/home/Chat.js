@@ -9,6 +9,7 @@ import { SwipeListView } from 'react-native-swipe-list-view'
 import { useQuery } from 'react-query';
 import { SwipeService } from '../../services/swipe.service';
 import ActivityLoaderRound from '../../components/ActivityLoaderRound';
+import WebSocketService from '../../services/socketService';
 
 
 const Chat = () => {

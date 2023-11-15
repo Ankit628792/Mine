@@ -83,6 +83,7 @@ export const useVerifyOtp = (callback) => {
             }
         },
         onError: (e) => {
+            console.log(e)
             showToast("Oops! Unable to verify OTP")
             console.error("Oops! Unable to verify OTP")
         }
@@ -137,7 +138,7 @@ export const useAcceptLike = callback => {
                 queryClient.invalidateQueries('getAllLikes')
                 queryClient.invalidateQueries('getAllUserMatch')
                 if (typeof callback == 'function') {
-                    callback();
+                    callback(response.data);
                 }
             } else {
                 showToast(response.message);

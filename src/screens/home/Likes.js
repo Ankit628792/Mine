@@ -4,7 +4,7 @@ import LinearGradient from 'react-native-linear-gradient'
 import { colors, gradient } from '../../utils/colors'
 import tw from 'twrnc'
 import { ScrollView } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import { useQuery } from 'react-query'
 import { SwipeService } from '../../services/swipe.service'
 import LikeCard from '../../components/LikeCard'
@@ -12,11 +12,13 @@ import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 
 const Likes = () => {
   const navigator = useNavigation();
+  const focus = useIsFocused();
+
   const { data: likeData, isLoading, refetch } = useQuery('getAllLikes', SwipeService.getAllLikes, {
     retry: false,
   })
 
-  useEffect(() => { refetch() }, [])
+  useEffect(() => { refetch() }, [focus])
 
   return (
     <>

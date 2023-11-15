@@ -58,8 +58,10 @@ const WebSocketService = () => {
         if (stomp && stomp.client && stomp.client.connected) {
             const subscribe = stomp.client.subscribe(`/channel/chat/${chatId}`, (message) => {
                 const receivedMessage = JSON.parse(message.body);
-                if (receivedMessage?.userId !== user?.id)
+                if (receivedMessage?.userId !== user?.id) {
+                    // console.log("receivedMessage ", receivedMessage);
                     dispatch(setMessage(receivedMessage))
+                }
             });
 
             setSubscription(subscribe)
@@ -91,12 +93,17 @@ const WebSocketService = () => {
         stomp.client.deactivate();
     }
 
+    const checkConnection =()=>{
+       return stomp && stomp.client && stomp.client.connected
+    }
+
     return {
         connect,
         subscribe,
         unsubscribe,
         sendMessage,
         disconnect,
+        checkConnection
     };
 };
 

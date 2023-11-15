@@ -11,6 +11,7 @@ import tw from 'twrnc'
 import { Path, Svg } from 'react-native-svg';
 import { setUser } from '../../redux/user/user-slice';
 import WebSocketService from '../../services/socketService';
+import DeviceInfo from 'react-native-device-info';
 
 const Setting = () => {
     const dispatch = useDispatch();
@@ -21,7 +22,6 @@ const Setting = () => {
         const keys = [AUTH_TOKEN_KEY, "USER"]
         await AsyncStorage.multiRemove(keys)
         dispatch(setUser(null));
-        disconnect();
         try {
             navigator.dispatch(
                 CommonActions.reset({
@@ -33,6 +33,11 @@ const Setting = () => {
             );
         } catch (error) {
             console.log("unable to logout")
+        }
+        try {
+            disconnect();
+        } catch (error) {
+            console.log("socket disconnect error");
         }
     };
 
@@ -55,7 +60,7 @@ const Setting = () => {
             <View style={tw`p-5`}>
                 <View style={tw`items-center py-5`}>
                     <Text style={tw`text-gray-700 text-base`}>Version</Text>
-                    <Text style={tw`text-gray-600`}>1.0.0</Text>
+                    <Text style={tw`text-gray-600`}>{DeviceInfo.getVersion()}</Text>
                 </View>
                 <TouchableOpacity style={[tw`rounded-xl py-3 px-10 bg-rose-500`]} onPress={_logout}>
                     <Text style={tw`text-white text-xl text-center`}>Logout</Text>

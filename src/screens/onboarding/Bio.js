@@ -43,7 +43,7 @@ const Bio = () => {
               tw`text-3xl font-medium text-center`,
               { color: colors.black },
             ]}>
-            Describe the real you
+            Describe the real you in at least 10 words
           </Text>
           <Text style={tw`text-gray-500 text-base text-center my-1 px-5`}>
             This will helps the other what kind of person you are

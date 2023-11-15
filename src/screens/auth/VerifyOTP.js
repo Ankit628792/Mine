@@ -9,7 +9,7 @@ import {
 import React, { useEffect, useState } from 'react';
 import tw from 'twrnc';
 import LinearGradient from 'react-native-linear-gradient';
-import OTPInputView from '../../components/OTPInputView';
+// import OTPInputView from '../../components/OTPInputView';
 import BackButton from '../../components/BackButton';
 import { useSendOtp, useVerifyOtp } from '../../hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,6 +18,7 @@ import { useNavigation } from '@react-navigation/native';
 import PrimaryButton from '../../components/PrimaryButton';
 import { colors, gradient } from '../../utils/colors';
 import { Dimensions } from 'react-native';
+import OtpInputs from 'react-native-otp-inputs';
 
 
 const VerifyOTP = ({ route }) => {
@@ -54,6 +55,12 @@ const VerifyOTP = ({ route }) => {
     }
   };
 
+  useEffect(() => {
+    if (otp.length == 6) {
+      checkOtp();
+    }
+  }, [otp])
+
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <LinearGradient
@@ -85,16 +92,21 @@ const VerifyOTP = ({ route }) => {
               We have sent the verification code to {route.params?.mobile}
             </Text>
 
-            <View style={tw`relative w-4/5 z-10 mt-6`}>
-              <OTPInputView
-                style={tw`h-24`}
-                pinCount={6}
-                code={otp}
-                codeInputFieldStyle={{
-                  color: otp?.length == 6 ? colors.purple : colors.black,
+            <View style={tw`relative w-4/5 z-10 my-4`}>
+              <OtpInputs
+                handleChange={(code) => setOtp(code)}
+                numberOfInputs={6}
+                autofillFromClipboard={false}
+                inputStyles={{
+                  fontSize: 20,
+                  width: 45,
+                  height: 50,
+                  borderWidth: 1,
+                  borderRadius: 10,
+                  borderColor: otp?.length == 6 ? colors.purple : 'rgba(0, 0, 0, 0.2)',
+                  color: otp?.length == 6 ? colors.purple : '#333',
+                  textAlign: 'center'
                 }}
-                onCodeChanged={val => setOtp(val)}
-                onCodeFilled={val => setOtp(val)}
               />
             </View>
             <View

@@ -74,13 +74,44 @@ export const sendChatNotification = async ({ title, body, token, data }) => {
         "notification": {
             "title": title,
             "body": body,
+            "sound": "chat",
+            "android_channel_id": "chat_channel"
         },
         "data": data,
         "content_available": true,
         "priority": "high",
         vibrate: true
     };
+    try {
+        const res = await fetch('https://fcm.googleapis.com/fcm/send', {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": "key=" + 'AAAAvZizRjg:APA91bEpAj2zMrtJNdNR7cnXlBwbfuGaaEtPOOKzImzP9dAeUUK1tdpshLt4mMQoJje_RcgAbbcNSZZQW21yBOTou97GsFE4KmdQTWVmLv3GZu-sjR2u1QWnFqMMFpszq0PnSc741zWX'
+            },
+            body: JSON.stringify(message),
+        })
+        const data = await res.json();
+        console.log(data)
+    } catch (error) {
+        console.log('message error    ', error)
+    }
+}
 
+export const sendAppNotification = async ({ title, body, token, data }) => {
+    const message = {
+        "to": token,
+        "notification": {
+            "title": title,
+            "body": body,
+            "sound": "chat",
+            "android_channel_id": "mine_channel"
+        },
+        "data": data,
+        "content_available": true,
+        "priority": "high",
+        vibrate: true
+    };
     try {
         const res = await fetch('https://fcm.googleapis.com/fcm/send', {
             method: 'POST',

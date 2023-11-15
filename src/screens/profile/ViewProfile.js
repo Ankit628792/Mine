@@ -19,6 +19,7 @@ import { useSelector } from 'react-redux'
 import { selectUser } from '../../redux/user/user-slice'
 import { ActivityIndicator } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { sendAppNotification } from '../../services/notificationService'
 
 const height = Dimensions.get('window').height
 
@@ -36,6 +37,9 @@ const ViewProfile = ({ route }) => {
 
     const { mutate: profileAction, isLoading: sending } = useProfileAction((data) => {
         if (data?.isMatch) {
+            sendAppNotification({
+                title: "💖 It's a Match!", body: `Congratulations! You and ${user?.username} have both liked each other. Start chatting and see where the connection takes you!`, token: data?.deviceToken, data: { userId: data?.userId, chatId: data.chatId }
+            });
             navigator.navigate("Match", {
                 sender: { name: user?.username, image: user?.profileImage },
                 receiver: { name: data?.name, image: data?.profilePic, id: data?.userId, deviceToken: data?.deviceToken },
@@ -43,6 +47,11 @@ const ViewProfile = ({ route }) => {
             })
         }
         else {
+            if (data.deviceToken) {
+                sendAppNotification({
+                    title: `🌟 ${user?.username} liked your profile!`, body: "See who swiped right on your profile and make a connection with " + user?.username, token: data?.deviceToken, data: { userId: data?.userId }
+                })
+            }
             navigator.pop();
         }
     })
@@ -57,7 +66,21 @@ const ViewProfile = ({ route }) => {
         }
     }, [route.params])
 
-    const { mutate: handleLike, isLoading: updating } = useAcceptLike(() => { navigator.pop() })
+    const { mutate: handleLike, isLoading: updating } = useAcceptLike((data) => {
+        if (data?.deviceToken) {
+            if (data?.chatId) {
+                sendAppNotification({
+                    title: `🎉 ${user?.username} accepted your like!`, body: `Start a conversation with ${user?.username} and see where this connection leads. The excitement begins now!`, token: data?.deviceToken, data: { userId: data?.userId, chatId: data.chatId }
+                })
+            }
+            else {
+                sendAppNotification({
+                    title: `😔 ${user?.username} declined your like request`, body: "Don't be disheartened! Keep exploring and you might find the perfect match. There are plenty of connections waiting for you", token: data?.deviceToken, data: { userId: data?.userId, chatId: data.chatId }
+                })
+            }
+        }
+        navigator.pop()
+    })
 
     const handleRequest = ({ type }) => {
         if (route.params?.from == 'likes') {

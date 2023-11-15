@@ -5,17 +5,18 @@ import { colors, gradient } from '../../utils/colors'
 import tw from 'twrnc'
 import { useQuery } from 'react-query'
 import { SwipeService } from '../../services/swipe.service'
-import { useNavigation } from '@react-navigation/native'
+import { useIsFocused, useNavigation } from '@react-navigation/native'
 import ActivityLoaderRound from '../../components/ActivityLoaderRound'
 import { Path, Svg } from 'react-native-svg'
 
 const Matches = () => {
     const navigator = useNavigation()
+    const focus = useIsFocused();
     const { data, isLoading, refetch } = useQuery('getAllUserMatch', SwipeService.getAllUserMatch, {
         retry: false
     })
 
-    useEffect(() => { refetch() }, [])
+    useEffect(() => { refetch() }, [focus])
 
     return (
         <LinearGradient colors={gradient.purple} style={tw`flex-1`}>
@@ -55,6 +56,7 @@ const NoMatch = () => {
 
 
 export const MatchCard = ({ item, navigator }) => {
+
     let receiver = {
         id: item?.id,
         image: item?.profileImage,

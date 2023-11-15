@@ -14,6 +14,7 @@ import Swiper from 'react-native-deck-swiper';
 import CardComponent from '../../components/CardComponent';
 import { useProfileAction } from '../../hooks';
 import ActivityLoader from '../../components/ActivityLoader';
+import { sendAppNotification } from '../../services/notificationService';
 
 const windowHeight = Dimensions.get('window').height;
 const swipeRef = React.createRef()
@@ -37,7 +38,8 @@ const Home = () => {
         console.log(res)
       }
       setLoading(false)
-    }
+    },
+    onError: () => { setLoading(false) }
   });
 
   useQuery('getFilters', UserService.getFilters, {
@@ -51,17 +53,26 @@ const Home = () => {
   }, [filter, page, focus])
 
   const { mutate: profileAction } = useProfileAction((data) => {
+
     if (data?.isMatch) {
+      sendAppNotification({
+        title: "💖 It's a Match!", body: `Congratulations! You and ${user?.username} have both liked each other. Start chatting and see where the connection takes you!`, token: data?.deviceToken, data: { userId: data?.userId, chatId: data.chatId }
+      });
+
       navigator.navigate("Match", {
         sender: { name: user?.username, image: user?.profileImage },
         receiver: { name: data?.name, image: data?.profilePic, id: data?.userId, deviceToken: data?.deviceToken },
         chatId: data?.chatId
       })
     }
+    else if (data.deviceToken) {
+      sendAppNotification({
+        title: `🌟 ${user?.username} liked your profile!`, body: "See who swiped right on your profile and make a connection with " + user?.username, token: data?.deviceToken, data: { userId: data?.userId }
+      })
+    }
   })
 
   const onSwipeLeft = i => {
-
   };
 
   const onSwipeRight = i => {
